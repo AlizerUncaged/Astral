@@ -18,7 +18,8 @@ namespace Astral
         private readonly HardwareInfo hardwareInfo;
         private readonly Model detector;
 
-        public Astral(Monitor.ScreenGrab screenGrab, Utilities.HardwareInfo hardwareInfo, Detection.Model model)
+        public Astral(Monitor.ScreenGrab screenGrab, Utilities.HardwareInfo hardwareInfo,
+            Detection.Model model, Debug.DebugWindow debugWindow)
         {
             this.screenMonitor = screenGrab;
             this.hardwareInfo = hardwareInfo;

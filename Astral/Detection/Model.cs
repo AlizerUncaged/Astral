@@ -1,58 +1,60 @@
 ﻿using Astral.Monitor;
+using Autofac;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tensorflow;
-using Tensorflow.NumPy;
-
-using static SharpCV.Binding;
+using Yolov5Net.Scorer;
+using Yolov5Net.Scorer.Models;
 
 namespace Astral.Detection
 {
     public class Model : IService
     {
+        private readonly YoloScorer<YoloCocoP5Model> scorer;
         private readonly ScreenGrab screenGrab;
-        private readonly SharpCV.Net net;
-        public Model(Monitor.ScreenGrab screenGrab)
+
+        public Model(ILifetimeScope scope, Monitor.ScreenGrab screenGrab)
         {
             this.screenGrab = screenGrab;
-
             screenGrab.Screenshot += ScreenshotReceived;
 
-            /// An System.Runtime.InteropServices.SEHException could mean:
-            ///     the model doesn't exist on the path.
-            ///     the model is faulty.
-            net = cv2.dnn.readNetFromTensorflow(@"./frozen_inference_graph.pb",
-                          @"./mask_rcnn_inception_v2_coco_2018_01_28.pbtxt");
+            scorer = new YoloScorer<YoloCocoP5Model>("./yolov5s.onnx");
         }
 
-        private void ScreenshotReceived(object? sender, SharpCV.Mat e)
+        /// <summary>
+        /// Get's called whenever a prediction occurs.
+        /// </summary>
+        public event EventHandler<Bitmap> Prediction;
+
+        private void ScreenshotReceived(object? sender, Bitmap e)
         {
-            var perfCounter = Stopwatch.StartNew();
+            Bitmap clone = (Bitmap)e.Clone();
 
-            long height = e.shape[0], width = e.shape[1];
+            List<YoloPrediction> predictions = scorer.Predict(clone);
 
-            var blob = cv2.dnn.blobFromImage(e,
-                1.0, ((int)width, (int)height), swapRB: true, crop: true);
+            using var graphics = Graphics.FromImage(clone);
 
-            net.setInput(blob);
-
-            // Super slow, better model == faster.
-            NDArray detectionResult = net.forward();
-
-            int found = 0;
-
-            foreach (var detection in detectionResult[0, 0, Slice.All, Slice.All])
+            foreach (var prediction in predictions) // iterate predictions to draw results
             {
-                float score = detection[2];
-                if (score > 0.4)
-                    found++;
+                double score = Math.Round(prediction.Score, 2);
+
+                if (score >= 0.4)
+                {
+                    graphics.DrawRectangles(new Pen(prediction.Label.Color, 2),
+                        new[] { prediction.Rectangle });
+
+                    var (x, y) = (prediction.Rectangle.X - 3, prediction.Rectangle.Y - 23);
+
+                    graphics.DrawString($"{prediction.Label.Name} ({score})",
+                        new Font("Arial", 18, GraphicsUnit.Pixel), new SolidBrush(prediction.Label.Color),
+                        new PointF(x, y));
+                }
             }
 
-            Console.WriteLine($"Found : {found}, Took : {perfCounter.ElapsedMilliseconds}ms");
+            Prediction?.Invoke(this, clone);
         }
     }
 }

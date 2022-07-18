@@ -1,6 +1,4 @@
-﻿using Autofac;
-using OpenCvSharp.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -8,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using static Astral.Monitor.ScreenInfo;
-using static SharpCV.Binding;
 
 namespace Astral.Monitor
 {
@@ -39,28 +36,17 @@ namespace Astral.Monitor
             Console.WriteLine($"Screen monitor configuration =>{Environment.NewLine}{configuration}");
         }
 
-        public event EventHandler<SharpCV.Mat>? Screenshot;
+        public event EventHandler<Bitmap>? Screenshot;
 
         public async Task StartPeriodicScreenshotAsync() =>
             await Task.Run(async () =>
             {
                 while (doScreenshot && await timer.WaitForNextTickAsync())
                 {
-                    var screenshot = GetSreenshot().ToMat();
-
-                    using (var cv2Screenshot = new SharpCV.Mat(screenshot.CvPtr)) // Convert to SharpCV Mat object.
-                    {
-                        using (var resized = cv2.resize(cv2Screenshot,
-                                ((int)cv2Screenshot.shape[1] / Configuration.Downscale, (int)cv2Screenshot.shape[0] / Configuration.Downscale)))
-
-                        {
-                            if (resized.size > 0 && resized.Channels > 0)
-                                Screenshot?.Invoke(this, resized);
-                        }
-                    }
+                    var screenshot = GetSreenshot();
+                    Screenshot?.Invoke(this, screenshot);
                 }
             });
-
 
         Bitmap bm;
 
