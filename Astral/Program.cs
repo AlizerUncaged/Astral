@@ -1,45 +1,47 @@
-﻿using static Tensorflow.Binding;
-using static Tensorflow.KerasApi;
-using Tensorflow;
-using Tensorflow.NumPy;
-
-using static SharpCV.Binding;
+﻿using Autofac;
+using System.Reflection;
 
 namespace Astral
 {
     public class Program
     {
-        private ScreenGrab screenGrab = new ScreenGrab(2, 15, Screen.PrimaryScreen);
+        private IContainer? Container { get; set; }
 
         public async Task StartAsync()
         {
-            Console.WriteLine($"Program started {DateTime.Now}");
+            Build();
 
-            screenGrab.Screenshot += OnScreenshot;
-
-            Console.WriteLine($"Vision started {DateTime.Now}");
-
-            var oneSecondTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
-            _ = Task.Run(async () =>
-            {
-                while (await oneSecondTimer.WaitForNextTickAsync())
-                {
-                    Console.WriteLine($"{DateTime.Now} - {screenshots} fps");
-                    screenshots = 0;
-                }
-            });
-
-            await screenGrab.StartPeriodicScreenshotAsync(); // Run async.
+            await StartMainSequenceAsync();
         }
 
-        private int screenshots = 0;
-
-        private void OnScreenshot(object? sender, SharpCV.Mat e)
+        public void Build()
         {
-            screenshots++;
+            var currentAssembly = Assembly.GetExecutingAssembly();
+
+            var builder = new ContainerBuilder();
+
+            builder.RegisterAssemblyTypes(currentAssembly)
+                .AssignableTo<IConfig>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(currentAssembly)
+                .AssignableTo<IUtility>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(currentAssembly)
+                .AssignableTo<IService>()
+                .SingleInstance();
+
+            Container = builder.Build();
+
         }
+
+        public async Task StartMainSequenceAsync() =>
+          await Container?.BeginLifetimeScope()
+            .Resolve<Astral>()
+            .StartAsync()!;
+
 
         static void Main(string[] args) => new Program().StartAsync().GetAwaiter().GetResult();
-
     }
 }
