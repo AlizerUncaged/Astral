@@ -15,6 +15,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.4.0" />
+		<PackageReference Include="FastYolo" Version="11.7.2" />
 		<PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu" Version="1.9.0" />
 		<PackageReference Include="Pastel" Version="3.0.1" />
 		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
@@ -25,15 +26,34 @@
 	  <None Update="CocoCommons.pbtxt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	  <None Update="Dependencies\FastYolo\cars road out.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\FastYolo\cars road.jpg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\FastYolo\coco.names">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\FastYolo\yolov3-tiny.cfg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\FastYolo\yolov3-tiny.weights">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="frozen_inference_graph.pb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="tfhub_module.pb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="yolov5s.onnx">
+	  <None Update="Dependencies\YoloV5\yolov5s.onnx">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Dependencies\FastYolo\" />
 	</ItemGroup>
 
 </Project>

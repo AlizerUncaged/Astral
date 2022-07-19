@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Astral.Detection;
+using System.Diagnostics;
 
 namespace Astral
 {
@@ -16,23 +17,35 @@ namespace Astral
     {
         private readonly ScreenGrab screenMonitor;
         private readonly HardwareInfo hardwareInfo;
-        private readonly Model detector;
+        private readonly IDetectorService detector;
 
-        public Astral(Monitor.ScreenGrab screenGrab, Utilities.HardwareInfo hardwareInfo,
-            Detection.Model model, Debug.DebugWindow debugWindow)
+        public Astral(
+            Monitor.ScreenGrab screenGrab, 
+            Utilities.HardwareInfo hardwareInfo,
+            Detection.YoloV5 model, // Or Detection.FastYolo, both are pretty much the same.
+            Debug.PredictionPerformance predictionPerformance,
+            Debug.PredictionEnumerizer predictionEnumerizer)
         {
             this.screenMonitor = screenGrab;
             this.hardwareInfo = hardwareInfo;
             this.detector = model;
+
+            Console.CancelKeyPress += Closing;
         }
 
-        public bool AutoStart => true;
+        private void Closing(object? sender, ConsoleCancelEventArgs e)
+        {
+            screenMonitor.Stop();
+
+            // Commit sepuku.
+            Process.GetCurrentProcess().Kill();
+        }
 
         public async Task StartAsync()
         {
-            if (hardwareInfo.GetMemoryLeftInBytes() < 2147483648)
+            if (hardwareInfo.GetMemoryLeftInBytes() < 1073741824)
                 Console.WriteLine($"! {"Available ram too low".Pastel(Color.LightCoral)}, " +
-                    $"below 2GB, Astral might crash.");
+                    $"below 1GB, Astral might crash.");
 
             Console.WriteLine($"{$"{DateTime.Now}".Pastel(Color.DarkGray)} " +
                 $"{"Vision started".Pastel(Color.LightGreen)}...");

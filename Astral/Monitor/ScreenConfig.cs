@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pastel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,13 +14,20 @@ namespace Astral.Monitor
     {
         public Screen Screen { get; set; } = Screen.PrimaryScreen;
 
-        public int Fps { get; set; } = 15;
+        /// <summary>
+        /// The maximum predictions per second. If the value is below
+        /// or equals to 0, unlimited predictions per second.
+        /// </summary>
+        public int Fps { get; set; } = 20;
 
-        public int Downscale { get; set; } = 2;
+        /// <summary>
+        /// The percentage of the screenshot to downscale.
+        /// </summary>
+        public float Downscale { get; set; } = 0.5f; // 0.5 is 50% of the original image's size.
 
         public override string ToString() =>
-            $"Current Screen : {Screen.DeviceName}{Environment.NewLine}" +
-            $"Screenshot FPS : {Fps}{Environment.NewLine}" +
-            $"Screenshot Downscale : {Downscale}";
+            $"Current Screen : {$"{Screen.DeviceName}".Pastel(Color.LightCyan)}{Environment.NewLine}" +
+            $"Screenshot FPS : {$"{Fps}".Pastel(Color.LightCyan)}{Environment.NewLine}" +
+            $"Screenshot Downscale : {$"{Downscale}".Pastel(Color.LightCyan)}".Pastel(Color.DarkGray);
     }
 }

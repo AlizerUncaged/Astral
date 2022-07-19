@@ -8,5 +8,6 @@ namespace Astral
 {
     public interface IService
     {
+
     }
 }
