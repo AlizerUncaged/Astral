@@ -12,6 +12,6 @@ namespace Astral
         /// <summary>
         /// Get's called whenever a prediction occurs.
         /// </summary>
-        public event EventHandler<IEnumerable>? PredictionReceived;
+        public event EventHandler<IEnumerable<Models.PredictionResult>>? PredictionReceived;
     }
 }

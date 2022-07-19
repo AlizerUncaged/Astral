@@ -21,7 +21,7 @@ namespace Astral.Detection
 
             yoloWrapper = new YoloWrapper(
                 "./Dependencies/FastYolo/yolov3-tiny.cfg",
-                "./Dependencies/FastYolo/yolov3-tiny.weights", 
+                "./Dependencies/FastYolo/yolov3-tiny.weights",
                 "./Dependencies/FastYolo/coco.names");
 
             screenGrab.Screenshot += ScreenshotReceived;
@@ -32,9 +32,16 @@ namespace Astral.Detection
         private void ScreenshotReceived(object? sender, Bitmap e)
         {
             var imageBytes = (byte[])converter.ConvertTo(e, typeof(byte[]))!;
-            PredictionReceived?.Invoke(this, yoloWrapper.Detect(imageBytes));
+            PredictionReceived?.Invoke(this,
+                yoloWrapper.Detect(imageBytes).Select(x =>
+                    new Models.PredictionResult
+                    (
+                        x.Type!, (float)x.Confidence, new PointF(x.X, x.Y), new SizeF(x.Width, x.Height), x.TrackId
+                    )
+                )
+           );
         }
 
-        public event EventHandler<IEnumerable>? PredictionReceived;
+        public event EventHandler<IEnumerable<Models.PredictionResult>>? PredictionReceived;
     }
 }

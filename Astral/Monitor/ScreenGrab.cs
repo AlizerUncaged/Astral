@@ -1,4 +1,5 @@
-﻿using Pastel;
+﻿using Astral.Models;
+using Pastel;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -31,8 +32,8 @@ namespace Astral.Monitor
 
             var msWait = 1000 / Configuration.Fps;
 
-            bm = new Bitmap(scInfo.PhysicalBounds.Width,
-                scInfo.PhysicalBounds.Height);
+            bm = new Bitmap(scInfo.Bounds.Width,
+                scInfo.Bounds.Height);
 
             uncappedFps = Configuration.Fps < 1;
 

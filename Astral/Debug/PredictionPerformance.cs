@@ -27,6 +27,7 @@ namespace Astral.Debug
             _ = MeasureScreenshotSpeed();
         }
 
+
         private Stopwatch? predictionCounter;
         private double longestPrediction;
         private void ScreenshotStarted(object? sender, object s) =>

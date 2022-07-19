@@ -13,16 +13,20 @@ using System.Diagnostics;
 
 namespace Astral
 {
-    public class Astral : IService
+    public interface IAstral
+    {
+        Task StartAsync();
+    }
+    public class Astral<Detector> : IAstral where Detector : IDetectorService
     {
         private readonly ScreenGrab screenMonitor;
         private readonly HardwareInfo hardwareInfo;
-        private readonly IDetectorService detector;
+        private readonly Detector detector;
 
         public Astral(
-            Monitor.ScreenGrab screenGrab, 
+            Monitor.ScreenGrab screenGrab,
             Utilities.HardwareInfo hardwareInfo,
-            Detection.YoloV5 model, // Or Detection.FastYolo, both are pretty much the same.
+            Detector model, // Or Detection.FastYolo, both are pretty much the same.
             Debug.PredictionPerformance predictionPerformance,
             Debug.PredictionEnumerizer predictionEnumerizer)
         {
@@ -35,6 +39,7 @@ namespace Astral
 
         private void Closing(object? sender, ConsoleCancelEventArgs e)
         {
+            Console.WriteLine($"Exiting...".Pastel(Color.DarkGray));
             screenMonitor.Stop();
 
             // Commit sepuku.

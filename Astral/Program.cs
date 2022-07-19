@@ -32,13 +32,16 @@ namespace Astral
                 .AssignableTo<IService>()
                 .SingleInstance();
 
+            builder.RegisterType<Astral<Detection.YoloV5>>()
+                .As<IAstral>();
+
             Container = builder.Build();
 
         }
 
         public async Task StartMainSequenceAsync() =>
           await Container?.BeginLifetimeScope()
-            .Resolve<Astral>()
+            .Resolve<IAstral>()
             .StartAsync()!;
 
 

@@ -30,10 +30,15 @@ namespace Astral.Detection
         /// <summary>ss
         /// Get's called whenever a prediction occurs.
         /// </summary>
-        public event EventHandler<IEnumerable>? PredictionReceived;
+        public event EventHandler<IEnumerable<Models.PredictionResult>>? PredictionReceived;
 
         private void ScreenshotReceived(object? sender, Bitmap e) =>
-            PredictionReceived?.Invoke(this, scorer.Predict(e));
-        
+            PredictionReceived?.Invoke(this,
+                    scorer.Predict(e).Select(x => new Models.PredictionResult(
+                            x.Label.Name, x.Score, x.Rectangle.Location, x.Rectangle.Size, x.Label.Id
+                        )
+                    )
+                );
+
     }
 }

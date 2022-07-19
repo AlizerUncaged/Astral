@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Astral.Monitor
+namespace Astral.Models
 {
     /// <summary>
     /// Configuration for the screen grabber with default values.
