@@ -16,12 +16,13 @@ namespace Astral.Detection
     public class YoloV5 : IService, IDetectorService
     {
         private readonly YoloScorer<YoloCocoP5Model> scorer;
-        private readonly ScreenGrab screenGrab;
+        private readonly IMonitorService screenGrab;
 
-        public YoloV5(Monitor.ScreenGrab screenGrab)
+        public YoloV5(IMonitorService monitorService)
         {
-            this.screenGrab = screenGrab;
-            screenGrab.Screenshot += ScreenshotReceived;
+            Console.WriteLine("YoloV5 Initialized...");
+            this.screenGrab = monitorService;
+            monitorService.Screenshot += ScreenshotReceived;
 
             // Use the small YOLOv5 model.
             scorer = new YoloScorer<YoloCocoP5Model>("./Dependencies/YoloV5/yolov5s.onnx");
@@ -32,13 +33,20 @@ namespace Astral.Detection
         /// </summary>
         public event EventHandler<IEnumerable<Models.PredictionResult>>? PredictionReceived;
 
-        private void ScreenshotReceived(object? sender, Bitmap e) =>
+        private void ScreenshotReceived(object? sender, Bitmap screenshot)
+        {
+            var prediction = scorer.Predict(screenshot);
             PredictionReceived?.Invoke(this,
-                    scorer.Predict(e).Select(x => new Models.PredictionResult(
-                            x.Label.Name, x.Score, x.Rectangle.Location, x.Rectangle.Size, x.Label.Id
+                    prediction.Select(x => new Models.PredictionResult(
+                            x.Label.Name,
+                            x.Score,
+                            Point.Round(x.Rectangle.Location),
+                            Size.Round(x.Rectangle.Size),
+                            x.Label.Id
                         )
                     )
                 );
+        }
 
     }
 }

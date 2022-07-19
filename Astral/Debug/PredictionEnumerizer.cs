@@ -1,5 +1,7 @@
 ﻿using Astral.Curses;
 using Astral.Detection;
+using Astral.Models;
+using Astral.Utilities;
 using Pastel;
 using System;
 using System.Collections;
@@ -13,14 +15,36 @@ namespace Astral.Debug
 {
     public class PredictionEnumerizer : IService
     {
-        private readonly YoloV5 model;
+        private readonly IDetectorService model;
         private readonly MouseControl mouseControl;
 
-        const float minimumConfidence = 0.4f;
-        public PredictionEnumerizer(Detection.YoloV5 model, Curses.MouseControl mouseControl)
+        // Required incase the image is scaled we need
+        // to recalculate the new positions.
+        private readonly ScreenConfig screenConfig;
+
+        // Required for getting the starting X and Y position
+        // of the current active window.
+        private readonly ForegroundWindow foregroundWindow;
+
+        // For calculating the actual position of the object
+        // in the desktop.
+        private readonly PositionCalculator positionCalculator;
+
+        const float minimumConfidence = 0.5f;
+
+        public PredictionEnumerizer(
+            IDetectorService model,
+            MouseControl mouseControl,
+            ScreenConfig screenConfig,
+            ForegroundWindow foregroundWindow,
+            PositionCalculator positionCalculator)
         {
             this.model = model;
             this.mouseControl = mouseControl;
+            this.screenConfig = screenConfig;
+            this.foregroundWindow = foregroundWindow;
+            this.positionCalculator = positionCalculator;
+
             model.PredictionReceived += PredictionReceived;
         }
 
@@ -29,22 +53,36 @@ namespace Astral.Debug
             var highConfidenceObjects = e.Where(x => x.Score > minimumConfidence);
 
             if (!highConfidenceObjects.Any())
-            {
-                Console.WriteLine("No objects recognized.".Pastel(Color.LightGray));
                 return;
-            }
 
             Console.WriteLine($"{$"{highConfidenceObjects.Count()}".Pastel(Color.LightBlue)} Objects: " +
                 $"{$"{string.Join(", ", highConfidenceObjects.Select(x => x.Label).Distinct())}".Pastel(Color.LightGreen)}".Pastel(Color.DarkGray));
-         
+
             var persons = highConfidenceObjects.Where(x => x.LabelIndex == 1); // 1 = Person
+
+            // Console.WriteLine($"Mouse at : {Cursor.Position}");
+
+            persons = persons.Any() ? persons : highConfidenceObjects.Where(x => string.Equals(x.Label, "person", StringComparison.OrdinalIgnoreCase));
 
             if (persons.Any())
             {
                 var firstPerson = persons.First();
-                mouseControl.MoveMouseTo(firstPerson.Location);
-                // Console.WriteLine($"Person found at {firstPerson.Location}");
-                // Console.WriteLine($"Mouse position at {Cursor.Position}");
+                var currentActiveWindowLocation = foregroundWindow
+                    .GetForegroundWindowBounds()
+                    .Location;
+
+                var objectLocation = positionCalculator
+                    .RecalculateObjectPosition(currentActiveWindowLocation, 
+                        Point.Round(firstPerson.Location), 
+                        Size.Round(firstPerson.Size));
+
+                // mouseControl.MoveMouseTo(objectLocation);
+
+                Console.WriteLine($"One found at " +
+                    $"{objectLocation} " +
+                    $"located on desktop.");
+
+
             }
         }
     }

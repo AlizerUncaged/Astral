@@ -17,20 +17,23 @@ namespace Astral
     {
         Task StartAsync();
     }
-    public class Astral<Detector> : IAstral where Detector : IDetectorService
+
+    public class Astral<Detector, Vision> : IAstral
+        where Detector : IDetectorService
+        where Vision : IMonitorService
     {
-        private readonly ScreenGrab screenMonitor;
+        private readonly Vision vision;
         private readonly HardwareInfo hardwareInfo;
         private readonly Detector detector;
 
         public Astral(
-            Monitor.ScreenGrab screenGrab,
+            Vision screenGrab,
             Utilities.HardwareInfo hardwareInfo,
             Detector model, // Or Detection.FastYolo, both are pretty much the same.
             Debug.PredictionPerformance predictionPerformance,
             Debug.PredictionEnumerizer predictionEnumerizer)
         {
-            this.screenMonitor = screenGrab;
+            this.vision = screenGrab;
             this.hardwareInfo = hardwareInfo;
             this.detector = model;
 
@@ -40,7 +43,7 @@ namespace Astral
         private void Closing(object? sender, ConsoleCancelEventArgs e)
         {
             Console.WriteLine($"Exiting...".Pastel(Color.DarkGray));
-            screenMonitor.Stop();
+            vision.Stop();
 
             // Commit sepuku.
             Process.GetCurrentProcess().Kill();
@@ -52,10 +55,13 @@ namespace Astral
                 Console.WriteLine($"! {"Available ram too low".Pastel(Color.LightCoral)}, " +
                     $"below 1GB, Astral might crash.");
 
+            Console.WriteLine($"Detector : {$"{detector}".Pastel(Color.LightCyan)}");
+            Console.WriteLine($"Vision : {$"{vision}".Pastel(Color.LightCyan)}");
+
             Console.WriteLine($"{$"{DateTime.Now}".Pastel(Color.DarkGray)} " +
                 $"{"Vision started".Pastel(Color.LightGreen)}...");
 
-            await screenMonitor.StartPeriodicScreenshotAsync();
+            await vision.StartAsync();
         }
     }
 }

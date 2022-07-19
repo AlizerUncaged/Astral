@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Features.ResolveAnything;
 using System.Reflection;
 
 namespace Astral
@@ -32,7 +33,18 @@ namespace Astral
                 .AssignableTo<IService>()
                 .SingleInstance();
 
-            builder.RegisterType<Astral<Detection.YoloV5>>()
+            // Set the current active classes here.
+
+            builder.RegisterType<Detection.FastYolo>()
+                .As<IDetectorService>()
+                .SingleInstance(); // Detector class.
+
+            builder.RegisterType<Monitor.ActiveWindowGrab>()
+                .As<IMonitorService>()
+                .SingleInstance(); // Vision class.
+
+
+            builder.RegisterType<Astral<IDetectorService, IMonitorService>>()
                 .As<IAstral>();
 
             Container = builder.Build();

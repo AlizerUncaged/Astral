@@ -23,11 +23,16 @@ namespace Astral.Models
         /// <summary>
         /// The percentage of the screenshot to downscale.
         /// </summary>
-        public float Downscale { get; set; } = 0.5f; // 0.5 is 50% of the original image's size.
+        public float Downscale { get; set; } = 0.5f;
+
+
+        public int ScreenshotWaitTime => 1000 / this.Fps;
+
+        public bool IsUncapped => Fps <= 0;
 
         public override string ToString() =>
             $"Current Screen : {$"{Screen.DeviceName}".Pastel(Color.LightCyan)}{Environment.NewLine}" +
             $"Screenshot FPS : {$"{Fps}".Pastel(Color.LightCyan)}{Environment.NewLine}" +
-            $"Screenshot Downscale : {$"{Downscale}".Pastel(Color.LightCyan)}".Pastel(Color.DarkGray);
+            $"Screenshot Downscale : {$"{Downscale * 100f}%".Pastel(Color.LightCyan)}".Pastel(Color.DarkGray);
     }
 }

@@ -2,6 +2,7 @@
 using Pastel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -11,11 +12,13 @@ using static Astral.Monitor.ScreenInfo;
 
 namespace Astral.Monitor
 {
-    public class ScreenGrab : IConfiguredService<ScreenConfig>, IService
+    // TODO: Use a faster screenshoter, probably DirectX.
+    // Screenshot on a 1080p monitor takes about 30ms which
+    // is 3x faster than PyAutoGUI.
+    public class ScreenGrab : IConfiguredService<ScreenConfig>, IMonitorService, IService
     {
         public ScreenConfig Configuration { get; }
 
-        private bool uncappedFps = false;
         private bool doScreenshot = true;
         private PeriodicTimer timer;
 
@@ -30,33 +33,15 @@ namespace Astral.Monitor
 
             var scInfo = From(Configuration.Screen);
 
-            var msWait = 1000 / Configuration.Fps;
-
             bm = new Bitmap(scInfo.Bounds.Width,
                 scInfo.Bounds.Height);
 
-            uncappedFps = Configuration.Fps < 1;
-
-            Console.WriteLine($"Screenshot wait time : {$"{msWait}".Pastel(Color.LightCyan)}ms " +
-                $"or {$"{Configuration.Fps}".Pastel(Color.LightCyan)} fps.".Pastel(Color.DarkGray));
-
-            if (!uncappedFps)
-                timer = new PeriodicTimer(TimeSpan.FromMilliseconds(msWait));
-
-            // Quick fix if the user did a stupid.
-            Configuration.Downscale = Configuration.Downscale > 1 ?
-                1 : Configuration.Downscale;
+            if (!Configuration.IsUncapped)
+                timer = new PeriodicTimer(TimeSpan.FromMilliseconds(Configuration.ScreenshotWaitTime));
 
             Console.WriteLine($"Screen monitor configuration =>{Environment.NewLine}{configuration}");
-
-            if (Configuration.Fps < 1)
-                Console.WriteLine($"! {"Screenshot Fps is uncapped.".Pastel(Color.LightCoral)} We'll be " +
-                    $"utilizing the entire GPU which might cause lag on the game.");
         }
 
-        /// <summary>
-        /// Event called whenever the screenshot occured.
-        /// </summary>
         public event EventHandler<Bitmap>? Screenshot;
 
         /// <summary>
@@ -66,16 +51,19 @@ namespace Astral.Monitor
 
         public void Stop() => doScreenshot = false;
 
-        public async Task StartPeriodicScreenshotAsync() =>
+        public async Task StartAsync() =>
             await Task.Run(async () =>
             {
                 while (doScreenshot)
                 {
-                    if (!uncappedFps) await timer.WaitForNextTickAsync();
+                    if (!Configuration.IsUncapped)
+                        await timer.WaitForNextTickAsync();
 
-                    ScreenshotStarted?.Invoke(this, new EventArgs());
+                    ScreenshotStarted?.Invoke(this, null);
 
-                    Screenshot?.Invoke(this, GetSreenshot());
+                    var screenshot = GetSreenshot();
+
+                    Screenshot?.Invoke(this, screenshot);
                 }
             });
 
@@ -89,8 +77,11 @@ namespace Astral.Monitor
         {
             Graphics g = Graphics.FromImage(bm);
             g.CopyFromScreen(0, 0, 0, 0, bm.Size);
-            g.ScaleTransform(Configuration.Downscale, Configuration.Downscale);
-            return bm;
+
+            var resized = new Bitmap(bm, new Size((int)(bm.Size.Width * Configuration.Downscale),
+                (int)(bm.Size.Height * Configuration.Downscale)));
+
+            return resized;
         }
     }
 }

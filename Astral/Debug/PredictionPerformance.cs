@@ -13,16 +13,17 @@ namespace Astral.Debug
 {
     public class PredictionPerformance : IService
     {
-        private readonly YoloV5 model;
-        private readonly ScreenGrab screenGrab;
+        private readonly IDetectorService model;
+        private readonly IMonitorService screenGrab;
 
-        public PredictionPerformance(Detection.YoloV5 model, Monitor.ScreenGrab screenGrab)
+        public PredictionPerformance(IDetectorService model, IMonitorService monitor)
         {
             this.model = model;
-            this.screenGrab = screenGrab;
+            this.screenGrab = monitor;
 
-            screenGrab.ScreenshotStarted += ScreenshotStarted;
+            monitor.ScreenshotStarted += ScreenshotStarted;
             model.PredictionReceived += Prediction;
+
 
             _ = MeasureScreenshotSpeed();
         }
@@ -30,6 +31,7 @@ namespace Astral.Debug
 
         private Stopwatch? predictionCounter;
         private double longestPrediction;
+
         private void ScreenshotStarted(object? sender, object s) =>
             predictionCounter = Stopwatch.StartNew();
 
