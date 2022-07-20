@@ -1,0 +1,2 @@
+﻿### 🤖 Detection Models
+Unused models are marked as "Do not copy" to minimize output size, most of these models don't work on FastYolo, although might work on official implementations of Yolo, implementing my own Yolo is out of my skill as of the moment.
