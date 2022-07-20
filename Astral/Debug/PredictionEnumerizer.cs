@@ -58,7 +58,7 @@ namespace Astral.Debug
             Console.WriteLine($"{$"{highConfidenceObjects.Count()}".Pastel(Color.LightBlue)} Objects: " +
                 $"{$"{string.Join(", ", highConfidenceObjects.Select(x => x.Label).Distinct())}".Pastel(Color.LightGreen)}".Pastel(Color.DarkGray));
 
-            var persons = highConfidenceObjects.Where(x => x.LabelIndex == 1); // 1 = Person
+            var persons = highConfidenceObjects.Where(x => x.LabelIndex is { } && x.LabelIndex == 1); // 1 = Person
 
             // Console.WriteLine($"Mouse at : {Cursor.Position}");
 
@@ -68,21 +68,21 @@ namespace Astral.Debug
             {
                 var firstPerson = persons.First();
                 var currentActiveWindowLocation = foregroundWindow
-                    .GetForegroundWindowBounds()
-                    .Location;
+                    .GetForegroundWindowBounds().Location;
 
                 var objectLocation = positionCalculator
-                    .RecalculateObjectPosition(currentActiveWindowLocation, 
-                        Point.Round(firstPerson.Location), 
+                    .RecalculateObjectPosition(currentActiveWindowLocation,
+                        Point.Round(firstPerson.Location),
                         Size.Round(firstPerson.Size));
 
-                // mouseControl.MoveMouseTo(objectLocation);
+                var physicalLocation = positionCalculator
+                    .CalculatePhysicalLocationFromScaled(objectLocation);
+
+                mouseControl.MoveMouseTo(objectLocation);
 
                 Console.WriteLine($"One found at " +
-                    $"{objectLocation} " +
+                    $"{physicalLocation} " +
                     $"located on desktop.");
-
-
             }
         }
     }

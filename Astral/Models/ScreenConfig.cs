@@ -18,13 +18,15 @@ namespace Astral.Models
         /// The maximum predictions per second. If the value is below
         /// or equals to 0, unlimited predictions per second.
         /// </summary>
+        // It's best to set this to prevent GPU overheat.
         public int Fps { get; set; } = 20;
 
         /// <summary>
         /// The percentage of the screenshot to downscale.
+        /// The lower the image resolution the faster the prediction
+        /// but also inaccurate.
         /// </summary>
         public float Downscale { get; set; } = 0.5f;
-
 
         public int ScreenshotWaitTime => 1000 / this.Fps;
 

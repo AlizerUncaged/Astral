@@ -15,8 +15,8 @@ namespace Astral.Monitor
 
         private bool doScreenshot = true;
 
-        public event EventHandler? ScreenshotStarted;
-        public event EventHandler<Bitmap>? Screenshot;
+        public event EventHandler? ScreenshotStarting;
+        public event EventHandler<Bitmap>? ScreenshotRendered;
 
         private PeriodicTimer timer;
         private readonly ForegroundWindow foregroundWindow;
@@ -28,6 +28,7 @@ namespace Astral.Monitor
 
             if (!Configuration.IsUncapped)
                 timer = new PeriodicTimer(TimeSpan.FromMilliseconds(Configuration.ScreenshotWaitTime));
+
         }
 
         public async Task StartAsync() =>
@@ -35,29 +36,36 @@ namespace Astral.Monitor
             {
                 while (doScreenshot)
                 {
-                    if (!Configuration.IsUncapped)
+                    if (!Configuration.IsUncapped && timer is { })
                         await timer.WaitForNextTickAsync();
 
-                    ScreenshotStarted?.Invoke(this, null);
+                    ScreenshotStarting?.Invoke(this, null);
 
                     var activeWindowBounds =
                         foregroundWindow.GetForegroundWindowBounds();
 
                     var startingPoint = new Point(activeWindowBounds.X, activeWindowBounds.Y);
 
-                    if (activeWindowBounds.Width > 0)
+                    // Make sure it's a valid screenshot.
+                    if (activeWindowBounds is { Width: > 0, Height: > 0 })
                         using (Bitmap bitmap = new Bitmap(activeWindowBounds.Width, activeWindowBounds.Height))
                         {
                             using (Graphics g = Graphics.FromImage(bitmap))
                             {
                                 g.CopyFromScreen(startingPoint, Point.Empty, activeWindowBounds.Size);
 
-                                using (var resized = new Bitmap(bitmap,
-                                        new Size((int)(bitmap.Size.Width * Configuration.Downscale),
-                                                    (int)(bitmap.Size.Height * Configuration.Downscale))))
-                                {
-                                    Screenshot?.Invoke(this, resized);
-                                }
+                                // Clone and resize the bitmap to downscale only if needed.
+                                if (Configuration.Downscale != 1)
+                                    using (var resized = new Bitmap(bitmap,
+                                            new Size((int)(bitmap.Size.Width * Configuration.Downscale),
+                                                        (int)(bitmap.Size.Height * Configuration.Downscale))))
+                                    {
+                                        ScreenshotRendered?.Invoke(this, resized);
+                                    }
+
+                                // Send as is if no downscale required.
+                                else
+                                    ScreenshotRendered?.Invoke(this, bitmap);
                             }
                         }
                 }

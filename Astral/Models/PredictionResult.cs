@@ -8,7 +8,7 @@ namespace Astral.Models
 {
     public class PredictionResult
     {
-        public PredictionResult(string? label, float score, Point location, Size size, int labelIndex)
+        public PredictionResult(string? label, float score, Point location, Size size, int? labelIndex)
         {
             Label = label;
             Score = score;
@@ -16,7 +16,8 @@ namespace Astral.Models
             Size = size;
             LabelIndex = labelIndex;
         }
-        public int LabelIndex { get; }
+
+        public int? LabelIndex { get; }
 
         public string? Label { get; }
 

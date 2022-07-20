@@ -17,7 +17,9 @@ namespace Astral.Models.Win32
 
         public Rect(Rect Rectangle) : this(Rectangle.Left, Rectangle.Top, Rectangle.Right, Rectangle.Bottom)
         {
+
         }
+
         public Rect(int Left, int Top, int Right, int Bottom)
         {
             _Left = Left;
@@ -117,7 +119,7 @@ namespace Astral.Models.Win32
             return Rectangle.Left == _Left && Rectangle.Top == _Top && Rectangle.Right == _Right && Rectangle.Bottom == _Bottom;
         }
 
-        public override bool Equals(object Object)
+        public override bool Equals(object? Object)
         {
             if (Object is Rect)
             {

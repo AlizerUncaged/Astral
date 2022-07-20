@@ -42,12 +42,12 @@ namespace Astral.Monitor
             Console.WriteLine($"Screen monitor configuration =>{Environment.NewLine}{configuration}");
         }
 
-        public event EventHandler<Bitmap>? Screenshot;
+        public event EventHandler<Bitmap>? ScreenshotRendered;
 
         /// <summary>
         /// Event whenever we're about to screenshot.
         /// </summary>
-        public event EventHandler? ScreenshotStarted;
+        public event EventHandler? ScreenshotStarting;
 
         public void Stop() => doScreenshot = false;
 
@@ -56,14 +56,14 @@ namespace Astral.Monitor
             {
                 while (doScreenshot)
                 {
-                    if (!Configuration.IsUncapped)
+                    if (!Configuration.IsUncapped && timer is { })
                         await timer.WaitForNextTickAsync();
 
-                    ScreenshotStarted?.Invoke(this, null);
+                    ScreenshotStarting?.Invoke(this, null);
 
                     var screenshot = GetSreenshot();
 
-                    Screenshot?.Invoke(this, screenshot);
+                    ScreenshotRendered?.Invoke(this, screenshot);
                 }
             });
 

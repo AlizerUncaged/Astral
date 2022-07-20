@@ -11,12 +11,12 @@ namespace Astral
         /// <summary>
         /// Event called whenever the screenshot occured.
         /// </summary>
-        event EventHandler<Bitmap>? Screenshot;
+        event EventHandler<Bitmap>? ScreenshotRendered;
 
         /// <summary>
         /// Event whenever we're about to screenshot.
         /// </summary>
-        event EventHandler? ScreenshotStarted;
+        event EventHandler? ScreenshotStarting;
 
         void Stop();
 

@@ -11,23 +11,17 @@ namespace Astral.Detection
 {
     public class FastYolo : IService, IDetectorService
     {
-        private readonly IMonitorService screenGrab;
         private readonly YoloWrapper yoloWrapper;
         private readonly System.Drawing.ImageConverter converter = new();
 
         public FastYolo(IMonitorService screenGrab)
         {
-            Console.WriteLine("FastYolo Initialized...");
-            this.screenGrab = screenGrab;
-
             yoloWrapper = new YoloWrapper(
                 "./Dependencies/FastYolo/yolov3-tiny.cfg",
                 "./Dependencies/FastYolo/yolov3-tiny.weights",
                 "./Dependencies/FastYolo/coco.names");
 
-            screenGrab.Screenshot += ScreenshotReceived;
-
-
+            screenGrab.ScreenshotRendered += ScreenshotReceived;
         }
 
         private void ScreenshotReceived(object? sender, Bitmap screenshot)
@@ -41,7 +35,7 @@ namespace Astral.Detection
                     new Models.PredictionResult
                     (
                         x.Type!, (float)x.Confidence, new Point(x.X, x.Y),
-                            new Size(x.Width, x.Height), -1
+                            new Size(x.Width, x.Height), null /* FastYolo doesn't have label index. */
                     )
                 )
            );

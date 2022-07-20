@@ -21,7 +21,7 @@ namespace Astral.Debug
             this.model = model;
             this.screenGrab = monitor;
 
-            monitor.ScreenshotStarted += ScreenshotStarted;
+            monitor.ScreenshotStarting += ScreenshotStarted;
             model.PredictionReceived += Prediction;
 
 
@@ -42,7 +42,8 @@ namespace Astral.Debug
 
             while (await period.WaitForNextTickAsync())
             {
-                var color = currentPredictions > 10 ?
+                // Ten predictions per second is already fast.
+                var color = currentPredictions >= 10 ?
                     Color.LightGreen : Color.LightCoral;
 
                 Console.WriteLine($"{$"{currentPredictions}".Pastel(color)} " +
@@ -55,7 +56,7 @@ namespace Astral.Debug
         }
 
         private int currentPredictions = 0;
-        private void Prediction(object? sender,IEnumerable e)
+        private void Prediction(object? sender, IEnumerable e)
         {
             currentPredictions++;
 

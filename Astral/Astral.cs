@@ -51,6 +51,8 @@ namespace Astral
 
         public async Task StartAsync()
         {
+            Console.Title = "Astral";
+
             if (hardwareInfo.GetMemoryLeftInBytes() < 1073741824)
                 Console.WriteLine($"! {"Available ram too low".Pastel(Color.LightCoral)}, " +
                     $"below 1GB, Astral might crash.");

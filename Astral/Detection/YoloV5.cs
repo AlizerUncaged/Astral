@@ -22,7 +22,7 @@ namespace Astral.Detection
         {
             Console.WriteLine("YoloV5 Initialized...");
             this.screenGrab = monitorService;
-            monitorService.Screenshot += ScreenshotReceived;
+            monitorService.ScreenshotRendered += ScreenshotReceived;
 
             // Use the small YOLOv5 model.
             scorer = new YoloScorer<YoloCocoP5Model>("./Dependencies/YoloV5/yolov5s.onnx");
