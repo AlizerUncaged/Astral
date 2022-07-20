@@ -1,6 +1,6 @@
 ﻿using Astral.Detection;
 using Astral.Monitor;
-using Pastel;
+using Serilog;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,12 +15,13 @@ namespace Astral.Debug
     {
         private readonly IDetectorService model;
         private readonly IMonitorService screenGrab;
+        private readonly ILogger logger;
 
-        public PredictionPerformance(IDetectorService model, IMonitorService monitor)
+        public PredictionPerformance(IDetectorService model, IMonitorService monitor, ILogger logger)
         {
             this.model = model;
             this.screenGrab = monitor;
-
+            this.logger = logger;
             monitor.ScreenshotStarting += ScreenshotStarted;
             model.PredictionReceived += Prediction;
 
@@ -46,9 +47,7 @@ namespace Astral.Debug
                 var color = currentPredictions >= 10 ?
                     Color.LightGreen : Color.LightCoral;
 
-                Console.WriteLine($"{$"{currentPredictions}".Pastel(color)} " +
-                    $"{$"p/sec, longest prediction: ".Pastel(Color.DarkGray)}" +
-                    $"{$"{Math.Ceiling(longestPrediction)}".Pastel(color)}{$"ms".Pastel(Color.DarkGray)}");
+                logger.Debug($"{currentPredictions} p/sec, longest prediction: {Math.Ceiling(longestPrediction)}ms");
 
                 longestPrediction = 0;
                 currentPredictions = 0;

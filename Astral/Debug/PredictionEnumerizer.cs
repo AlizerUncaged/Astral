@@ -2,7 +2,7 @@
 using Astral.Detection;
 using Astral.Models;
 using Astral.Utilities;
-using Pastel;
+using Serilog;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,6 +30,9 @@ namespace Astral.Debug
         // in the desktop.
         private readonly PositionCalculator positionCalculator;
 
+
+        private readonly KeyboardHook keyboardHook;
+        private readonly ILogger logger;
         const float minimumConfidence = 0.5f;
 
         public PredictionEnumerizer(
@@ -37,13 +40,17 @@ namespace Astral.Debug
             MouseControl mouseControl,
             ScreenConfig screenConfig,
             ForegroundWindow foregroundWindow,
-            PositionCalculator positionCalculator)
+            PositionCalculator positionCalculator,
+            Utilities.KeyboardHook keyboardHook,
+            ILogger logger)
         {
             this.model = model;
             this.mouseControl = mouseControl;
             this.screenConfig = screenConfig;
             this.foregroundWindow = foregroundWindow;
             this.positionCalculator = positionCalculator;
+            this.keyboardHook = keyboardHook;
+            this.logger = logger;
 
             model.PredictionReceived += PredictionReceived;
         }
@@ -55,14 +62,12 @@ namespace Astral.Debug
             if (!highConfidenceObjects.Any())
                 return;
 
-            Console.WriteLine($"{$"{highConfidenceObjects.Count()}".Pastel(Color.LightBlue)} Objects: " +
-                $"{$"{string.Join(", ", highConfidenceObjects.Select(x => x.Label).Distinct())}".Pastel(Color.LightGreen)}".Pastel(Color.DarkGray));
+            logger.Debug($"{highConfidenceObjects.Count()}" +
+                $" Objects: {string.Join(", ", highConfidenceObjects.Select(x => x.Label).Distinct())}");
 
             var persons = highConfidenceObjects.Where(x => x.LabelIndex is { } && x.LabelIndex == 1); // 1 = Person
 
-            // Console.WriteLine($"Mouse at : {Cursor.Position}");
-
-            persons = persons.Any() ? persons : highConfidenceObjects.Where(x => string.Equals(x.Label, "person", StringComparison.OrdinalIgnoreCase));
+            persons = persons.Any() ? persons : highConfidenceObjects.Where(x => string.Equals(x.Label, "enemy", StringComparison.OrdinalIgnoreCase));
 
             if (persons.Any())
             {
@@ -75,14 +80,12 @@ namespace Astral.Debug
                         Point.Round(firstPerson.Location),
                         Size.Round(firstPerson.Size));
 
-                var physicalLocation = positionCalculator
-                    .CalculatePhysicalLocationFromScaled(objectLocation);
-
+                // Press LShift to pause.
                 mouseControl.MoveMouseTo(objectLocation);
 
-                Console.WriteLine($"One found at " +
-                    $"{physicalLocation} " +
-                    $"located on desktop.");
+                //logger.Debug($"One object found at " +
+                //    $"{objectLocation} " +
+                //    $"located on desktop.");
             }
         }
     }

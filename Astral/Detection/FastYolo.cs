@@ -17,18 +17,15 @@ namespace Astral.Detection
         public FastYolo(IMonitorService screenGrab)
         {
             yoloWrapper = new YoloWrapper(
-                "./Dependencies/FastYolo/yolov3-tiny.cfg",
-                "./Dependencies/FastYolo/yolov3-tiny.weights",
-                "./Dependencies/FastYolo/coco.names");
+                "./Dependencies/YoloV4/valorant/yolov4-tiny.cfg",
+                "./Dependencies/YoloV4/valorant/yolov4-tiny.weights",
+                "./Dependencies/YoloV4/valorant/coco-dataset.labels");
 
             screenGrab.ScreenshotRendered += ScreenshotReceived;
         }
 
         private void ScreenshotReceived(object? sender, Bitmap screenshot)
         {
-            // Console.WriteLine($"Bitmap size : {e.screenshot.Size}");
-            // Console.WriteLine($"Starting point : {e.start}");
-
             var imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]))!;
             PredictionReceived?.Invoke(this,
                 yoloWrapper.Detect(imageBytes).Select(x =>

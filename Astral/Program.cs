@@ -1,5 +1,7 @@
 ﻿using Autofac;
 using Autofac.Features.ResolveAnything;
+using Microsoft.Extensions.Configuration;
+using Serilog;
 using System.Reflection;
 
 namespace Astral
@@ -32,6 +34,19 @@ namespace Astral
             builder.RegisterAssemblyTypes(currentAssembly)
                 .AssignableTo<IService>()
                 .SingleInstance();
+
+            // Set logger.
+            builder.Register<ILogger>((c, p) =>
+            {
+                var configuration = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("./appsettings.json")
+                    .Build();
+
+                return new LoggerConfiguration()
+                    .ReadFrom.Configuration(configuration)
+                    .CreateLogger();
+            }).SingleInstance();
 
             // Set the current active classes here.
 

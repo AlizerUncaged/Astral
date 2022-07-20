@@ -17,16 +17,27 @@
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.4.0" />
 		<PackageReference Include="FastYolo" Version="11.7.2" />
-		<PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu" Version="1.9.0" />
-		<PackageReference Include="Pastel" Version="3.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+		<PackageReference Include="Microsoft.ML" Version="1.7.1" />
+		<PackageReference Include="Microsoft.ML.ImageAnalytics" Version="1.7.1" />
+		<PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu" Version="1.11.0" />
+		<PackageReference Include="Microsoft.ML.OnnxTransformer" Version="1.7.1" />
+		<PackageReference Include="MouseKeyHook" Version="5.6.0" />
 		<PackageReference Include="Serilog" Version="2.11.0" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
 		<PackageReference Include="Yolov5Net" Version="1.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="CocoCommons.pbtxt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
@@ -39,8 +50,65 @@
 	  <None Update="Dependencies\FastYolo\yolov3-tiny.weights">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	  <None Update="Dependencies\FastYolo\yolov3.cfg">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\FastYolo\yolov3.weights">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloFastest\yolo-fastest-xl.cfg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloFastest\yolo-fastest-xl.weights">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloFastest\yolo-fastest.cfg">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloFastest\yolo-fastest.weights">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV2\yolov2-tiny.cfg">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV2\yolov2-tiny.weights">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV4\valorant\coco-dataset.labels">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV4\valorant\yolov4-tiny.cfg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV4\valorant\yolov4-tiny.weights">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV4\yolov4-tiny.onnx">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV4\yolov4.cfg">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV4\yolov4.onnx">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV4\yolov4.weights">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV4\yolov4_1_3_416_416_static.onnx">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
 	  <None Update="frozen_inference_graph.pb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="msvcr100.dll">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="pthreadGC2.dll">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="pthreadVC2.dll">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
 	  <None Update="tfhub_module.pb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -48,10 +116,30 @@
 	  <None Update="Dependencies\YoloV5\yolov5s.onnx">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	  <None Update="yolo_cpp_dll_cpu.dll">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Dependencies\FastYolo\" />
+	  <Folder Include="Dependencies\YoloV4\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Alturos.Yolo\Alturos.Yolo.csproj" />
+	  <ProjectReference Include="..\YoloV4 ML\YoloV4 ML.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="C:\Users\floyd\.nuget\packages\fastyolo\11.7.2\build\\opencv_world460.dll">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="C:\Users\floyd\.nuget\packages\fastyolo\11.7.2\build\\yolo_cpp_dll.dll">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

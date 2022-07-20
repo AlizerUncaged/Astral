@@ -1,6 +1,6 @@
 ﻿using Astral.Monitor;
 using Autofac;
-using Pastel;
+using Microsoft.ML.OnnxRuntime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,16 +16,14 @@ namespace Astral.Detection
     public class YoloV5 : IService, IDetectorService
     {
         private readonly YoloScorer<YoloCocoP5Model> scorer;
-        private readonly IMonitorService screenGrab;
 
         public YoloV5(IMonitorService monitorService)
         {
-            Console.WriteLine("YoloV5 Initialized...");
-            this.screenGrab = monitorService;
             monitorService.ScreenshotRendered += ScreenshotReceived;
 
             // Use the small YOLOv5 model.
-            scorer = new YoloScorer<YoloCocoP5Model>("./Dependencies/YoloV5/yolov5s.onnx");
+            scorer = new YoloScorer<YoloCocoP5Model>("./Dependencies/YoloV5/yolov5s.onnx",
+                SessionOptions.MakeSessionOptionWithCudaProvider());
         }
 
         /// <summary>ss

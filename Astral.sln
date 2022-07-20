@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YoloV4 ML", "YoloV4 ML\YoloV4 ML.csproj", "{B4CB8491-F881-433D-BC81-CAAE024B3E87}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alturos.Yolo", "Alturos.Yolo\Alturos.Yolo.csproj", "{DBABBF71-D7C1-4C5C-A002-464094307504}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,14 @@ Global
 		{A3C3C5EA-57CA-4ED5-A4FD-3E98AAC27FB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3C3C5EA-57CA-4ED5-A4FD-3E98AAC27FB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3C3C5EA-57CA-4ED5-A4FD-3E98AAC27FB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4CB8491-F881-433D-BC81-CAAE024B3E87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4CB8491-F881-433D-BC81-CAAE024B3E87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4CB8491-F881-433D-BC81-CAAE024B3E87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4CB8491-F881-433D-BC81-CAAE024B3E87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBABBF71-D7C1-4C5C-A002-464094307504}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBABBF71-D7C1-4C5C-A002-464094307504}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBABBF71-D7C1-4C5C-A002-464094307504}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBABBF71-D7C1-4C5C-A002-464094307504}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

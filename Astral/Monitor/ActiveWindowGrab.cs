@@ -47,7 +47,7 @@ namespace Astral.Monitor
                     var startingPoint = new Point(activeWindowBounds.X, activeWindowBounds.Y);
 
                     // Make sure it's a valid screenshot.
-                    if (activeWindowBounds is { Width: > 0, Height: > 0 })
+                    if (activeWindowBounds is { Width: > 2, Height: > 2 })
                         using (Bitmap bitmap = new Bitmap(activeWindowBounds.Width, activeWindowBounds.Height))
                         {
                             using (Graphics g = Graphics.FromImage(bitmap))

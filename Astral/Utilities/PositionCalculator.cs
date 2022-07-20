@@ -32,8 +32,6 @@ namespace Astral.Utilities
         /// <returns>The object's real position on the desktop.</returns>
         public PointF RecalculateObjectPosition(Point startingPoint, Point scaledObjectLocation, Size scaledObjectSize)
         {
-            Console.WriteLine($"Window location : {startingPoint}");
-
             var normalizedObjectX = scaledObjectLocation.X / screenConfig.Downscale;
             var normalizedObjectY = scaledObjectLocation.Y / screenConfig.Downscale;
             var normalizedObjectWidth = scaledObjectSize.Width / screenConfig.Downscale;
@@ -45,29 +43,29 @@ namespace Astral.Utilities
             return centeredLocation;
         }
 
-        /// <summary>
-        /// If the monitor is scaled in the display settings, this function
-        /// gets the actual physical location.
-        /// </summary>
-        public PointF CalculatePhysicalLocationFromScaled(PointF monitorScaledPosition)
-        {
-            var scaledPoint = Point.Round(monitorScaledPosition);
+        ///// <summary>
+        ///// If the monitor is scaled in the display settings, this function
+        ///// gets the actual physical location.
+        ///// </summary>
+        //public PointF CalculatePhysicalLocationFromScaled(PointF monitorScaledPosition)
+        //{
+        //    var scaledPoint = Point.Round(monitorScaledPosition);
 
-            var effectiveDpi = monitorInfo.GetMonitorDpiFromPoint((WinPoint)scaledPoint, MonitorDpiType.EFFECTIVE_DPI);
+        //    var effectiveDpi = monitorInfo.GetMonitorDpiFromPoint((WinPoint)scaledPoint, MonitorDpiType.EFFECTIVE_DPI);
 
-            // var rawDpi = monitorInfo.GetMonitorDpiFromPoint((WinPoint)scaledPoint, MonitorDpiType.RAW_DPI);
+        //    // var rawDpi = monitorInfo.GetMonitorDpiFromPoint((WinPoint)scaledPoint, MonitorDpiType.RAW_DPI);
 
-            var dpiScaling = Math.Round((double)effectiveDpi / 96d, 2);
+        //    var dpiScaling = Math.Round((double)effectiveDpi / 96d, 2);
 
-            var scaledX = scaledPoint.X * dpiScaling;
-            var scaledY = scaledPoint.Y * dpiScaling;
+        //    var scaledX = scaledPoint.X * dpiScaling;
+        //    var scaledY = scaledPoint.Y * dpiScaling;
 
-            var scaledPosition = new Point((int)scaledX, (int)scaledY);
+        //    var scaledPosition = new Point((int)scaledX, (int)scaledY);
 
-            Console.WriteLine($"Physical point? {scaledPosition}, scaled: {monitorScaledPosition}");
+        //    Console.WriteLine($"Physical point? {scaledPosition}, scaled: {monitorScaledPosition}");
 
-            return scaledPosition;
-        }
+        //    return scaledPosition;
+        //}
 
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Astral.Debug;
 using Astral.Monitor;
 using Astral.Utilities;
-using Pastel;
 using Autofac;
 using System;
 using System.Collections.Generic;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Astral.Detection;
 using System.Diagnostics;
+using Serilog;
 
 namespace Astral
 {
@@ -25,24 +25,25 @@ namespace Astral
         private readonly Vision vision;
         private readonly HardwareInfo hardwareInfo;
         private readonly Detector detector;
+        private readonly ILogger logger;
 
         public Astral(
             Vision screenGrab,
             Utilities.HardwareInfo hardwareInfo,
             Detector model, // Or Detection.FastYolo, both are pretty much the same.
             Debug.PredictionPerformance predictionPerformance,
-            Debug.PredictionEnumerizer predictionEnumerizer)
+            Debug.PredictionEnumerizer predictionEnumerizer, ILogger logger)
         {
             this.vision = screenGrab;
             this.hardwareInfo = hardwareInfo;
             this.detector = model;
-
+            this.logger = logger;
             Console.CancelKeyPress += Closing;
         }
 
         private void Closing(object? sender, ConsoleCancelEventArgs e)
         {
-            Console.WriteLine($"Exiting...".Pastel(Color.DarkGray));
+            logger.Information("Exiting...");
             vision.Stop();
 
             // Commit sepuku.
@@ -54,14 +55,11 @@ namespace Astral
             Console.Title = "Astral";
 
             if (hardwareInfo.GetMemoryLeftInBytes() < 1073741824)
-                Console.WriteLine($"! {"Available ram too low".Pastel(Color.LightCoral)}, " +
-                    $"below 1GB, Astral might crash.");
+                logger.Warning($"Available ram too low, below 1GB, Astral might crash.");
 
-            Console.WriteLine($"Detector : {$"{detector}".Pastel(Color.LightCyan)}");
-            Console.WriteLine($"Vision : {$"{vision}".Pastel(Color.LightCyan)}");
-
-            Console.WriteLine($"{$"{DateTime.Now}".Pastel(Color.DarkGray)} " +
-                $"{"Vision started".Pastel(Color.LightGreen)}...");
+            logger.Information($"Detector : {detector}");
+            logger.Information($"Vision : {vision}");
+            logger.Information($"Vision started...");
 
             await vision.StartAsync();
         }

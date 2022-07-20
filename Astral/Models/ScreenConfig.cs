@@ -1,5 +1,4 @@
-﻿using Pastel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,15 +25,15 @@ namespace Astral.Models
         /// The lower the image resolution the faster the prediction
         /// but also inaccurate.
         /// </summary>
-        public float Downscale { get; set; } = 0.5f;
+        public float Downscale { get; set; } = 0.75f;
 
         public int ScreenshotWaitTime => 1000 / this.Fps;
 
         public bool IsUncapped => Fps <= 0;
 
         public override string ToString() =>
-            $"Current Screen : {$"{Screen.DeviceName}".Pastel(Color.LightCyan)}{Environment.NewLine}" +
-            $"Screenshot FPS : {$"{Fps}".Pastel(Color.LightCyan)}{Environment.NewLine}" +
-            $"Screenshot Downscale : {$"{Downscale * 100f}%".Pastel(Color.LightCyan)}".Pastel(Color.DarkGray);
+            $"Current Screen : {Screen.DeviceName}{Environment.NewLine}" +
+            $"Screenshot FPS : {Fps}{Environment.NewLine}" +
+            $"Screenshot Downscale : {Downscale * 100f}%";
     }
 }
