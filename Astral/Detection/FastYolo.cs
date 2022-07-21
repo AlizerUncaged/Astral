@@ -11,6 +11,11 @@ using System.Threading.Tasks;
 
 namespace Astral.Detection
 {
+    /*
+     * Speed on an MX330 Laptop:
+     * Downscale at 0.5 or 50% below 10 p/sec
+     * No downscale below 5 p/sec
+     */
     public class FastYolo : IService, IDetectorService, IConfiguredService<Models.ModelConfig>
     {
         private readonly YoloWrapper yoloWrapper;
@@ -44,7 +49,14 @@ namespace Astral.Detection
                         x.Type!, (float)x.Confidence, new Point(x.X, x.Y),
                             new Size(x.Width, x.Height), null /* FastYolo doesn't have label index. */
                     )
-                    { Tag = screenshot.Tag }
+                    {
+                        // Again, this is a temporary way
+                        // of adding data along with
+                        // the bitmap I swear I'll find
+                        // a more pulchritudinous way of 
+                        // doing this.
+                        Tag = screenshot.Tag
+                    }
                 )
            );
         }

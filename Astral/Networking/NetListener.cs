@@ -29,7 +29,7 @@ namespace Astral.Networking
 
         public NetListener(NetworkConfig configuration, ILogger logger, Utilities.SizeFormat sizeFormat)
         {
-
+            logger.Debug($"Network object initialized!");
             this.Configuration = configuration;
             this.logger = logger;
             this.sizeFormat = sizeFormat;

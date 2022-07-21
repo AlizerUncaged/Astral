@@ -44,18 +44,24 @@ namespace Astral.Input
                     {
                         logger.Debug($"Sending inputs bounds to {netClient.NetPeer.EndPoint}");
 
-                        netClient.Send(new Models.NetworkMousePosition(Point.Round(positionCalculator.RecalculateObjectPosition(
-                                new Point(boundsData.WindowsLocationX, boundsData.WindowsLocationY),
-                                new Point(boundsData.ObjectLocationX, boundsData.ObjectLocationY),
-                                new Size(boundsData.BoxSizeWidth, boundsData.BoxSizeHeight)
-                            ))));
+                        netClient.Send(new Models.NetworkMousePosition(
+                            Point.Round(
+                                            positionCalculator.RecalculateObjectPosition(
+                                                new Point(boundsData.WindowsLocationX, boundsData.WindowsLocationY),
+                                                new Point(boundsData.ObjectLocationX, boundsData.ObjectLocationY),
+                                                new Size(boundsData.BoxSizeWidth, boundsData.BoxSizeHeight)
+                                            )
+                                       )
+                                    )
+                                );
                     }
                 }
 
                 return;
             }
 
-            logger.Debug($"Sender type unkown: {sender.GetType().FullName} or bounds data is not on tags.");
+            logger.Debug($"Sender type unkown: {sender.GetType().FullName} " +
+                $"or bounds data is not on tags.");
         }
     }
 }

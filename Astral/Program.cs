@@ -25,9 +25,9 @@ namespace Astral
 
             container = new AstralProgramBuilder<
                 Detection.FastYolo,
-                Monitor.NetworkImageStream,
+                Monitor.ActiveWindowGrab,
                 Utilities.DefaultImageCompressor,
-                Input.NetworkInputSender>().Build(
+                Input.LocalInput>().Build(
                     new IConfig[] { modelConfig, screenConfig, networkConfig }
                 );
         }
