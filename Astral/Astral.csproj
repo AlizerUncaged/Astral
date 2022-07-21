@@ -8,7 +8,12 @@
 		<Nullable>enable</Nullable>
 		<PlatformTarget>x64</PlatformTarget>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<ApplicationIcon>Resources\Logo.ico</ApplicationIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\Logo.ico" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\.editorconfig" Link=".editorconfig" />
@@ -103,11 +108,11 @@
 	  <None Update="msvcr100.dll">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	  <None Update="pthreadGC2.dll">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	  <None Update="pthreadVC2.dll">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Resources\Logo.ico">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="tfhub_module.pb">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -118,11 +123,6 @@
 	  <None Update="yolo_cpp_dll_cpu.dll">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\Alturos.Yolo\Alturos.Yolo.csproj" />
-	  <ProjectReference Include="..\YoloV4 ML\YoloV4 ML.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
