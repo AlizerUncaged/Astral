@@ -32,7 +32,8 @@ namespace Astral
             Utilities.HardwareInfo hardwareInfo,
             Detector model, // Or Detection.FastYolo, both are pretty much the same.
             Debug.PredictionPerformance predictionPerformance,
-            Debug.PredictionEnumerizer predictionEnumerizer, ILogger logger)
+            Debug.PredictionEnumerizer predictionEnumerizer,
+            ILogger logger)
         {
             this.vision = screenGrab;
             this.hardwareInfo = hardwareInfo;

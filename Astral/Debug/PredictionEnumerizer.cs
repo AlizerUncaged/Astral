@@ -67,7 +67,7 @@ namespace Astral.Debug
 
             var persons = highConfidenceObjects.Where(x => x.LabelIndex is { } && x.LabelIndex == 1); // 1 = Person
 
-            persons = persons.Any() ? persons : highConfidenceObjects.Where(x => string.Equals(x.Label, "enemy", StringComparison.OrdinalIgnoreCase));
+            persons = persons.Any() ? persons : highConfidenceObjects;//.Where(x => string.Equals(x.Label, "enemy", StringComparison.OrdinalIgnoreCase));
 
             if (persons.Any())
             {
@@ -83,9 +83,9 @@ namespace Astral.Debug
                 // Press LShift to pause.
                 mouseControl.MoveMouseTo(objectLocation);
 
-                //logger.Debug($"One object found at " +
-                //    $"{objectLocation} " +
-                //    $"located on desktop.");
+                logger.Debug($"One object found at " +
+                    $"{objectLocation} " +
+                    $"located on desktop.");
             }
         }
     }

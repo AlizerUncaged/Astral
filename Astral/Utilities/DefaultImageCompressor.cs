@@ -5,14 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Astral.Monitor
+namespace Astral.Utilities
 {
-    public class DefaultImageCompressor : IService, IImageCompressor
+    public class DefaultImageCompressor : IUtility, IImageCompressor
     {
-        public DefaultImageCompressor(ScreenConfig screenConfig)
-        {
+        public DefaultImageCompressor(ScreenConfig screenConfig) =>
             ScreenConfig = screenConfig;
-        }
+
 
         public ScreenConfig ScreenConfig { get; }
 

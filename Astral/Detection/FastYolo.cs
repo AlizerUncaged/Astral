@@ -1,4 +1,5 @@
-﻿using Astral.Monitor;
+﻿using Astral.Models;
+using Astral.Monitor;
 using FastYolo;
 using System;
 using System.Collections;
@@ -9,17 +10,20 @@ using System.Threading.Tasks;
 
 namespace Astral.Detection
 {
-    public class FastYolo : IService, IDetectorService
+    public class FastYolo : IService, IDetectorService, IConfiguredService<Models.ModelConfig>
     {
         private readonly YoloWrapper yoloWrapper;
         private readonly System.Drawing.ImageConverter converter = new();
 
-        public FastYolo(IInputImage screenGrab)
+        public ModelConfig Configuration { get; }
+
+        public FastYolo(IInputImage screenGrab, Models.ModelConfig modelConfig)
         {
-            yoloWrapper = new YoloWrapper(
-                "./Dependencies/YoloV4/Valorant/yolov4-tiny.cfg",
-                "./Dependencies/YoloV4/Valorant/yolov4-tiny.weights",
-                "./Dependencies/YoloV4/Valorant/coco-dataset.labels");
+            this.Configuration = modelConfig;
+
+            yoloWrapper = new YoloWrapper(Configuration.CfgFilepath!,
+                Configuration.WeightsFilepath!,
+                Configuration.NamesFilepath!);
 
             screenGrab.InputRendered += ScreenshotReceived;
         }
