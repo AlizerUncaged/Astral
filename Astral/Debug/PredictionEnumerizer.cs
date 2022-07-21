@@ -61,30 +61,6 @@ namespace Astral.Debug
 
             logger.Debug($"{highConfidenceObjects.Count()}" +
                 $" Objects: {string.Join(", ", highConfidenceObjects.Select(x => x.Label).Distinct())}");
-
-            //// Find via label index.
-            //var persons = highConfidenceObjects.Where(x => x.LabelIndex is 1); // 1 = Person
-
-            //// Find via label name.
-            //persons = persons.Any() ? persons : highConfidenceObjects; //.Where(x => string.Equals(x.Label, "enemy", StringComparison.OrdinalIgnoreCase));
-
-            //if (persons.Any())
-            //{
-            //    var firstPerson = persons.First();
-            //    var currentActiveWindowLocation = foregroundWindow
-            //        .GetForegroundWindowBounds().Location;
-
-            //    var objectLocation = positionCalculator
-            //        .RecalculateObjectPosition(currentActiveWindowLocation,
-            //            Point.Round(firstPerson.Location),
-            //            Size.Round(firstPerson.Size));
-
-            //    mouseControl.MoveMouseTo(objectLocation);
-
-            //    logger.Debug($"One object found at " +
-            //        $"{objectLocation} " +
-            //        $"located on desktop.");
-            //}
         }
     }
 }

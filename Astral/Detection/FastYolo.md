@@ -1,6 +1,9 @@
 
 # FastYolo
+
 Project: https://github.com/maalik0786/FastYolo
+
+> Alizer's note: I have the Cuda installations v10.1, v11.2 and v11.6, CudNN installation 8.4 and it seems to work.
 
 Yolo Object Detection library for .NET 6. This one requires Cuda 11.7 and CudNN 8.4.1 to be installed to work, it will use your NVidia GPU for processing (which is many times faster than using the CPU version that is disabled in this release). Any GPU from Maxwell upwards is support (Cuda api 5.2+, Maxwell GPUs like GTX 750 and above). Since 11.1 it also supports OpenCV for more advanced features like tracking, shape detection, etc.
 			

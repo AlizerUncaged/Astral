@@ -22,13 +22,14 @@ namespace Astral
             var modelConfig = new Models.ModelConfig();
             var screenConfig = new Models.ScreenConfig();
             var networkConfig = new Models.NetworkConfig();
+            var predictionConfig = new Models.PredictionConfig();
 
             container = new AstralProgramBuilder<
                 Detection.FastYolo,
                 Monitor.ActiveWindowGrab,
                 Utilities.DefaultImageCompressor,
                 Input.LocalInput>().Build(
-                    new IConfig[] { modelConfig, screenConfig, networkConfig }
+                    new IConfig[] { modelConfig, screenConfig, networkConfig, predictionConfig }
                 );
         }
 

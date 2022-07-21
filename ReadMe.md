@@ -9,4 +9,4 @@
 
 ## 🏗️ Installing dependencies
 ### FastYolo
-Full instructions for installing required dependencies here at https://github.com/AlizerUncaged/Astral/blob/master/Astral/Detection/FastYolo.md
+> Full instructions for installing required dependencies here at https://github.com/AlizerUncaged/Astral/blob/master/Astral/Detection/FastYolo.md

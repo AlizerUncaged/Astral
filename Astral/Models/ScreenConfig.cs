@@ -11,6 +11,10 @@ namespace Astral.Models
     /// </summary>
     public class ScreenConfig : IConfig
     {
+        /// <summary>
+        /// The screen to use if you're using a screen grabber for
+        /// an entire monitor.
+        /// </summary>
         public Screen Screen { get; set; } = Screen.PrimaryScreen;
 
         /// <summary>
@@ -25,7 +29,7 @@ namespace Astral.Models
         /// The lower the image resolution the faster the prediction
         /// but also inaccurate.
         /// </summary>
-        public float Downscale { get; set; } = 0.5f;
+        public float Downscale { get; set; } = 1f;
 
         public int ScreenshotWaitTime => 1000 / this.Fps;
 
