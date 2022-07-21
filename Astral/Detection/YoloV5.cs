@@ -17,9 +17,9 @@ namespace Astral.Detection
     {
         private readonly YoloScorer<YoloCocoP5Model> scorer;
 
-        public YoloV5(IMonitorService monitorService)
+        public YoloV5(IInputImage monitorService)
         {
-            monitorService.ScreenshotRendered += ScreenshotReceived;
+            monitorService.InputRendered += ScreenshotReceived;
 
             // Use the small YOLOv5 model.
             scorer = new YoloScorer<YoloCocoP5Model>("./Dependencies/YoloV5/yolov5s.onnx",

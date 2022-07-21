@@ -24,9 +24,9 @@ namespace Astral.Detection
 
         const string modelPath = @"./Dependencies/YoloV4/yolov4.onnx";
 
-        public YoloV4(IMonitorService monitorService, ILogger logger, Utilities.CocoClassnameProvider cocoClassnameProvider)
+        public YoloV4(IInputImage monitorService, ILogger logger, Utilities.CocoClassnameProvider cocoClassnameProvider)
         {
-            monitorService.ScreenshotRendered += ScreenshotReceived;
+            monitorService.InputRendered += ScreenshotReceived;
 
             this.logger = logger;
             this.cocoClassnameProvider = cocoClassnameProvider;

@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Astral
 {
-    public interface IMonitorService
+    public interface IInputImage
     {
         /// <summary>
         /// Event called whenever the screenshot occured.
         /// </summary>
-        event EventHandler<Bitmap>? ScreenshotRendered;
+        event EventHandler<Bitmap>? InputRendered;
 
         /// <summary>
         /// Event whenever we're about to screenshot.
         /// </summary>
-        event EventHandler? ScreenshotStarting;
+        event EventHandler? InputStarting;
 
         void Stop();
 

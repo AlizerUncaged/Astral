@@ -55,11 +55,11 @@ namespace Astral
                 .SingleInstance(); // Detector class.
 
             builder.RegisterType<Monitor.ActiveWindowGrab>()
-                .As<IMonitorService>()
+                .As<IInputImage>()
                 .SingleInstance(); // Vision class.
 
 
-            builder.RegisterType<Astral<IDetectorService, IMonitorService>>()
+            builder.RegisterType<Astral<IDetectorService, IInputImage>>()
                 .As<IAstral>();
 
             Container = builder.Build();

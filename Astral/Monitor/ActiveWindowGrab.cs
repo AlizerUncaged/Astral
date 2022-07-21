@@ -9,23 +9,25 @@ using System.Threading.Tasks;
 
 namespace Astral.Monitor
 {
-    public class ActiveWindowGrab : IConfiguredService<ScreenConfig>, IMonitorService, IService
+    public class ActiveWindowGrab : IConfiguredService<ScreenConfig>, IInputImage, IService
     {
         public ScreenConfig Configuration { get; }
 
         private bool doScreenshot = true;
 
-        public event EventHandler? ScreenshotStarting;
-        public event EventHandler<Bitmap>? ScreenshotRendered;
+        public event EventHandler? InputStarting;
+        public event EventHandler<Bitmap>? InputRendered;
 
         private PeriodicTimer timer;
         private readonly ForegroundWindow foregroundWindow;
+        private readonly IImageCompressor imageCompressor;
 
-        public ActiveWindowGrab(ScreenConfig configuration, Utilities.ForegroundWindow foregroundWindow)
+        public ActiveWindowGrab(ScreenConfig configuration,
+            ForegroundWindow foregroundWindow, IImageCompressor imageCompressor)
         {
             Configuration = configuration;
             this.foregroundWindow = foregroundWindow;
-
+            this.imageCompressor = imageCompressor;
             if (!Configuration.IsUncapped)
                 timer = new PeriodicTimer(TimeSpan.FromMilliseconds(Configuration.ScreenshotWaitTime));
 
@@ -39,7 +41,7 @@ namespace Astral.Monitor
                     if (!Configuration.IsUncapped && timer is { })
                         await timer.WaitForNextTickAsync();
 
-                    ScreenshotStarting?.Invoke(this, null);
+                    InputStarting?.Invoke(this, EventArgs.Empty);
 
                     var activeWindowBounds =
                         foregroundWindow.GetForegroundWindowBounds();
@@ -47,28 +49,22 @@ namespace Astral.Monitor
                     var startingPoint = new Point(activeWindowBounds.X, activeWindowBounds.Y);
 
                     // Make sure it's a valid screenshot.
-                    if (activeWindowBounds is { Width: > 2, Height: > 2 })
-                        using (Bitmap bitmap = new Bitmap(activeWindowBounds.Width, activeWindowBounds.Height))
-                        {
-                            using (Graphics g = Graphics.FromImage(bitmap))
-                            {
-                                g.CopyFromScreen(startingPoint, Point.Empty, activeWindowBounds.Size);
+                    if (activeWindowBounds is { Width: < 2, Height: < 2 }) continue;
 
-                                // Clone and resize the bitmap to downscale only if needed.
-                                if (Configuration.Downscale != 1)
-                                    using (var resized = new Bitmap(bitmap,
-                                            new Size((int)(bitmap.Size.Width * Configuration.Downscale),
-                                                        (int)(bitmap.Size.Height * Configuration.Downscale))))
-                                    {
-                                        ScreenshotRendered?.Invoke(this, resized);
-                                    }
+                    var rawScreenshot = new Bitmap(activeWindowBounds.Width, activeWindowBounds.Height);
+                    var g = Graphics.FromImage(rawScreenshot);
+                    g.CopyFromScreen(startingPoint, Point.Empty, activeWindowBounds.Size);
 
-                                // Send as is if no downscale required.
-                                else
-                                    ScreenshotRendered?.Invoke(this, bitmap);
-                            }
-                        }
+                    // Clone and resize the bitmap to downscale only if needed.
+                    if (Configuration.Downscale != 1)
+                        InputRendered?.Invoke(this, imageCompressor.Compress(rawScreenshot));
+
+                    // Send as is if no downscale required.
+                    else
+                        InputRendered?.Invoke(this, rawScreenshot);
                 }
+
+
             });
 
         public void Stop() => doScreenshot = false;

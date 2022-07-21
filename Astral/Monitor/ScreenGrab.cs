@@ -14,21 +14,23 @@ namespace Astral.Monitor
     // TODO: Use a faster screenshoter, probably DirectX.
     // Screenshot on a 1080p monitor takes about 30ms which
     // is 3x faster than PyAutoGUI.
-    public class ScreenGrab : IConfiguredService<ScreenConfig>, IMonitorService, IService
+    public class ScreenGrab : IConfiguredService<ScreenConfig>, IInputImage, IService
     {
         public ScreenConfig Configuration { get; }
 
         private bool doScreenshot = true;
-        private PeriodicTimer timer;
+        private readonly PeriodicTimer timer;
+        private readonly IImageCompressor imageCompressor;
 
         /// <summary>
         /// Screenshot utility.
         /// </summary>
         /// <param name="downScale">Multiple size of the screenshot image to scale on, 2 will scale the image down to 50%.</param>
         /// <param name="fps">Screenshot fps, setting this to 20 will make the program capture 20 screenshots per second, still depends on hardware speed.</param>
-        public ScreenGrab(ScreenConfig configuration)
+        public ScreenGrab(ScreenConfig configuration, IImageCompressor imageCompressor)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
+            this.imageCompressor = imageCompressor;
 
             var scInfo = From(Configuration.Screen);
 
@@ -41,12 +43,12 @@ namespace Astral.Monitor
             Console.WriteLine($"Screen monitor configuration =>{Environment.NewLine}{configuration}");
         }
 
-        public event EventHandler<Bitmap>? ScreenshotRendered;
+        public event EventHandler<Bitmap>? InputRendered;
 
         /// <summary>
         /// Event whenever we're about to screenshot.
         /// </summary>
-        public event EventHandler? ScreenshotStarting;
+        public event EventHandler? InputStarting;
 
         public void Stop() => doScreenshot = false;
 
@@ -58,11 +60,11 @@ namespace Astral.Monitor
                     if (!Configuration.IsUncapped && timer is { })
                         await timer.WaitForNextTickAsync();
 
-                    ScreenshotStarting?.Invoke(this, null);
+                    InputStarting?.Invoke(this, EventArgs.Empty);
 
                     var screenshot = GetSreenshot();
 
-                    ScreenshotRendered?.Invoke(this, screenshot);
+                    InputRendered?.Invoke(this, screenshot);
                 }
             });
 
@@ -77,10 +79,7 @@ namespace Astral.Monitor
             Graphics g = Graphics.FromImage(bm);
             g.CopyFromScreen(0, 0, 0, 0, bm.Size);
 
-            var resized = new Bitmap(bm, new Size((int)(bm.Size.Width * Configuration.Downscale),
-                (int)(bm.Size.Height * Configuration.Downscale)));
-
-            return resized;
+            return imageCompressor.Compress(bm);
         }
     }
 }

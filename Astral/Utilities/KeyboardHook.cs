@@ -1,5 +1,4 @@
-﻿using Gma.System.MouseKeyHook;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +9,6 @@ namespace Astral.Utilities
     // This is too slow.
     public class KeyboardHook : IUtility
     {
-        private IKeyboardMouseEvents globalInterfaceHook;
-
         private List<Keys> pressedKeys = new();
 
         public KeyboardHook()

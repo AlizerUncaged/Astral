@@ -20,7 +20,7 @@ namespace Astral
 
     public class Astral<Detector, Vision> : IAstral
         where Detector : IDetectorService
-        where Vision : IMonitorService
+        where Vision : IInputImage
     {
         private readonly Vision vision;
         private readonly HardwareInfo hardwareInfo;

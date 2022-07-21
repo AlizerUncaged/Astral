@@ -24,7 +24,6 @@
 		<PackageReference Include="Microsoft.ML.ImageAnalytics" Version="1.7.1" />
 		<PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu" Version="1.11.0" />
 		<PackageReference Include="Microsoft.ML.OnnxTransformer" Version="1.7.1" />
-		<PackageReference Include="MouseKeyHook" Version="5.6.0" />
 		<PackageReference Include="Serilog" Version="2.11.0" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
 		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
@@ -74,13 +73,13 @@
 	  <None Update="Dependencies\YoloV2\yolov2-tiny.weights">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Dependencies\YoloV4\valorant\coco-dataset.labels">
+	  <None Update="Dependencies\YoloV4\Valorant\coco-dataset.labels">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Dependencies\YoloV4\valorant\yolov4-tiny.cfg">
+	  <None Update="Dependencies\YoloV4\Valorant\yolov4-tiny.cfg">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Dependencies\YoloV4\valorant\yolov4-tiny.weights">
+	  <None Update="Dependencies\YoloV4\Valorant\yolov4-tiny.weights">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Dependencies\YoloV4\yolov4-tiny.onnx">
@@ -119,10 +118,6 @@
 	  <None Update="yolo_cpp_dll_cpu.dll">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Dependencies\YoloV4\" />
 	</ItemGroup>
 
 	<ItemGroup>

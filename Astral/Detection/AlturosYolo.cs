@@ -13,14 +13,13 @@ namespace Astral.Detection
 
         private readonly Alturos.Yolo.YoloWrapper yoloWrapper;
         private readonly System.Drawing.ImageConverter converter = new();
-        public AlturosYolo(IMonitorService monitorService)
+        public AlturosYolo(IInputImage monitorService)
         {
             yoloWrapper = new Alturos.Yolo.YoloWrapper("./Dependencies/YoloFastest/yolo-fastest.cfg",
                 "./Dependencies/YoloFastest/yolo-fastest.weights", "./Dependencies/FastYolo/coco.names",
                 new Alturos.Yolo.GpuConfig { GpuIndex = 0 });
 
-            monitorService.ScreenshotRendered += ScreenshotRendered;
-
+            monitorService.InputRendered += ScreenshotRendered;
         }
 
         private void ScreenshotRendered(object? sender, Bitmap e)

@@ -14,14 +14,14 @@ namespace Astral.Detection
         private readonly YoloWrapper yoloWrapper;
         private readonly System.Drawing.ImageConverter converter = new();
 
-        public FastYolo(IMonitorService screenGrab)
+        public FastYolo(IInputImage screenGrab)
         {
             yoloWrapper = new YoloWrapper(
-                "./Dependencies/YoloV4/valorant/yolov4-tiny.cfg",
-                "./Dependencies/YoloV4/valorant/yolov4-tiny.weights",
-                "./Dependencies/YoloV4/valorant/coco-dataset.labels");
+                "./Dependencies/YoloV4/Valorant/yolov4-tiny.cfg",
+                "./Dependencies/YoloV4/Valorant/yolov4-tiny.weights",
+                "./Dependencies/YoloV4/Valorant/coco-dataset.labels");
 
-            screenGrab.ScreenshotRendered += ScreenshotReceived;
+            screenGrab.InputRendered += ScreenshotReceived;
         }
 
         private void ScreenshotReceived(object? sender, Bitmap screenshot)

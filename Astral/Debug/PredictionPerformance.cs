@@ -14,15 +14,15 @@ namespace Astral.Debug
     public class PredictionPerformance : IService
     {
         private readonly IDetectorService model;
-        private readonly IMonitorService screenGrab;
+        private readonly IInputImage screenGrab;
         private readonly ILogger logger;
 
-        public PredictionPerformance(IDetectorService model, IMonitorService monitor, ILogger logger)
+        public PredictionPerformance(IDetectorService model, IInputImage monitor, ILogger logger)
         {
             this.model = model;
             this.screenGrab = monitor;
             this.logger = logger;
-            monitor.ScreenshotStarting += ScreenshotStarted;
+            monitor.InputStarting += ScreenshotStarted;
             model.PredictionReceived += Prediction;
 
 
