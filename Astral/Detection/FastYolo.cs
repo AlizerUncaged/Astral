@@ -1,6 +1,7 @@
 ﻿using Astral.Models;
 using Astral.Monitor;
 using FastYolo;
+using Serilog;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,12 +15,17 @@ namespace Astral.Detection
     {
         private readonly YoloWrapper yoloWrapper;
         private readonly System.Drawing.ImageConverter converter = new();
+        private readonly ILogger logger;
 
         public ModelConfig Configuration { get; }
 
-        public FastYolo(IInputImage screenGrab, Models.ModelConfig modelConfig)
+        public FastYolo
+            (IInputImage screenGrab,
+            Models.ModelConfig modelConfig,
+            ILogger logger)
         {
             this.Configuration = modelConfig;
+            this.logger = logger;
 
             yoloWrapper = new YoloWrapper(Configuration.CfgFilepath!,
                 Configuration.WeightsFilepath!,
@@ -31,13 +37,14 @@ namespace Astral.Detection
         private void ScreenshotReceived(object? sender, Bitmap screenshot)
         {
             var imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]))!;
-            PredictionReceived?.Invoke(this,
+            PredictionReceived?.Invoke(sender,
                 yoloWrapper.Detect(imageBytes).Select(x =>
                     new Models.PredictionResult
                     (
                         x.Type!, (float)x.Confidence, new Point(x.X, x.Y),
                             new Size(x.Width, x.Height), null /* FastYolo doesn't have label index. */
                     )
+                    { Tag = screenshot.Tag }
                 )
            );
         }

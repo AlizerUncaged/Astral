@@ -1,5 +1,6 @@
 ﻿using Astral.Models;
 using Astral.Utilities;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,13 +22,16 @@ namespace Astral.Monitor
         private PeriodicTimer timer;
         private readonly ForegroundWindow foregroundWindow;
         private readonly IImageCompressor imageCompressor;
+        private readonly ILogger logger;
 
         public ActiveWindowGrab(ScreenConfig configuration,
-            ForegroundWindow foregroundWindow, IImageCompressor imageCompressor)
+            ForegroundWindow foregroundWindow,
+            IImageCompressor imageCompressor, ILogger logger)
         {
             Configuration = configuration;
             this.foregroundWindow = foregroundWindow;
             this.imageCompressor = imageCompressor;
+            this.logger = logger;
             if (!Configuration.IsUncapped)
                 timer = new PeriodicTimer(TimeSpan.FromMilliseconds(Configuration.ScreenshotWaitTime));
 
@@ -46,10 +50,13 @@ namespace Astral.Monitor
                     var activeWindowBounds =
                         foregroundWindow.GetForegroundWindowBounds();
 
+                    // logger.Debug($"Active window size : {activeWindowBounds.Size}");
+
                     var startingPoint = new Point(activeWindowBounds.X, activeWindowBounds.Y);
 
                     // Make sure it's a valid screenshot.
-                    if (activeWindowBounds is { Width: < 2, Height: < 2 }) continue;
+                    if (activeWindowBounds is { Width: < 2, Height: < 2 })
+                        continue;
 
                     var rawScreenshot = new Bitmap(activeWindowBounds.Width, activeWindowBounds.Height);
                     var g = Graphics.FromImage(rawScreenshot);

@@ -19,11 +19,16 @@ namespace Astral
 
         public void Build()
         {
+            var modelConfig = new Models.ModelConfig();
+            var screenConfig = new Models.ScreenConfig();
+            var networkConfig = new Models.NetworkConfig();
+
             container = new AstralProgramBuilder<
                 Detection.FastYolo,
-                Monitor.ActiveWindowGrab,
-                Utilities.DefaultImageCompressor>().Build(
-                    new IConfig[] { new Models.ModelConfig(), new Models.ScreenConfig() }
+                Monitor.NetworkImageStream,
+                Utilities.DefaultImageCompressor,
+                Input.NetworkInputSender>().Build(
+                    new IConfig[] { modelConfig, screenConfig, networkConfig }
                 );
         }
 

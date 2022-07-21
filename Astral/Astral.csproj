@@ -9,6 +9,7 @@
 		<PlatformTarget>x64</PlatformTarget>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<ApplicationIcon>Resources\Logo.ico</ApplicationIcon>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -21,20 +22,25 @@
 
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="6.4.0" />
+		<PackageReference Include="AutofacSerilogIntegration" Version="5.0.0" />
 		<PackageReference Include="FastYolo" Version="11.7.2" />
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+		<PackageReference Include="LiteNetLib" Version="0.9.5.2" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
-		<PackageReference Include="Microsoft.ML" Version="1.7.1" />
-		<PackageReference Include="Microsoft.ML.ImageAnalytics" Version="1.7.1" />
-		<PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu" Version="1.11.0" />
-		<PackageReference Include="Microsoft.ML.OnnxTransformer" Version="1.7.1" />
+		<PackageReference Include="Microsoft.ML.OnnxRuntime.Gpu" Version="1.11.0">
+		  <TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
 		<PackageReference Include="Serilog" Version="2.11.0" />
-		<PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+		<PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0">
+		  <TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
 		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
-		<PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
-		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.0.1">
+		  <TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
+		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0">
+		  <TreatAsUsed>true</TreatAsUsed>
+		</PackageReference>
 		<PackageReference Include="Yolov5Net" Version="1.0.9" />
 	</ItemGroup>
 

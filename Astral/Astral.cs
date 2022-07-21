@@ -29,8 +29,9 @@ namespace Astral
 
         public Astral(
             Vision screenGrab,
-            Utilities.HardwareInfo hardwareInfo,
+            IInputConsumer inputConsumer,
             Detector model, // Or Detection.FastYolo, both are pretty much the same.
+            Utilities.HardwareInfo hardwareInfo,
             Debug.PredictionPerformance predictionPerformance,
             Debug.PredictionEnumerizer predictionEnumerizer,
             ILogger logger)
@@ -63,6 +64,7 @@ namespace Astral
             logger.Information($"Vision started...");
 
             await vision.StartAsync();
+            await Task.Delay(-1);
         }
     }
 }

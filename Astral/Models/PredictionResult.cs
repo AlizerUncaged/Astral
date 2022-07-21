@@ -26,5 +26,11 @@ namespace Astral.Models
         public Point Location { get; }
 
         public Size Size { get; }
+
+        // Additional data along with this result,
+        // this is a temporary fix until we found
+        // a more beautiful way of sending additional
+        // information along with the bitmap.
+        public object? Tag { get; set; }
     }
 }

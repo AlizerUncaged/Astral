@@ -10,6 +10,9 @@ namespace Astral
     {
         public Models.ScreenConfig ScreenConfig { get; }
 
+        /// <summary>
+        /// Compresses an image retaining its tag.
+        /// </summary>
         public Bitmap Compress(Bitmap original);
     }
 }

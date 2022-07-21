@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using AutofacSerilogIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -15,11 +16,12 @@ namespace Astral
     /// Create a new Astral instance builder.
     /// </summary>
     /// <typeparam name="Detector">The detector to use.</typeparam>
-    /// <typeparam name="Input">The input class to use.</typeparam>
-    public class AstralProgramBuilder<Detector, Input, ImageCompressor>
+    /// <typeparam name="InputFrom">The input class to use.</typeparam>
+    public class AstralProgramBuilder<Detector, InputFrom, ImageCompressor, InputConsumer>
         where Detector : IDetectorService
-        where Input : IInputImage
+        where InputFrom : IInputImage
         where ImageCompressor : IImageCompressor
+        where InputConsumer : IInputConsumer
     {
         public IContainer Build(IEnumerable<IConfig>? configurations = null)
         {
@@ -42,19 +44,16 @@ namespace Astral
                 .AssignableTo<IService>()
                 .SingleInstance();
 
+
+            var appConfiguration = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("./appsettings.json")
+                        .Build();
+
             // Set logger.
-            builder.Register<Serilog.ILogger>((c, p) =>
-            {
-                var configuration = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("./appsettings.json")
-                    .Build();
-
-                return new LoggerConfiguration()
-                    .ReadFrom.Configuration(configuration)
+            Log.Logger = new LoggerConfiguration()
+                    .ReadFrom.Configuration(appConfiguration)
                     .CreateLogger();
-
-            }).SingleInstance();
 
             // Set the current active classes here.
             builder.RegisterType<Detector>()
@@ -65,13 +64,18 @@ namespace Astral
                 .As<IImageCompressor>()
                 .SingleInstance(); // Detector class.
 
-            builder.RegisterType<Input>()
+            builder.RegisterType<InputFrom>()
                 .As<IInputImage>()
                 .SingleInstance(); // Vision class.
 
+            builder.RegisterType<InputConsumer>()
+                .As<IInputConsumer>()
+                .SingleInstance(); // Input sender class.
 
             builder.RegisterType<Astral<IDetectorService, IInputImage>>()
                 .As<IAstral>();
+
+            builder.RegisterLogger();
 
             return builder.Build();
         }

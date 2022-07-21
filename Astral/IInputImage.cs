@@ -9,7 +9,8 @@ namespace Astral
     public interface IInputImage
     {
         /// <summary>
-        /// Event called whenever the screenshot occured.
+        /// Event called whenever an input image is rendered
+        /// and ready for prediction.
         /// </summary>
         event EventHandler<Bitmap>? InputRendered;
 
@@ -18,6 +19,9 @@ namespace Astral
         /// </summary>
         event EventHandler? InputStarting;
 
+        /// <summary>
+        /// Stop inputting images completely.
+        /// </summary>
         void Stop();
 
         Task StartAsync();

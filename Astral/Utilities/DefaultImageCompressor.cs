@@ -21,6 +21,9 @@ namespace Astral.Utilities
                 new Size((int)(original.Size.Width * ScreenConfig.Downscale),
                          (int)(original.Size.Height * ScreenConfig.Downscale)));
 
+            // Retain the tag.
+            resized.Tag = original.Tag;
+
             return resized;
         }
     }

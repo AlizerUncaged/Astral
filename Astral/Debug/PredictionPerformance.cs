@@ -30,12 +30,13 @@ namespace Astral.Debug
         }
 
 
-        private Stopwatch? predictionCounter;
-        private double longestPrediction;
+        private Stopwatch? predictionCounter =
+            new Stopwatch();
+
+        private long longestPrediction;
 
         private void ScreenshotStarted(object? sender, object s) =>
-            predictionCounter = Stopwatch.StartNew();
-
+            predictionCounter?.Start();
 
         public async Task MeasureScreenshotSpeed()
         {
@@ -47,7 +48,9 @@ namespace Astral.Debug
                 var color = currentPredictions >= 10 ?
                     Color.LightGreen : Color.LightCoral;
 
-                logger.Debug($"{currentPredictions} p/sec, longest prediction: {Math.Ceiling(longestPrediction)}ms");
+                // p/sec : predictions per second.
+                logger.Information($"{currentPredictions} p/sec, " +
+                    $"longest prediction: {longestPrediction}ms");
 
                 longestPrediction = 0;
                 currentPredictions = 0;
@@ -61,9 +64,11 @@ namespace Astral.Debug
 
             if (predictionCounter is { })
             {
-                longestPrediction = predictionCounter.ElapsedMilliseconds > longestPrediction ?
-                    predictionCounter.ElapsedMilliseconds : longestPrediction;
-                predictionCounter = null;
+                longestPrediction = predictionCounter.ElapsedMilliseconds >
+                    longestPrediction ? predictionCounter.ElapsedMilliseconds
+                    : longestPrediction;
+
+                predictionCounter.Reset();
             }
         }
     }

@@ -30,10 +30,9 @@ namespace Astral.Debug
         // in the desktop.
         private readonly PositionCalculator positionCalculator;
 
-
-        private readonly KeyboardHook keyboardHook;
         private readonly ILogger logger;
-        const float minimumConfidence = 0.5f;
+
+        const float minimumConfidence = 0.25f;
 
         public PredictionEnumerizer(
             IDetectorService model,
@@ -41,7 +40,6 @@ namespace Astral.Debug
             ScreenConfig screenConfig,
             ForegroundWindow foregroundWindow,
             PositionCalculator positionCalculator,
-            Utilities.KeyboardHook keyboardHook,
             ILogger logger)
         {
             this.model = model;
@@ -49,7 +47,6 @@ namespace Astral.Debug
             this.screenConfig = screenConfig;
             this.foregroundWindow = foregroundWindow;
             this.positionCalculator = positionCalculator;
-            this.keyboardHook = keyboardHook;
             this.logger = logger;
 
             model.PredictionReceived += PredictionReceived;
@@ -65,28 +62,29 @@ namespace Astral.Debug
             logger.Debug($"{highConfidenceObjects.Count()}" +
                 $" Objects: {string.Join(", ", highConfidenceObjects.Select(x => x.Label).Distinct())}");
 
-            var persons = highConfidenceObjects.Where(x => x.LabelIndex is { } && x.LabelIndex == 1); // 1 = Person
+            //// Find via label index.
+            //var persons = highConfidenceObjects.Where(x => x.LabelIndex is 1); // 1 = Person
 
-            persons = persons.Any() ? persons : highConfidenceObjects;//.Where(x => string.Equals(x.Label, "enemy", StringComparison.OrdinalIgnoreCase));
+            //// Find via label name.
+            //persons = persons.Any() ? persons : highConfidenceObjects; //.Where(x => string.Equals(x.Label, "enemy", StringComparison.OrdinalIgnoreCase));
 
-            if (persons.Any())
-            {
-                var firstPerson = persons.First();
-                var currentActiveWindowLocation = foregroundWindow
-                    .GetForegroundWindowBounds().Location;
+            //if (persons.Any())
+            //{
+            //    var firstPerson = persons.First();
+            //    var currentActiveWindowLocation = foregroundWindow
+            //        .GetForegroundWindowBounds().Location;
 
-                var objectLocation = positionCalculator
-                    .RecalculateObjectPosition(currentActiveWindowLocation,
-                        Point.Round(firstPerson.Location),
-                        Size.Round(firstPerson.Size));
+            //    var objectLocation = positionCalculator
+            //        .RecalculateObjectPosition(currentActiveWindowLocation,
+            //            Point.Round(firstPerson.Location),
+            //            Size.Round(firstPerson.Size));
 
-                // Press LShift to pause.
-                mouseControl.MoveMouseTo(objectLocation);
+            //    mouseControl.MoveMouseTo(objectLocation);
 
-                logger.Debug($"One object found at " +
-                    $"{objectLocation} " +
-                    $"located on desktop.");
-            }
+            //    logger.Debug($"One object found at " +
+            //        $"{objectLocation} " +
+            //        $"located on desktop.");
+            //}
         }
     }
 }
