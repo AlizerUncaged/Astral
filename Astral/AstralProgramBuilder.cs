@@ -57,7 +57,6 @@ namespace Astral
             }).SingleInstance();
 
             // Set the current active classes here.
-
             builder.RegisterType<Detector>()
                 .As<IDetectorService>()
                 .SingleInstance(); // Detector class.
