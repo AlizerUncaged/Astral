@@ -21,10 +21,10 @@ namespace Astral.Puppet.Input
         private readonly ForegroundWindow foregroundWindow;
 
         public MouseConsumer(
-            Utilities.ForegroundWindow foregroundWindow,
-            Networking.NetListener netlistener,
-            Curses.MouseControl mouseControl,
-            Utilities.PositionCalculator positionCalculator, ILogger logger)
+            ForegroundWindow foregroundWindow,
+            NetListener netlistener,
+            MouseControl mouseControl,
+            PositionCalculator positionCalculator, ILogger logger)
         {
             logger.Debug($"Mouse input initialized...");
 
