@@ -1,4 +1,5 @@
 ﻿using Astral.Detection;
+using Astral.Models;
 using Astral.Monitor;
 using Serilog;
 using System;
@@ -11,27 +12,33 @@ using System.Threading.Tasks;
 
 namespace Astral.Debug
 {
-    public class PredictionPerformance : IService
+    public class PredictionPerformance : IService, IStoppable
     {
         private readonly IDetectorService model;
         private readonly IInputImage screenGrab;
         private readonly ILogger logger;
+        private readonly ProgramStatus programStatus;
 
-        public PredictionPerformance(IDetectorService model, IInputImage monitor, ILogger logger)
+        public PredictionPerformance(IDetectorService model,
+            IInputImage monitor,
+            ILogger logger,
+            Models.ProgramStatus programStatus)
         {
             this.model = model;
             this.screenGrab = monitor;
             this.logger = logger;
+            this.programStatus = programStatus;
             monitor.InputStarting += ScreenshotStarted;
             model.PredictionReceived += Prediction;
-
 
             _ = MeasureScreenshotSpeed();
         }
 
-
         private Stopwatch? predictionCounter =
             new Stopwatch();
+
+        private CancellationTokenSource measurementCancellationToken =
+            new CancellationTokenSource();
 
         private long longestPrediction;
 
@@ -42,7 +49,8 @@ namespace Astral.Debug
         {
             var period = new PeriodicTimer(TimeSpan.FromSeconds(1));
 
-            while (await period.WaitForNextTickAsync())
+            while (!programStatus.IsClosing &&
+                await period.WaitForNextTickAsync(measurementCancellationToken.Token))
             {
                 // Ten predictions per second is already fast.
                 var color = currentPredictions >= 10 ?
@@ -70,6 +78,11 @@ namespace Astral.Debug
 
                 predictionCounter.Reset();
             }
+        }
+
+        public void Stop()
+        {
+            measurementCancellationToken.Cancel();
         }
     }
 }

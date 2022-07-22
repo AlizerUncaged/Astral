@@ -1,7 +1,9 @@
-﻿using Autofac;
+﻿using Astral.Models;
+using Autofac;
 using Autofac.Features.ResolveAnything;
 using Microsoft.Extensions.Configuration;
 using Serilog;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace Astral
@@ -26,18 +28,17 @@ namespace Astral
 
             container = new AstralProgramBuilder<
                 Detection.FastYolo,
-                Monitor.ActiveWindowGrab,
-                Utilities.DefaultImageCompressor,
-                Input.LocalInput>().Build(
+                Monitor.ImageFromPeer,
+                Input.NetworkInput>().Build(
                     new IConfig[] { modelConfig, screenConfig, networkConfig, predictionConfig }
                 );
         }
 
-        public async Task StartMainSequenceAsync() =>
-          await container?.BeginLifetimeScope()
-            .Resolve<IAstral>()
-            .StartAsync()!;
-
+        public async Task StartMainSequenceAsync()
+        {
+            using (var lifetimeScope = container?.BeginLifetimeScope())
+                await lifetimeScope?.Resolve<IAstral>().StartAsync()!;
+        }
 
         static void Main(string[] args) => new Program().StartAsync().GetAwaiter().GetResult();
     }

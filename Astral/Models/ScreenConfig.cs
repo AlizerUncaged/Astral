@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Astral.Models
 {
+    public enum CompressorOptions
+    {
+        ServerSide,
+        ClientSide
+    }
     /// <summary>
     /// Configuration for the screen grabber with default values.
     /// </summary>
@@ -23,6 +28,13 @@ namespace Astral.Models
         /// </summary>
         // It's best to set this to prevent GPU overheat.
         public int Fps { get; set; } = 24;
+
+        /// <summary>
+        /// If input is sent over network, this option dictates
+        /// where the compression will occur.
+        /// </summary>
+        public CompressorOptions CompressionLocation { get; set; } = 
+            CompressorOptions.ClientSide;
 
         /// <summary>
         /// The percentage of the screenshot to downscale.

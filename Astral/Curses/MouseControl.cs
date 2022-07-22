@@ -11,6 +11,9 @@ namespace Astral.Curses
     public class MouseControl : IUtility
     {
         public void MoveMouseTo(PointF position) =>
-            Cursor.Position = Point.Round(position);
+            MoveMouseTo(Point.Round(position));
+
+        public void MoveMouseTo(Point position) =>
+            Cursor.Position = position;
     }
 }

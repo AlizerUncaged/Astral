@@ -12,7 +12,7 @@ namespace Astral.Input
     /// <summary>
     /// Sends the input over to the network. Preferrably Astral.Puppet.
     /// </summary>
-    public class NetworkInputSender : IService, IInputConsumer
+    public class NetworkInput : IService, IPredictionConsumer
     {
         private readonly IInputImage inputImage;
         private readonly IDetectorService detectorService;
@@ -20,7 +20,7 @@ namespace Astral.Input
         private readonly NetListener netListener;
         private readonly PositionCalculator positionCalculator;
 
-        public NetworkInputSender(
+        public NetworkInput(
             IInputImage inputImage,
             IDetectorService detectorService,
             ILogger logger, NetListener netListener,
@@ -38,23 +38,14 @@ namespace Astral.Input
         {
             if (sender is Networking.NetClient netClient)
             {
+                netClient.SendAcknowledge();
+
                 foreach (var result in e)
                 {
-                    if (result.Tag is Models.NetworkImageData boundsData)
-                    {
-                        logger.Debug($"Sending inputs bounds to {netClient.NetPeer.EndPoint}");
+                    logger.Debug($"Sending inputs bounds to {netClient.NetPeer.EndPoint}");
 
-                        netClient.Send(new Models.NetworkMousePosition(
-                            Point.Round(
-                                            positionCalculator.RecalculateObjectPosition(
-                                                new Point(boundsData.WindowsLocationX, boundsData.WindowsLocationY),
-                                                new Point(boundsData.ObjectLocationX, boundsData.ObjectLocationY),
-                                                new Size(boundsData.BoxSizeWidth, boundsData.BoxSizeHeight)
-                                            )
-                                       )
-                                    )
-                                );
-                    }
+                    netClient.Send(new Models.NetworkObjectBounds(
+                            result.Location, result.Size));
                 }
 
                 return;

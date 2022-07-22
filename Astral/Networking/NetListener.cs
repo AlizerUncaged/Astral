@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Astral.Networking
 {
-    public class NetListener : IService, IConfiguredService<Models.NetworkConfig>
+    public class NetListener : IConfiguredService<NetworkConfig>, IStoppable
     {
         public NetworkConfig Configuration { get; }
         private readonly ILogger logger;
@@ -27,10 +27,10 @@ namespace Astral.Networking
 
         private readonly NetPacketProcessor netPacketProcessor = new NetPacketProcessor();
 
-        public NetListener(NetworkConfig configuration, ILogger logger, Utilities.SizeFormat sizeFormat)
+        public NetListener(NetworkConfig configuration, ILogger logger, SizeFormat sizeFormat)
         {
             logger.Debug($"Network object initialized!");
-            this.Configuration = configuration;
+            Configuration = configuration;
             this.logger = logger;
             this.sizeFormat = sizeFormat;
 
@@ -39,10 +39,22 @@ namespace Astral.Networking
 
             listener.ConnectionRequestEvent += ConnectionRequest;
             listener.PeerConnectedEvent += ClientConnected;
+            listener.PeerDisconnectedEvent += ClientDisconnected;
             listener.NetworkReceiveEvent += MessageReceived;
 
             netPacketProcessor
-                .SubscribeReusable<Models.NetworkImageData, NetPeer>(OnImageDataReceived);
+                .SubscribeReusable<NetworkImageData, NetPeer>(ImageDataReceived);
+        }
+
+        private void ClientDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
+        {
+            logger.Information($"Client disconnected at {peer.EndPoint} reason: {disconnectInfo.Reason}");
+            switch (disconnectInfo.Reason)
+            {
+                case DisconnectReason.Timeout:
+                    logger.Warning($"Client disconnected via timeout! Maybe their internet is bad?");
+                    break;
+            }
         }
 
         private void MessageReceived(
@@ -65,16 +77,16 @@ namespace Astral.Networking
             netClients.Add(peerClient);
         }
 
-        private void OnImageDataReceived(Models.NetworkImageData networkImageData, NetPeer netPeer)
+        private void ImageDataReceived(NetworkImageData networkImageData, NetPeer netPeer)
         {
             logger.Debug($"Received image size: {networkImageData.ImageData.Length}");
-
-            var peer = netClients
-                .FirstOrDefault(x => x.IsPeerTheSame(netPeer));
 
             Bitmap bmp;
             using (var ms = new MemoryStream(networkImageData.ImageData))
                 bmp = new Bitmap(ms);
+
+            var peer = netClients
+                .FirstOrDefault(x => x.IsPeerTheSame(netPeer));
 
             // Until we found a better way to send
             // the bounds data along with the bitmap
@@ -85,7 +97,7 @@ namespace Astral.Networking
             if (peer is { })
                 peer.ImageReceivedFromPeer(bmp);
             else
-                logger.Warning($"An unkown peer sent an image.");
+                logger.Warning($"An unkown peer sent an image and was discarded.");
         }
 
         private void ConnectionRequest(ConnectionRequest request)
@@ -113,11 +125,16 @@ namespace Astral.Networking
             {
                 while (isListening)
                     server.PollEvents();
+
+                logger.Debug($"Server stopped listening at {Configuration.ServerPort}");
             });
         }
 
         public void Stop()
         {
+            if (server.IsRunning)
+                server.Stop();
+
             isListening = false;
         }
     }

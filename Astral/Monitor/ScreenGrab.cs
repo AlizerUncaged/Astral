@@ -1,4 +1,5 @@
 ﻿using Astral.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,20 +15,22 @@ namespace Astral.Monitor
     // TODO: Use a faster screenshoter, probably DirectX.
     // Screenshot on a 1080p monitor takes about 30ms which
     // is 3x faster than PyAutoGUI.
-    public class ScreenGrab : IConfiguredService<ScreenConfig>, IInputImage, IService
+    public class ScreenGrab : IConfiguredService<ScreenConfig>, IInputImage
     {
         public ScreenConfig Configuration { get; }
 
         private bool doScreenshot = true;
         private readonly PeriodicTimer timer;
-        private readonly IImageCompressor imageCompressor;
+        private readonly Utilities.DefaultImageCompressor imageCompressor;
 
         /// <summary>
         /// Screenshot utility.
         /// </summary>
         /// <param name="downScale">Multiple size of the screenshot image to scale on, 2 will scale the image down to 50%.</param>
         /// <param name="fps">Screenshot fps, setting this to 20 will make the program capture 20 screenshots per second, still depends on hardware speed.</param>
-        public ScreenGrab(ScreenConfig configuration, IImageCompressor imageCompressor)
+        public ScreenGrab(ScreenConfig configuration,
+            Utilities.DefaultImageCompressor imageCompressor,
+            ILogger logger)
         {
             this.Configuration = configuration;
             this.imageCompressor = imageCompressor;
@@ -40,7 +43,7 @@ namespace Astral.Monitor
             if (!Configuration.IsUncapped)
                 timer = new PeriodicTimer(TimeSpan.FromMilliseconds(Configuration.ScreenshotWaitTime));
 
-            Console.WriteLine($"Screen monitor configuration =>{Environment.NewLine}{configuration}");
+            logger.Debug($"Screen monitor configuration =>{Environment.NewLine}{configuration}");
         }
 
         public event EventHandler<Bitmap>? InputRendered;

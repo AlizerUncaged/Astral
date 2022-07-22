@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace Astral.Models
 {
     /// <summary>
-    /// Packet for NetListener, it only supports primitive types.
+    /// The current program's status.
     /// </summary>
-    public class NetworkImageData
+    public class ProgramStatus : IUtility
     {
-        public byte[] ImageData { get; set; }
+        public bool IsClosing { get; set; }
     }
 }

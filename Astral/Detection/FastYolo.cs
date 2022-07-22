@@ -16,20 +16,22 @@ namespace Astral.Detection
      * Downscale at 0.5 or 50% below 10 p/sec
      * No downscale below 5 p/sec
      */
-    public class FastYolo : IService, IDetectorService, IConfiguredService<Models.ModelConfig>
+    public class FastYolo : IDetectorService, IConfiguredService<Models.ModelConfig>, IStoppable
     {
         private readonly YoloWrapper yoloWrapper;
         private readonly System.Drawing.ImageConverter converter = new();
+        private readonly ProgramStatus status;
         private readonly ILogger logger;
 
         public ModelConfig Configuration { get; }
 
         public FastYolo
             (IInputImage screenGrab,
-            Models.ModelConfig modelConfig,
+            Models.ModelConfig modelConfig, Models.ProgramStatus status,
             ILogger logger)
         {
             this.Configuration = modelConfig;
+            this.status = status;
             this.logger = logger;
 
             yoloWrapper = new YoloWrapper(Configuration.CfgFilepath!,
@@ -41,6 +43,10 @@ namespace Astral.Detection
 
         private void ScreenshotReceived(object? sender, Bitmap screenshot)
         {
+            if (status.IsClosing)
+                return;
+
+            logger.Debug($"Received image of size {screenshot.Size}");
             var imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]))!;
             PredictionReceived?.Invoke(sender,
                 yoloWrapper.Detect(imageBytes).Select(x =>
@@ -59,6 +65,11 @@ namespace Astral.Detection
                     }
                 )
            );
+        }
+
+        public void Stop()
+        {
+
         }
 
         public event EventHandler<IEnumerable<Models.PredictionResult>>? PredictionReceived;

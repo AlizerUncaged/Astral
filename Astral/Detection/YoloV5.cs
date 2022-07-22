@@ -14,7 +14,7 @@ using Yolov5Net.Scorer.Models;
 
 namespace Astral.Detection
 {
-    public class YoloV5 : IService, IDetectorService
+    public class YoloV5 : IDetectorService, IStoppable
     {
         private readonly YoloScorer<YoloCocoP5Model> scorer;
         private readonly ILogger ilogger;
@@ -33,6 +33,11 @@ namespace Astral.Detection
         /// Get's called whenever a prediction occurs.
         /// </summary>
         public event EventHandler<IEnumerable<Models.PredictionResult>>? PredictionReceived;
+
+        public void Stop()
+        {
+            scorer.Dispose();
+        }
 
         private void ScreenshotReceived(object? sender, Bitmap screenshot)
         {

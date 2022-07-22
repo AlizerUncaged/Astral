@@ -15,14 +15,22 @@ namespace Astral.Networking
         private static readonly NetPacketProcessor netPacketProcessor =
             new NetPacketProcessor();
 
+        private readonly Models.NetworkAcknowledge acknowledgePacket =
+            new Models.NetworkAcknowledge();
+
         public NetPeer NetPeer { get; set; }
 
         public event EventHandler<Bitmap>? ReceivedPeerImageData;
 
-
-        public void Send(object obj)
+        public void SendAcknowledge()
         {
-            NetPeer?.Send(netPacketProcessor.Write(obj), DeliveryMethod.ReliableOrdered);
+            NetPeer?.Send(netPacketProcessor.Write(acknowledgePacket),
+                DeliveryMethod.ReliableOrdered);
+        }
+
+        public void Send(Models.NetworkObjectBounds networkObjectBounds)
+        {
+            NetPeer?.Send(netPacketProcessor.Write(networkObjectBounds), DeliveryMethod.ReliableSequenced);
         }
 
         public void ImageReceivedFromPeer(Bitmap imageBoundingData) =>

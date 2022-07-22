@@ -39,8 +39,7 @@ namespace Astral.Debug
             MouseControl mouseControl,
             ScreenConfig screenConfig,
             ForegroundWindow foregroundWindow,
-            PositionCalculator positionCalculator,
-            ILogger logger)
+            PositionCalculator positionCalculator, ILogger logger)
         {
             this.model = model;
             this.mouseControl = mouseControl;
@@ -61,6 +60,8 @@ namespace Astral.Debug
 
             logger.Debug($"{highConfidenceObjects.Count()}" +
                 $" Objects: {string.Join(", ", highConfidenceObjects.Select(x => x.Label).Distinct())}");
+
+
         }
     }
 }

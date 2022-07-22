@@ -1,55 +1,57 @@
 ﻿using Astral.Models;
+using Astral.Puppet.Models;
 using Astral.Utilities;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Astral.Monitor
+namespace Astral.Puppet.Input
 {
-    public class ActiveWindowGrab : IConfiguredService<ScreenConfig>, IInputImage, IStoppable
+    public class ActiveWindowGrab : IService
     {
-        public ScreenConfig Configuration { get; }
-
-        public event EventHandler? InputStarting;
-        public event EventHandler<Bitmap>? InputRendered;
-
-        private PeriodicTimer timer;
         private readonly ForegroundWindow foregroundWindow;
-        private readonly ProgramStatus programStatus;
-        private readonly Utilities.DefaultImageCompressor imageCompressor;
+        private readonly ScreenConfig screenConfig;
+        private readonly NetworkLock networkLock;
+        private readonly DefaultImageCompressor defaultImageCompressor;
         private readonly ILogger logger;
+        private readonly PeriodicTimer timer;
 
-        public ActiveWindowGrab(ScreenConfig configuration,
-            ForegroundWindow foregroundWindow,
-            Models.ProgramStatus programStatus,
-            Utilities.DefaultImageCompressor imageCompressor,
-            ILogger logger)
+        public ActiveWindowGrab(
+            Utilities.ForegroundWindow foregroundWindow,
+            Astral.Models.ScreenConfig screenConfig, Models.NetworkLock networkLock,
+            Utilities.DefaultImageCompressor defaultImageCompressor, ILogger logger)
         {
-            Configuration = configuration;
+            logger.Debug($"Initialized monitor...");
+
             this.foregroundWindow = foregroundWindow;
-            this.programStatus = programStatus;
-            this.imageCompressor = imageCompressor;
+            this.screenConfig = screenConfig;
+            this.networkLock = networkLock;
+            this.defaultImageCompressor = defaultImageCompressor;
             this.logger = logger;
-
-            if (!Configuration.IsUncapped)
-                timer = new PeriodicTimer(TimeSpan.FromMilliseconds(Configuration.ScreenshotWaitTime));
-
+            if (!screenConfig.IsUncapped)
+                timer = new PeriodicTimer(TimeSpan
+                    .FromMilliseconds(screenConfig.ScreenshotWaitTime));
         }
+
         private CancellationTokenSource screenshotWaitCancellationTokenSource =
             new CancellationTokenSource();
+
         public async Task StartAsync() =>
             await Task.Run(async () =>
             {
-                while (!programStatus.IsClosing)
+                logger.Debug($"Screenshot started...");
+                while (true)
                 {
-                    if (!Configuration.IsUncapped && timer is { })
+                    if (!screenConfig.IsUncapped && timer is { })
                         await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
 
-                    InputStarting?.Invoke(this, EventArgs.Empty);
+                    logger.Debug($"{networkLock.Lock.CurrentCount} screenshots can be sent...");
+
+                    await networkLock.Lock.WaitAsync(networkLock.MaxWaitTimeout);
 
                     var activeWindowBounds =
                         foregroundWindow.GetForegroundWindowBounds();
@@ -63,21 +65,27 @@ namespace Astral.Monitor
                         continue;
 
                     var rawScreenshot = new Bitmap(activeWindowBounds.Width, activeWindowBounds.Height);
+
+                    // Put the Window's location in the Bitmap tag.
+                    rawScreenshot.Tag = startingPoint;
+
                     var g = Graphics.FromImage(rawScreenshot);
                     g.CopyFromScreen(startingPoint, Point.Empty, activeWindowBounds.Size);
 
                     // Clone and resize the bitmap to downscale only if needed.
-                    if (Configuration.Downscale != 1)
-                        InputRendered?.Invoke(this, imageCompressor.Compress(rawScreenshot));
+                    if (screenConfig.Downscale != 1)
+                        InputRendered?.Invoke(this, defaultImageCompressor.Compress(rawScreenshot));
 
                     // Send as is if no downscale required.
                     else
                         InputRendered?.Invoke(this, rawScreenshot);
+
+                    logger.Debug($"Screenshot sent...");
                 }
 
-                logger.Debug($"Active window grab ended.");
-
             });
+
+        public event EventHandler<Bitmap>? InputRendered;
 
         public void Stop()
         {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Astral.Input
 {
-    public class LocalInput : IService, IInputConsumer, IConfiguredService<Models.PredictionConfig>
+    public class LocalInput : IService, IPredictionConsumer, IConfiguredService<Models.PredictionConfig>
     {
         private readonly IDetectorService detectorService;
         private readonly ILogger logger;

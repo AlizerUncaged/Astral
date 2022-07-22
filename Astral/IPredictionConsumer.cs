@@ -10,7 +10,7 @@ namespace Astral
     /// Interface for classes that does action based on
     /// the prediction created.
     /// </summary>
-    public interface IInputConsumer
+    public interface IPredictionConsumer
     {
 
     }

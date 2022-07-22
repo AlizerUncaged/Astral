@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using Astral.Networking;
+using Autofac;
 using AutofacSerilogIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -17,11 +18,12 @@ namespace Astral
     /// </summary>
     /// <typeparam name="Detector">The detector to use.</typeparam>
     /// <typeparam name="InputFrom">The input class to use.</typeparam>
-    public class AstralProgramBuilder<Detector, InputFrom, ImageCompressor, InputConsumer>
+    /// <typeparam name="ImageCompressor">The image compressor class to use.</typeparam>
+    /// <typeparam name="PredictionConsumer">The class that makes do with the prediction result.</typeparam>
+    public class AstralProgramBuilder<Detector, InputFrom, PredictionConsumer>
         where Detector : IDetectorService
         where InputFrom : IInputImage
-        where ImageCompressor : IImageCompressor
-        where InputConsumer : IInputConsumer
+        where PredictionConsumer : IPredictionConsumer
     {
         public IContainer Build(IEnumerable<IConfig>? configurations = null)
         {
@@ -38,46 +40,56 @@ namespace Astral
 
             builder.RegisterAssemblyTypes(currentAssembly)
                 .AssignableTo<IUtility>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             builder.RegisterAssemblyTypes(currentAssembly)
                 .AssignableTo<IService>()
                 .SingleInstance();
 
 
+
+            // Set the current active classes here.
+            builder.RegisterType<Detector>()
+                .AsImplementedInterfaces()
+                .AsSelf()
+                .SingleInstance(); // Detector class.
+
+            builder.RegisterType<InputFrom>()
+                .AsImplementedInterfaces()
+                .AsSelf()
+                .SingleInstance(); // Vision class.
+
+            builder.RegisterType<PredictionConsumer>()
+                .AsImplementedInterfaces()
+                .AsSelf()
+                .SingleInstance(); // Prediction handler class.
+
+            builder.RegisterType<NetListener>()
+                .AsImplementedInterfaces()
+                .AsSelf()
+                .SingleInstance(); // Network handler class.
+
+            builder.RegisterType<Astral<IDetectorService, IInputImage>>()
+                .As<IAstral>()
+                .SingleInstance(); // Add the main class.
+
+            RegisterLogger(builder);
+
+            return builder.Build();
+        }
+
+        public void RegisterLogger(ContainerBuilder containerBuilder)
+        {
             var appConfiguration = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("./appsettings.json")
-                        .Build();
+                        .AddJsonFile("./appsettings.json").Build();
 
             // Set logger.
             Log.Logger = new LoggerConfiguration()
                     .ReadFrom.Configuration(appConfiguration)
                     .CreateLogger();
 
-            // Set the current active classes here.
-            builder.RegisterType<Detector>()
-                .As<IDetectorService>()
-                .SingleInstance(); // Detector class.
-
-            builder.RegisterType<ImageCompressor>()
-                .As<IImageCompressor>()
-                .SingleInstance(); // Detector class.
-
-            builder.RegisterType<InputFrom>()
-                .As<IInputImage>()
-                .SingleInstance(); // Vision class.
-
-            builder.RegisterType<InputConsumer>()
-                .As<IInputConsumer>()
-                .SingleInstance(); // Input sender class.
-
-            builder.RegisterType<Astral<IDetectorService, IInputImage>>()
-                .As<IAstral>();
-
-            builder.RegisterLogger();
-
-            return builder.Build();
+            containerBuilder.RegisterLogger();
         }
     }
 }

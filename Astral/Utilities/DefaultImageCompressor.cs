@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Astral.Utilities
 {
-    public class DefaultImageCompressor : IUtility, IImageCompressor
+    public class DefaultImageCompressor : IUtility
     {
         public DefaultImageCompressor(ScreenConfig screenConfig) =>
             ScreenConfig = screenConfig;
