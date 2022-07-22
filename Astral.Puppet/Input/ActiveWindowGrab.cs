@@ -49,7 +49,7 @@ namespace Astral.Puppet.Input
                     if (!screenConfig.IsUncapped && timer is { })
                         await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
 
-                    logger.Debug($"{networkLock.Lock.CurrentCount} screenshots can be sent...");
+                    // logger.Debug($"{networkLock.Lock.CurrentCount} screenshots can be sent...");
 
                     await networkLock
                         .Lock
@@ -82,7 +82,7 @@ namespace Astral.Puppet.Input
                     else
                         InputRendered?.Invoke(this, rawScreenshot);
 
-                    logger.Debug($"Screenshot sent...");
+                    // logger.Debug($"Screenshot sent...");
                 }
 
             });

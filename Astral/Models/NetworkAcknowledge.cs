@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Astral.Models
 {
+    /// <summary>
+    /// Packet that represents acknowledgement.
+    /// </summary>
     public class NetworkAcknowledge
     {
+
     }
 }

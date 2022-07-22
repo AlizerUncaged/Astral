@@ -89,18 +89,16 @@ namespace Astral.Puppet.Networking
                     Models.NetworkLock.MaxSimultaneousScreenshotSend)
             {
 
-                logger.Debug($"Acknowledge received, releasing screenshot lock.");
+                // logger.Debug($"Acknowledge received, releasing screenshot lock.");
                 networkLock.Lock.Release();
             }
         }
 
         public event EventHandler<NetworkObjectBounds> MousePositionChanged;
 
-        private void PacketReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod)
-        {
-
+        private void PacketReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod) =>
             netPacketProcessor.ReadAllPackets(reader, peer);
-        }
+
 
 
         public void Stop()
@@ -116,7 +114,18 @@ namespace Astral.Puppet.Networking
                 networkConfig.ServerPort,
                 networkConfig.Password);
 
-            logger.Information($"Client listener connected at {networkConfig.ServerHost}");
+            logger.Information($"Client listener connected at " +
+                $"{networkConfig.ServerHost}");
+
+            // Measure ping.
+            _ = Task.Run(async () =>
+            {
+                var oneSecondPeriondTimer =
+                    new PeriodicTimer(TimeSpan.FromSeconds(1));
+
+                while (await oneSecondPeriondTimer.WaitForNextTickAsync())
+                    logger.Debug($"Server latency: {server.Ping}");
+            });
 
             _ = Task.Run(() =>
             {

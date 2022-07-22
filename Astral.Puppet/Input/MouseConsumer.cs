@@ -39,7 +39,7 @@ namespace Astral.Puppet.Input
 
         private void MouseInput(object? sender, Astral.Models.NetworkObjectBounds e)
         {
-            logger.Debug($"Mouse input received!");
+            // logger.Debug($"Mouse input received!");
 
             var newLocation = positionCalculator
                 .RecalculateObjectPosition(foregroundWindow

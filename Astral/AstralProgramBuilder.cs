@@ -18,7 +18,6 @@ namespace Astral
     /// </summary>
     /// <typeparam name="Detector">The detector to use.</typeparam>
     /// <typeparam name="InputFrom">The input class to use.</typeparam>
-    /// <typeparam name="ImageCompressor">The image compressor class to use.</typeparam>
     /// <typeparam name="PredictionConsumer">The class that makes do with the prediction result.</typeparam>
     public class AstralProgramBuilder<Detector, InputFrom, PredictionConsumer>
         where Detector : IDetectorService
