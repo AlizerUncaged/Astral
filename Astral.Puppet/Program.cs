@@ -74,7 +74,9 @@ namespace Astral.Puppet
             RegisterLogger(builder);
 
             var container = builder.Build();
+
             Task waitingTask;
+
             using (lifetimeScope = container?.BeginLifetimeScope())
             {
                 lifetimeScope?.Resolve<Networking.NetListener>().StartListening();

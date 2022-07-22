@@ -67,7 +67,6 @@ namespace Astral.Monitor
         {
             logger.Debug($"Cancelling task delay. {id}");
             taskDelaySource.Cancel();
-            websocket.Stop();
         }
     }
 }

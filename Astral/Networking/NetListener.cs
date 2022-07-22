@@ -127,6 +127,8 @@ namespace Astral.Networking
                     server.PollEvents();
 
                 logger.Debug($"Server stopped listening at {Configuration.ServerPort}");
+
+                return Task.CompletedTask;
             });
         }
 
