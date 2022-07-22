@@ -32,6 +32,7 @@ namespace Astral.Puppet.Input
             this.networkLock = networkLock;
             this.defaultImageCompressor = defaultImageCompressor;
             this.logger = logger;
+
             if (!screenConfig.IsUncapped)
                 timer = new PeriodicTimer(TimeSpan
                     .FromMilliseconds(screenConfig.ScreenshotWaitTime));
@@ -43,15 +44,17 @@ namespace Astral.Puppet.Input
         public async Task StartAsync()
         {
             logger.Debug($"Screenshot started...");
-            while (!screenshotWaitCancellationTokenSource.IsCancellationRequested)
+            while (keepTicking)
             {
-                if (!screenConfig.IsUncapped && timer is { })
+                if (keepTicking && !screenConfig.IsUncapped && timer is { })
                     await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
+                
 
-                // logger.Debug($"{networkLock.Lock.CurrentCount} screenshots can be sent...");
-
-                await networkLock
-                    .Lock.WaitAsync(networkLock.MaxWaitTimeout, screenshotWaitCancellationTokenSource.Token);
+                try
+                {
+                    await networkLock.Lock.WaitAsync(networkLock.MaxWaitTimeout, screenshotWaitCancellationTokenSource.Token);
+                }
+                catch (System.OperationCanceledException) { }
 
                 var activeWindowBounds =
                     foregroundWindow.GetForegroundWindowBounds();
@@ -87,10 +90,13 @@ namespace Astral.Puppet.Input
         }
 
         public event EventHandler<Bitmap>? InputRendered;
-
+        private bool keepTicking = true;
         public void Stop()
         {
+            keepTicking = false;
+
             screenshotWaitCancellationTokenSource.Cancel();
+            timer.Dispose();
         }
     }
 }

@@ -102,8 +102,8 @@ namespace Astral.Puppet.Networking
         public void Stop()
         {
             keepPolling = false;
-
             me.Stop();
+            logger.Information($"Client listener stopped.");
         }
 
         public void StartListening()
