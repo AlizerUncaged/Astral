@@ -15,10 +15,12 @@ namespace Astral.Networking
         private static readonly NetPacketProcessor netPacketProcessor =
             new NetPacketProcessor();
 
+        // Reuse the same acknowledgement packet
+        // over and over again.
         private readonly Models.NetworkAcknowledge acknowledgePacket =
             new Models.NetworkAcknowledge();
 
-        public NetPeer NetPeer { get; set; }
+        public NetPeer? NetPeer { get; set; }
 
         public event EventHandler<Bitmap>? ReceivedPeerImageData;
 
@@ -36,17 +38,12 @@ namespace Astral.Networking
         public void ImageReceivedFromPeer(Bitmap imageBoundingData) =>
             ReceivedPeerImageData?.Invoke(this, imageBoundingData);
 
-        public bool IsPeerTheSame(NetPeer peer)
-        {
-            return peer.EndPoint.Address == this.NetPeer.EndPoint.Address &&
-                peer.EndPoint.Port == this.NetPeer.EndPoint.Port;
-        }
 
         public override bool Equals(object? obj)
         {
-            if (obj is NetClient netClient)
-                return this.IsPeerTheSame(netClient.NetPeer);
-
+            if (obj is NetClient netClient && netClient.NetPeer is { })
+                return netClient.NetPeer.EndPoint.Address == this.NetPeer?.EndPoint.Address &&
+                    netClient.NetPeer.EndPoint.Port == this.NetPeer.EndPoint.Port;
 
             return false;
         }

@@ -24,7 +24,7 @@ namespace Astral.Input
             IInputImage inputImage,
             IDetectorService detectorService,
             ILogger logger, NetListener netListener,
-            Utilities.PositionCalculator positionCalculator)
+            PositionCalculator positionCalculator)
         {
             this.inputImage = inputImage;
             this.detectorService = detectorService;
@@ -36,7 +36,7 @@ namespace Astral.Input
 
         private void PredictionReceived(object? sender, IEnumerable<Models.PredictionResult> e)
         {
-            if (sender is Networking.NetClient netClient)
+            if (sender is NetClient netClient)
             {
                 netClient.SendAcknowledge();
 

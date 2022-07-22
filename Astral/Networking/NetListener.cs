@@ -86,7 +86,7 @@ namespace Astral.Networking
                 bmp = new Bitmap(ms);
 
             var peer = netClients
-                .FirstOrDefault(x => x.IsPeerTheSame(netPeer));
+                .FirstOrDefault(x => x.NetPeer == netPeer);
 
             // Until we found a better way to send
             // the bounds data along with the bitmap

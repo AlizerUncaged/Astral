@@ -99,8 +99,6 @@ namespace Astral.Puppet.Networking
         private void PacketReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod deliveryMethod) =>
             netPacketProcessor.ReadAllPackets(reader, peer);
 
-
-
         public void Stop()
         {
             keepPolling = false;
@@ -124,7 +122,7 @@ namespace Astral.Puppet.Networking
                     new PeriodicTimer(TimeSpan.FromSeconds(1));
 
                 while (await oneSecondPeriondTimer.WaitForNextTickAsync())
-                    logger.Debug($"Server latency: {server.Ping}");
+                    logger.Debug($"Server latency: {server.Ping}ms");
             });
 
             _ = Task.Run(() =>
