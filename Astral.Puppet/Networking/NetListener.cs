@@ -103,12 +103,13 @@ namespace Astral.Puppet.Networking
         {
             keepPolling = false;
             me.Stop();
+            logger.Information($"Client listener stopped.");
         }
 
         public void StartListening()
         {
             me.Start();
-            server = me.Connect(networkConfig.ServerHost.ToString(),
+            server = me.Connect("192.168.254.107",
                 networkConfig.ServerPort,
                 networkConfig.Password);
 
@@ -121,7 +122,7 @@ namespace Astral.Puppet.Networking
                 var oneSecondPeriondTimer =
                     new PeriodicTimer(TimeSpan.FromSeconds(1));
 
-                while (await oneSecondPeriondTimer.WaitForNextTickAsync())
+                while (await oneSecondPeriondTimer.WaitForNextTickAsync() && keepPolling)
                     logger.Debug($"Server latency: {server.Ping}ms");
             });
 

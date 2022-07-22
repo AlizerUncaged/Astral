@@ -4,6 +4,7 @@ using LiteNetLib;
 using LiteNetLib.Utils;
 using Microsoft.Extensions.Configuration;
 using Serilog;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -12,8 +13,12 @@ namespace Astral.Puppet
 {
     internal class Program
     {
-        public async Task StartAsync()
+        private ILifetimeScope lifetimeScope;
+
+        public void Start()
         {
+            Console.CancelKeyPress += Closing;
+
             var currentAssembly = Assembly
                 .GetExecutingAssembly();
 
@@ -70,16 +75,28 @@ namespace Astral.Puppet
 
             var container = builder.Build();
 
-            using (var lifetimeScope = container?.BeginLifetimeScope())
+            Task waitingTask;
+
+            using (lifetimeScope = container?.BeginLifetimeScope())
             {
                 lifetimeScope?.Resolve<Networking.NetListener>().StartListening();
                 lifetimeScope?.Resolve<Input.MouseConsumer>();
-                await lifetimeScope?.Resolve<Input.ActiveWindowGrab>().StartAsync()!;
+                waitingTask = lifetimeScope?.Resolve<Input.ActiveWindowGrab>().StartAsync();
             }
 
-            await Task.Delay(-1);
+            waitingTask.GetAwaiter().GetResult();
 
+            Console.WriteLine("Exited...");
         }
+
+        private void Closing(object? sender, ConsoleCancelEventArgs e)
+        {
+            Console.WriteLine("Exiting...");
+
+            lifetimeScope?.Resolve<Input.ActiveWindowGrab>().Stop();
+            lifetimeScope?.Resolve<Networking.NetListener>().Stop();
+        }
+
         public void RegisterLogger(ContainerBuilder containerBuilder)
         {
             var appConfiguration = new ConfigurationBuilder()
@@ -95,6 +112,8 @@ namespace Astral.Puppet
         }
 
         static void Main(string[] args) =>
-            new Program().StartAsync().GetAwaiter().GetResult();
+            new Program().Start(); // An exception of System.OperationCanceledException
+                                                                 // might get called after calling close.
+
     }
 }
