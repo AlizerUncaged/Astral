@@ -85,8 +85,13 @@ namespace Astral.Puppet.Networking
         private void AcknowledgeReceived(NetworkAcknowledge mouseData, NetPeer netPeer)
         {
             // If ack or any.
-            if (networkLock.Lock.CurrentCount < Models.NetworkLock.MaxSimultaneousScreenshotSend)
+            if (networkLock.Lock.CurrentCount <
+                    Models.NetworkLock.MaxSimultaneousScreenshotSend)
+            {
+
+                logger.Debug($"Acknowledge received, releasing screenshot lock.");
                 networkLock.Lock.Release();
+            }
         }
 
         public event EventHandler<NetworkObjectBounds> MousePositionChanged;

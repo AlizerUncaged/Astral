@@ -41,7 +41,7 @@ namespace Astral.Models
         /// The lower the image resolution the faster the prediction
         /// but also inaccurate.
         /// </summary>
-        public float Downscale { get; set; } = 1f;
+        public float Downscale { get; set; } = 0.5f;
 
         public int ScreenshotWaitTime => 1000 / this.Fps;
 

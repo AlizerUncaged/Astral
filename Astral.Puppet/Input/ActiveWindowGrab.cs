@@ -51,7 +51,9 @@ namespace Astral.Puppet.Input
 
                     logger.Debug($"{networkLock.Lock.CurrentCount} screenshots can be sent...");
 
-                    await networkLock.Lock.WaitAsync(networkLock.MaxWaitTimeout);
+                    await networkLock
+                        .Lock
+                        .WaitAsync(networkLock.MaxWaitTimeout);
 
                     var activeWindowBounds =
                         foregroundWindow.GetForegroundWindowBounds();

@@ -13,8 +13,12 @@ namespace Astral.Puppet.Models
         /// <summary>
         /// Max waiting time for server to send acknowledgement.
         /// </summary>
-        public int MaxWaitTimeout => 200;
+        public int MaxWaitTimeout => 1000;
 
+        /// <summary>
+        /// Network lock, wait for server output before sending any
+        /// screenshot.
+        /// </summary>
         public SemaphoreSlim Lock { get; set; } = new SemaphoreSlim(MaxSimultaneousScreenshotSend,
             MaxSimultaneousScreenshotSend);
     }
