@@ -4,6 +4,7 @@ using LiteNetLib;
 using LiteNetLib.Utils;
 using Microsoft.Extensions.Configuration;
 using Serilog;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -12,8 +13,15 @@ namespace Astral.Puppet
 {
     internal class Program
     {
+        private CancellationTokenSource cancellationTokenSource =
+            new CancellationTokenSource();
+
+        private ILifetimeScope lifetimeScope;
+
         public async Task StartAsync()
         {
+            Console.CancelKeyPress += Closing;
+
             var currentAssembly = Assembly
                 .GetExecutingAssembly();
 
@@ -70,16 +78,34 @@ namespace Astral.Puppet
 
             var container = builder.Build();
 
-            using (var lifetimeScope = container?.BeginLifetimeScope())
+            using (lifetimeScope = container?.BeginLifetimeScope())
             {
                 lifetimeScope?.Resolve<Networking.NetListener>().StartListening();
                 lifetimeScope?.Resolve<Input.MouseConsumer>();
                 await lifetimeScope?.Resolve<Input.ActiveWindowGrab>().StartAsync()!;
             }
 
-            await Task.Delay(-1);
+            try
+            {
+                await Task.Delay(-1, cancellationTokenSource.Token);
+            }
+            catch { } // Cancel exception.
 
+            Console.WriteLine("Exited...");
         }
+
+        private void Closing(object? sender, ConsoleCancelEventArgs e)
+        {
+            Console.WriteLine("Exiting...");
+            cancellationTokenSource.Cancel();
+
+            lifetimeScope?.Resolve<Input.ActiveWindowGrab>().Stop();
+            lifetimeScope?.Resolve<Networking.NetListener>().Stop();
+
+            // Commit suicide.
+            Process.GetCurrentProcess().Kill();
+        }
+
         public void RegisterLogger(ContainerBuilder containerBuilder)
         {
             var appConfiguration = new ConfigurationBuilder()

@@ -108,7 +108,7 @@ namespace Astral.Puppet.Networking
         public void StartListening()
         {
             me.Start();
-            server = me.Connect(networkConfig.ServerHost.ToString(),
+            server = me.Connect("192.168.254.107",
                 networkConfig.ServerPort,
                 networkConfig.Password);
 

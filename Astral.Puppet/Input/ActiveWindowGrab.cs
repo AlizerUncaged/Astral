@@ -44,7 +44,7 @@ namespace Astral.Puppet.Input
             await Task.Run(async () =>
             {
                 logger.Debug($"Screenshot started...");
-                while (true)
+                while (!screenshotWaitCancellationTokenSource.IsCancellationRequested)
                 {
                     if (!screenConfig.IsUncapped && timer is { })
                         await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
