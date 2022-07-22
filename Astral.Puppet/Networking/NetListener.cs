@@ -102,6 +102,7 @@ namespace Astral.Puppet.Networking
         public void Stop()
         {
             keepPolling = false;
+
             me.Stop();
         }
 
@@ -121,7 +122,7 @@ namespace Astral.Puppet.Networking
                 var oneSecondPeriondTimer =
                     new PeriodicTimer(TimeSpan.FromSeconds(1));
 
-                while (await oneSecondPeriondTimer.WaitForNextTickAsync())
+                while (await oneSecondPeriondTimer.WaitForNextTickAsync() && keepPolling)
                     logger.Debug($"Server latency: {server.Ping}ms");
             });
 

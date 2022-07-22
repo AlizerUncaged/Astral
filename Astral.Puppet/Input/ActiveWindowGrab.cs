@@ -40,52 +40,51 @@ namespace Astral.Puppet.Input
         private CancellationTokenSource screenshotWaitCancellationTokenSource =
             new CancellationTokenSource();
 
-        public async Task StartAsync() =>
-            await Task.Run(async () =>
+        public async Task StartAsync()
+        {
+            logger.Debug($"Screenshot started...");
+            while (!screenshotWaitCancellationTokenSource.IsCancellationRequested)
             {
-                logger.Debug($"Screenshot started...");
-                while (!screenshotWaitCancellationTokenSource.IsCancellationRequested)
-                {
-                    if (!screenConfig.IsUncapped && timer is { })
-                        await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
+                if (!screenConfig.IsUncapped && timer is { })
+                    await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
 
-                    // logger.Debug($"{networkLock.Lock.CurrentCount} screenshots can be sent...");
+                // logger.Debug($"{networkLock.Lock.CurrentCount} screenshots can be sent...");
 
-                    await networkLock
-                        .Lock
-                        .WaitAsync(networkLock.MaxWaitTimeout);
+                await networkLock
+                    .Lock.WaitAsync(networkLock.MaxWaitTimeout, screenshotWaitCancellationTokenSource.Token);
 
-                    var activeWindowBounds =
-                        foregroundWindow.GetForegroundWindowBounds();
+                var activeWindowBounds =
+                    foregroundWindow.GetForegroundWindowBounds();
 
-                    // logger.Debug($"Active window size : {activeWindowBounds.Size}");
+                // logger.Debug($"Active window size : {activeWindowBounds.Size}");
 
-                    var startingPoint = new Point(activeWindowBounds.X, activeWindowBounds.Y);
+                var startingPoint = new Point(activeWindowBounds.X, activeWindowBounds.Y);
 
-                    // Make sure it's a valid screenshot.
-                    if (activeWindowBounds is { Width: < 2, Height: < 2 })
-                        continue;
+                // Make sure it's a valid screenshot.
+                if (activeWindowBounds is { Width: < 2, Height: < 2 })
+                    continue;
 
-                    var rawScreenshot = new Bitmap(activeWindowBounds.Width, activeWindowBounds.Height);
+                var rawScreenshot = new Bitmap(activeWindowBounds.Width, activeWindowBounds.Height);
 
-                    // Put the Window's location in the Bitmap tag.
-                    rawScreenshot.Tag = startingPoint;
+                // Put the Window's location in the Bitmap tag.
+                rawScreenshot.Tag = startingPoint;
 
-                    var g = Graphics.FromImage(rawScreenshot);
-                    g.CopyFromScreen(startingPoint, Point.Empty, activeWindowBounds.Size);
+                var g = Graphics.FromImage(rawScreenshot);
+                g.CopyFromScreen(startingPoint, Point.Empty, activeWindowBounds.Size);
 
-                    // Clone and resize the bitmap to downscale only if needed.
-                    if (screenConfig.Downscale != 1)
-                        InputRendered?.Invoke(this, defaultImageCompressor.Compress(rawScreenshot));
+                // Clone and resize the bitmap to downscale only if needed.
+                if (screenConfig.Downscale != 1)
+                    InputRendered?.Invoke(this, defaultImageCompressor.Compress(rawScreenshot));
 
-                    // Send as is if no downscale required.
-                    else
-                        InputRendered?.Invoke(this, rawScreenshot);
+                // Send as is if no downscale required.
+                else
+                    InputRendered?.Invoke(this, rawScreenshot);
 
-                    // logger.Debug($"Screenshot sent...");
-                }
+                // logger.Debug($"Screenshot sent...");
+            }
 
-            });
+            logger.Debug($"Screenshot ended...");
+        }
 
         public event EventHandler<Bitmap>? InputRendered;
 

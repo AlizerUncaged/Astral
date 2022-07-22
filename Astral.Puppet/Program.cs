@@ -13,9 +13,6 @@ namespace Astral.Puppet
 {
     internal class Program
     {
-        private CancellationTokenSource cancellationTokenSource =
-            new CancellationTokenSource();
-
         private ILifetimeScope lifetimeScope;
 
         public async Task StartAsync()
@@ -85,25 +82,17 @@ namespace Astral.Puppet
                 await lifetimeScope?.Resolve<Input.ActiveWindowGrab>().StartAsync()!;
             }
 
-            try
-            {
-                await Task.Delay(-1, cancellationTokenSource.Token);
-            }
-            catch { } // Cancel exception.
-
             Console.WriteLine("Exited...");
         }
 
         private void Closing(object? sender, ConsoleCancelEventArgs e)
         {
             Console.WriteLine("Exiting...");
-            cancellationTokenSource.Cancel();
 
             lifetimeScope?.Resolve<Input.ActiveWindowGrab>().Stop();
             lifetimeScope?.Resolve<Networking.NetListener>().Stop();
 
-            // Commit suicide.
-            Process.GetCurrentProcess().Kill();
+            Environment.Exit(Environment.ExitCode);
         }
 
         public void RegisterLogger(ContainerBuilder containerBuilder)
@@ -121,6 +110,8 @@ namespace Astral.Puppet
         }
 
         static void Main(string[] args) =>
-            new Program().StartAsync().GetAwaiter().GetResult();
+            new Program().StartAsync().GetAwaiter().GetResult(); // An exception of System.OperationCanceledException
+                                                                 // might get called after calling close.
+
     }
 }
