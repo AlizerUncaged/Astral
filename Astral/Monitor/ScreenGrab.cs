@@ -1,4 +1,4 @@
-﻿using Astral.Models;
+﻿using Astral.Models.Configurations;
 using Serilog;
 using System;
 using System.Collections.Generic;

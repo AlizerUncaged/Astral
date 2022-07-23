@@ -1,4 +1,5 @@
-﻿using Astral.Monitor;
+﻿using Astral.Models;
+using Astral.Monitor;
 using Autofac;
 using Microsoft.ML.OnnxRuntime;
 using Serilog;
@@ -32,7 +33,7 @@ namespace Astral.Detection
         /// <summary>ss
         /// Get's called whenever a prediction occurs.
         /// </summary>
-        public event EventHandler<IEnumerable<Models.PredictionResult>>? PredictionReceived;
+        public event EventHandler<IEnumerable<PredictionResult>>? PredictionReceived;
 
         public void Stop()
         {

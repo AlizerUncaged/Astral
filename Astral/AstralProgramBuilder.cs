@@ -1,4 +1,5 @@
-﻿using Astral.Networking;
+﻿using Astral.Models;
+using Astral.Networking;
 using Autofac;
 using AutofacSerilogIntegration;
 using Microsoft.Extensions.Configuration;

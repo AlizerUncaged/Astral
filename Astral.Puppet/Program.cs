@@ -24,7 +24,7 @@ namespace Astral.Puppet
 
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<Astral.Models.ScreenConfig>()
+            builder.RegisterType<Astral.Models.Configurations.ScreenConfig>()
                 .AsImplementedInterfaces()
                 .AsSelf()
                 .SingleInstance();
@@ -34,7 +34,7 @@ namespace Astral.Puppet
                 .AsSelf()
                 .SingleInstance();
 
-            builder.RegisterType<Astral.Models.NetworkConfig>()
+            builder.RegisterType<Astral.Models.Configurations.NetworkConfig>()
                 .AsImplementedInterfaces()
                 .AsSelf()
                 .SingleInstance();

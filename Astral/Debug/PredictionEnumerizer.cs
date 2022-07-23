@@ -1,6 +1,7 @@
 ﻿using Astral.Curses;
 using Astral.Detection;
 using Astral.Models;
+using Astral.Models.Configurations;
 using Astral.Utilities;
 using Serilog;
 using System;
@@ -51,7 +52,7 @@ namespace Astral.Debug
             model.PredictionReceived += PredictionReceived;
         }
 
-        private void PredictionReceived(object? sender, IEnumerable<Models.PredictionResult> e)
+        private void PredictionReceived(object? sender, IEnumerable<PredictionResult> e)
         {
             var highConfidenceObjects = e.Where(x => x.Score > minimumConfidence);
 

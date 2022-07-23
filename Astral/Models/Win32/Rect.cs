@@ -87,37 +87,30 @@ namespace Astral.Models.Win32
             }
         }
 
-        public static implicit operator Rectangle(Rect Rectangle)
-        {
-            return new Rectangle(Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height);
-        }
-        public static implicit operator Rect(Rectangle Rectangle)
-        {
-            return new Rect(Rectangle.Left, Rectangle.Top, Rectangle.Right, Rectangle.Bottom);
-        }
-        public static bool operator ==(Rect Rectangle1, Rect Rectangle2)
-        {
-            return Rectangle1.Equals(Rectangle2);
-        }
-        public static bool operator !=(Rect Rectangle1, Rect Rectangle2)
-        {
-            return !Rectangle1.Equals(Rectangle2);
-        }
+        public static implicit operator Rectangle(Rect Rectangle) =>
+            new Rectangle(Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height);
 
-        public override string ToString()
-        {
-            return "{Left: " + _Left + "; " + "Top: " + _Top + "; Right: " + _Right + "; Bottom: " + _Bottom + "}";
-        }
+        public static implicit operator Rect(Rectangle Rectangle) =>
+            new Rect(Rectangle.Left, Rectangle.Top, Rectangle.Right, Rectangle.Bottom);
 
-        public override int GetHashCode()
-        {
-            return ToString().GetHashCode();
-        }
+        public static bool operator ==(Rect Rectangle1, Rect Rectangle2) =>
+            Rectangle1.Equals(Rectangle2);
 
-        public bool Equals(Rect Rectangle)
-        {
-            return Rectangle.Left == _Left && Rectangle.Top == _Top && Rectangle.Right == _Right && Rectangle.Bottom == _Bottom;
-        }
+        public static bool operator !=(Rect Rectangle1, Rect Rectangle2) =>
+            !Rectangle1.Equals(Rectangle2);
+
+
+        public override string ToString() =>
+            "{Left: " + _Left + "; " + "Top: " + _Top + "; Right: " + _Right + "; Bottom: " + _Bottom + "}";
+
+
+        public override int GetHashCode() =>
+            ToString().GetHashCode();
+
+
+        public bool Equals(Rect Rectangle) =>
+            Rectangle.Left == _Left && Rectangle.Top == _Top && Rectangle.Right == _Right && Rectangle.Bottom == _Bottom;
+
 
         public override bool Equals(object? Object)
         {

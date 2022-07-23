@@ -14,7 +14,7 @@ namespace Astral.Puppet.Input
     public class ActiveWindowGrab : IService
     {
         private readonly ForegroundWindow foregroundWindow;
-        private readonly ScreenConfig screenConfig;
+        private readonly Astral.Models.Configurations.ScreenConfig screenConfig;
         private readonly NetworkLock networkLock;
         private readonly DefaultImageCompressor defaultImageCompressor;
         private readonly ILogger logger;
@@ -22,7 +22,7 @@ namespace Astral.Puppet.Input
 
         public ActiveWindowGrab(
             Utilities.ForegroundWindow foregroundWindow,
-            Astral.Models.ScreenConfig screenConfig, Models.NetworkLock networkLock,
+            Astral.Models.Configurations.ScreenConfig screenConfig, Models.NetworkLock networkLock,
             Utilities.DefaultImageCompressor defaultImageCompressor, ILogger logger)
         {
             logger.Debug($"Initialized monitor...");
@@ -48,7 +48,7 @@ namespace Astral.Puppet.Input
             {
                 if (keepTicking && !screenConfig.IsUncapped && timer is { })
                     await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
-                
+
 
                 try
                 {

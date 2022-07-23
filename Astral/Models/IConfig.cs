@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Astral
+namespace Astral.Models
 {
     public interface IConfig
     {
-        
+
     }
 }

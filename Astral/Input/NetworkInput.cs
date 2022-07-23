@@ -1,4 +1,5 @@
-﻿using Astral.Networking;
+﻿using Astral.Models;
+using Astral.Networking;
 using Astral.Utilities;
 using Serilog;
 using System;
@@ -35,7 +36,7 @@ namespace Astral.Input
             detectorService.PredictionReceived += PredictionReceived;
         }
 
-        private void PredictionReceived(object? sender, IEnumerable<Models.PredictionResult> e)
+        private void PredictionReceived(object? sender, IEnumerable<PredictionResult> e)
         {
             if (sender is NetClient netClient)
             {
@@ -45,7 +46,7 @@ namespace Astral.Input
                 {
                     logger.Debug($"Sending inputs bounds to {netClient.NetPeer.EndPoint}");
 
-                    netClient.Send(new Models.NetworkObjectBounds(
+                    netClient.Send(new Models.Packets.NetworkObjectBounds(
                             result.Location, result.Size));
                 }
 

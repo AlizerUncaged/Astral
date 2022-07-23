@@ -1,5 +1,7 @@
 ﻿using Astral.Curses;
 using Astral.Models;
+using Astral.Models.Packets;
+using Astral.Models.Configurations;
 using Astral.Puppet.Input;
 using Astral.Puppet.Models;
 using LiteNetLib;
@@ -31,7 +33,7 @@ namespace Astral.Puppet.Networking
             new NetPacketProcessor();
 
         public NetListener(Models.NetworkLock networkLock,
-            Astral.Models.NetworkConfig networkConfig,
+            Astral.Models.Configurations.NetworkConfig networkConfig,
             Input.ActiveWindowGrab activeWindowGrab,
             ILogger logger)
         {

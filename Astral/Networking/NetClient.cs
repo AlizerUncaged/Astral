@@ -1,4 +1,5 @@
-﻿using LiteNetLib;
+﻿using Astral.Models.Packets;
+using LiteNetLib;
 using LiteNetLib.Utils;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,8 @@ namespace Astral.Networking
 
         // Reuse the same acknowledgement packet
         // over and over again.
-        private readonly Models.NetworkAcknowledge acknowledgePacket =
-            new Models.NetworkAcknowledge();
+        private readonly NetworkAcknowledge acknowledgePacket =
+            new Models.Packets.NetworkAcknowledge();
 
         public NetPeer? NetPeer { get; set; }
 
@@ -30,7 +31,7 @@ namespace Astral.Networking
                 DeliveryMethod.ReliableOrdered);
         }
 
-        public void Send(Models.NetworkObjectBounds networkObjectBounds)
+        public void Send(NetworkObjectBounds networkObjectBounds)
         {
             NetPeer?.Send(netPacketProcessor.Write(networkObjectBounds), DeliveryMethod.ReliableSequenced);
         }

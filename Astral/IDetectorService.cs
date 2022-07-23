@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Astral.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace Astral
         /// <summary>
         /// Get's called whenever a prediction occurs.
         /// </summary>
-        public event EventHandler<IEnumerable<Models.PredictionResult>>? PredictionReceived;
+        public event EventHandler<IEnumerable<PredictionResult>>? PredictionReceived;
     }
 }

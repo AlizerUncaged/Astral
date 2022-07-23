@@ -1,4 +1,5 @@
-﻿using Astral.Models;
+﻿using Astral.Models.Configurations;
+using Astral.Models.Packets;
 using Astral.Utilities;
 using LiteNetLib;
 using LiteNetLib.Utils;

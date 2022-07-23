@@ -22,10 +22,10 @@ namespace Astral
 
         public void Build()
         {
-            var modelConfig = new Models.ModelConfig();
-            var screenConfig = new Models.ScreenConfig();
-            var networkConfig = new Models.NetworkConfig();
-            var predictionConfig = new Models.PredictionConfig();
+            var modelConfig = new Models.Configurations.ModelConfig();
+            var screenConfig = new Models.Configurations.ScreenConfig();
+            var networkConfig = new Models.Configurations.NetworkConfig();
+            var predictionConfig = new Models.Configurations.PredictionConfig();
 
             container = new AstralProgramBuilder<
                 Detection.FastYolo,

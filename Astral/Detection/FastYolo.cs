@@ -1,4 +1,5 @@
 ﻿using Astral.Models;
+using Astral.Models.Configurations;
 using Astral.Monitor;
 using FastYolo;
 using Serilog;
@@ -16,7 +17,7 @@ namespace Astral.Detection
      * Downscale at 0.5 or 50% below 10 p/sec
      * No downscale below 5 p/sec
      */
-    public class FastYolo : IDetectorService, IConfiguredService<Models.ModelConfig>, IStoppable
+    public class FastYolo : IDetectorService, IConfiguredService<ModelConfig>, IStoppable
     {
         private readonly YoloWrapper yoloWrapper;
         private readonly System.Drawing.ImageConverter converter = new();
@@ -27,7 +28,7 @@ namespace Astral.Detection
 
         public FastYolo
             (IInputImage screenGrab,
-            Models.ModelConfig modelConfig, Models.AstralStatus status,
+            ModelConfig modelConfig, Models.AstralStatus status,
             ILogger logger)
         {
             this.Configuration = modelConfig;
@@ -72,6 +73,6 @@ namespace Astral.Detection
 
         }
 
-        public event EventHandler<IEnumerable<Models.PredictionResult>>? PredictionReceived;
+        public event EventHandler<IEnumerable<PredictionResult>>? PredictionReceived;
     }
 }

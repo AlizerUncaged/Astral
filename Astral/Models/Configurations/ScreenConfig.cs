@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Astral.Models
+namespace Astral.Models.Configurations
 {
     public enum CompressorOptions
     {

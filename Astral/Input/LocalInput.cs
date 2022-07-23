@@ -1,5 +1,6 @@
 ﻿using Astral.Curses;
 using Astral.Models;
+using Astral.Models.Configurations;
 using Astral.Utilities;
 using Serilog;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Astral.Input
 {
-    public class LocalInput : IService, IPredictionConsumer, IConfiguredService<Models.PredictionConfig>
+    public class LocalInput : IService, IPredictionConsumer, IConfiguredService<PredictionConfig>
     {
         private readonly IDetectorService detectorService;
         private readonly ILogger logger;
@@ -20,7 +21,7 @@ namespace Astral.Input
 
         public LocalInput(IDetectorService detectorService,
             ILogger logger,
-            Models.PredictionConfig predictionConfig,
+            PredictionConfig predictionConfig,
             Utilities.PositionCalculator positionCalculator,
             ForegroundWindow foregroundWindow,
             Curses.MouseControl mouseControl)
@@ -36,7 +37,7 @@ namespace Astral.Input
 
         public PredictionConfig Configuration { get; }
 
-        private void PredictionReceived(object? sender, IEnumerable<Models.PredictionResult> e)
+        private void PredictionReceived(object? sender, IEnumerable<PredictionResult> e)
         {
             var highConfidenceObjects = e.Where(x => x.Score > Configuration.MinimumScore);
             // Find via label index.

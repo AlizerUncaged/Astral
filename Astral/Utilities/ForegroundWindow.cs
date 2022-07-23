@@ -7,12 +7,17 @@ using System.Threading.Tasks;
 
 namespace Astral.Utilities
 {
+    /// <summary>
+    /// Utility for getting the foreground Window's bounds.
+    /// </summary>
     public class ForegroundWindow : IUtility
     {
         [DllImport("user32.dll")]
         static extern IntPtr GetForegroundWindow();
+
         [DllImport("user32.dll")]
         public static extern bool GetWindowRect(IntPtr hWnd, out Models.Win32.Rect lpRect);
+
         [DllImport("user32.dll")]
         public static extern bool PrintWindow(IntPtr hWnd, IntPtr hdcBlt, int nFlags);
 

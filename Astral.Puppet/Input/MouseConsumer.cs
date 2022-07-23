@@ -1,4 +1,5 @@
 ﻿using Astral.Curses;
+using Astral.Models.Packets;
 using Astral.Puppet.Models;
 using Astral.Puppet.Networking;
 using Astral.Utilities;
@@ -37,7 +38,7 @@ namespace Astral.Puppet.Input
             netlistener.MousePositionChanged += MouseInput;
         }
 
-        private void MouseInput(object? sender, Astral.Models.NetworkObjectBounds e)
+        private void MouseInput(object? sender, NetworkObjectBounds e)
         {
             // logger.Debug($"Mouse input received!");
 

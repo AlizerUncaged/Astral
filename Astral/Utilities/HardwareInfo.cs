@@ -8,11 +8,14 @@ namespace Astral.Utilities
 {
     public class HardwareInfo : IUtility
     {
+        private readonly Microsoft.VisualBasic.Devices.ComputerInfo computerInfo =
+            new Microsoft.VisualBasic.Devices.ComputerInfo();
+
         public ulong GetTotalMemoryInBytes() =>
-             new Microsoft.VisualBasic.Devices.ComputerInfo().TotalPhysicalMemory;
+             computerInfo.TotalPhysicalMemory;
 
         public ulong GetMemoryLeftInBytes() =>
-             new Microsoft.VisualBasic.Devices.ComputerInfo().AvailablePhysicalMemory;
+             computerInfo.AvailablePhysicalMemory;
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using Astral.Models;
+﻿using Astral.Models.Configurations;
 using Astral.Networking;
 using Serilog;
 using System;
