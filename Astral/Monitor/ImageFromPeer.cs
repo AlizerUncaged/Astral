@@ -51,14 +51,8 @@ namespace Astral.Monitor
         public async Task StartAsync()
         {
             websocket.StartAcceptingClients();
-            try
-            {
-                await Task.Delay(-1, taskDelaySource.Token);
-            }
-            catch (Exception)
-            {
 
-            }
+            await Task.Delay(-1, taskDelaySource.Token);
 
             // Class dispose.
             logger.Debug($"Image from peer ended. {id}");

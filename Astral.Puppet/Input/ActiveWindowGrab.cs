@@ -21,9 +21,9 @@ namespace Astral.Puppet.Input
         private readonly PeriodicTimer timer;
 
         public ActiveWindowGrab(
-            Utilities.ForegroundWindow foregroundWindow,
+            ForegroundWindow foregroundWindow,
             Astral.Models.Configurations.ScreenConfig screenConfig, Models.NetworkLock networkLock,
-            Utilities.DefaultImageCompressor defaultImageCompressor, ILogger logger)
+            DefaultImageCompressor defaultImageCompressor, ILogger logger)
         {
             logger.Debug($"Initialized monitor...");
 
@@ -50,11 +50,8 @@ namespace Astral.Puppet.Input
                     await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
 
 
-                try
-                {
-                    await networkLock.Lock.WaitAsync(networkLock.MaxWaitTimeout, screenshotWaitCancellationTokenSource.Token);
-                }
-                catch (System.OperationCanceledException) { }
+                await networkLock.Lock.WaitAsync(networkLock.MaxWaitTimeout, screenshotWaitCancellationTokenSource.Token);
+
 
                 var activeWindowBounds =
                     foregroundWindow.GetForegroundWindowBounds();

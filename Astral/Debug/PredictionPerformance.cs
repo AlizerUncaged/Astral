@@ -85,9 +85,8 @@ namespace Astral.Debug
             }
         }
 
-        public void Stop()
-        {
+        public void Stop() =>
             measurementCancellationToken.Cancel();
-        }
+
     }
 }
