@@ -49,9 +49,14 @@ namespace Astral.Debug
         {
             var period = new PeriodicTimer(TimeSpan.FromSeconds(1));
 
-            while (!programStatus.IsClosing &&
-                await period.WaitForNextTickAsync(measurementCancellationToken.Token))
+            while (!programStatus.IsClosing)
             {
+                try
+                {
+                    await period.WaitForNextTickAsync(measurementCancellationToken.Token);
+                }
+                catch { break; }
+
                 // Ten predictions per second is already fast.
                 var color = currentPredictions >= 10 ?
                     Color.LightGreen : Color.LightCoral;

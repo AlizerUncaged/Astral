@@ -17,6 +17,8 @@ namespace Astral
     public interface IAstral
     {
         Task StartAsync();
+
+        void Stop();
     }
 
     public class Astral<Detector, Vision> : IAstral
@@ -48,11 +50,8 @@ namespace Astral
             this.programStatus = programStatus;
             this.detector = model;
             this.logger = logger;
-
-            Console.CancelKeyPress += Closing;
         }
 
-        private void Closing(object? sender, ConsoleCancelEventArgs e) => Stop();
 
         public void Stop()
         {
@@ -72,6 +71,8 @@ namespace Astral
             {
                 var resolved = scope.Resolve(s)
                     as IStoppable;
+                logger.Debug($"Stopping {s.FullName}");
+
                 resolved?.Stop();
             }
 

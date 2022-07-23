@@ -11,6 +11,7 @@ namespace Astral
     public class Program
     {
         private IContainer? container;
+        private ILifetimeScope? lifetimeScope;
 
         public async Task StartAsync()
         {
@@ -36,11 +37,24 @@ namespace Astral
 
         public async Task StartMainSequenceAsync()
         {
-            using (var lifetimeScope = container?.BeginLifetimeScope())
+            Console.CancelKeyPress += Closing;
+
+            using (lifetimeScope = container?.BeginLifetimeScope())
                 await lifetimeScope?.Resolve<IAstral>().StartAsync()!;
         }
 
-        static void Main(string[] args) =>
+        private void Closing(object? sender, ConsoleCancelEventArgs e)
+        {
+            lifetimeScope?.Resolve<IAstral>().Stop();
+
+            e.Cancel = true;
+        }
+
+        static void Main(string[] args)
+        {
             new Program().StartAsync().GetAwaiter().GetResult();
+
+            Console.WriteLine("Program exited.");
+        }
     }
 }
