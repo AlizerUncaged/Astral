@@ -3,10 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Astral.Control" WindowStyle="None"
+        xmlns:local="clr-namespace:Astral.Control" WindowStyle="None" MouseLeftButtonDown="WindowClicked"
         mc:Ignorable="d" Title="Astral Control" Height="450" Width="800" Icon="/Logo.ico">
     <WindowChrome.WindowChrome>
-        <WindowChrome GlassFrameThickness="0" CornerRadius="7" CaptionHeight="0" UseAeroCaptionButtons="False" ResizeBorderThickness="7"/>
+        <WindowChrome GlassFrameThickness="0" 
+                      CornerRadius="7" 
+                      CaptionHeight="0" 
+                      UseAeroCaptionButtons="False"
+                      ResizeBorderThickness="7"/>
     </WindowChrome.WindowChrome>
     <Grid>
 

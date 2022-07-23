@@ -24,6 +24,21 @@ namespace Astral.Control
             /// Initialize dependency injections.
             var builder = new ContainerBuilder();
 
+            /// Add the pages.
+            builder.RegisterAssemblyTypes(dataAccess)
+                .AssignableTo<IPage>()
+                .AsImplementedInterfaces()
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            container = builder.Build();
+
+            StartMainWindow();
+
         }
+        private void StartMainWindow() =>
+          container.BeginLifetimeScope()
+            .Resolve<MainWindow>()
+            .Show();
     }
 }
