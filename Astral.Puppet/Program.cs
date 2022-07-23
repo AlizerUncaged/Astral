@@ -29,12 +29,6 @@ namespace Astral.Puppet
                 .AsSelf()
                 .SingleInstance();
 
-            builder.RegisterType<Utilities.MonitorInfo>()
-                .AsImplementedInterfaces()
-                .AsSelf()
-                .SingleInstance();
-
-
             builder.RegisterType<Utilities.DefaultImageCompressor>()
                 .AsImplementedInterfaces()
                 .AsSelf()
