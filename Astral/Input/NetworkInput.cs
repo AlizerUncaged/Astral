@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Astral.Input
 {
+    [RequiresNetwork]
     /// <summary>
     /// Sends the input over to the network. Preferrably Astral.Puppet.
     /// </summary>

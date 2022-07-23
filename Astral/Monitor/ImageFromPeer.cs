@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Astral.Monitor
 {
+    [RequiresNetwork]
     public class ImageFromPeer : IConfiguredService<ScreenConfig>,
         IInputImage,
         IStoppable

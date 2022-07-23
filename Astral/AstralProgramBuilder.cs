@@ -24,60 +24,59 @@ namespace Astral
         where InputFrom : IInputImage
         where PredictionConsumer : IPredictionConsumer
     {
+        private ContainerBuilder builder = new ContainerBuilder();
+        private Assembly currentAssembly = Assembly.GetExecutingAssembly();
+
         public IContainer Build(IEnumerable<IConfig>? configurations = null)
         {
-            var currentAssembly = Assembly.GetExecutingAssembly();
-
-            var builder = new ContainerBuilder();
-
             // Register configurations.
-            if (configurations is { } && configurations.Any())
-                configurations.Select(x => builder
-                                    .RegisterInstance(x)
-                                    .AsSelf()
+            if (configurations is { })
+                configurations.Select(x => builder.RegisterInstance(x).AsSelf()
                                     .SingleInstance()).ToList();
 
-            builder.RegisterAssemblyTypes(currentAssembly)
-                .AssignableTo<IUtility>()
-                .SingleInstance();
+            RegisterAll<IUtility>();
 
-            builder.RegisterAssemblyTypes(currentAssembly)
-                .AssignableTo<IService>()
-                .SingleInstance();
+            RegisterAll<IService>();
 
+            RegisterActiveClasses();
 
+            // We should write that if at least one class has the RequiresNetwork attribute,
+            // it should register this, but unfortunately, we've reached AutoFac's
+            // limitations. 
+            if (typeof(InputFrom).IsDefined(typeof(RequiresNetwork), true))
+                // If the input is from the network, then add the NetListener class.
+                FullyRegister<NetListener>(); // Network handler class.
 
-            // Set the current active classes here.
-            builder.RegisterType<Detector>()
-                .AsImplementedInterfaces()
-                .AsSelf()
-                .SingleInstance(); // Detector class.
-
-            builder.RegisterType<InputFrom>()
-                .AsImplementedInterfaces()
-                .AsSelf()
-                .SingleInstance(); // Vision class.
-
-            builder.RegisterType<PredictionConsumer>()
-                .AsImplementedInterfaces()
-                .AsSelf()
-                .SingleInstance(); // Prediction handler class.
-
-            builder.RegisterType<NetListener>()
-                .AsImplementedInterfaces()
-                .AsSelf()
-                .SingleInstance(); // Network handler class.
-
-            builder.RegisterType<Astral<IDetectorService, IInputImage>>()
-                .As<IAstral>()
-                .SingleInstance(); // Add the main class.
-
-            RegisterLogger(builder);
+            RegisterLogger();
 
             return builder.Build();
         }
 
-        public void RegisterLogger(ContainerBuilder containerBuilder)
+
+        public void RegisterActiveClasses()
+        {
+            // Setting the current active classes here.
+            FullyRegister<Detector>(); // Detector class.
+
+            FullyRegister<InputFrom>(); // Vision class.
+
+            FullyRegister<PredictionConsumer>(); // Prediction handler class.
+
+            FullyRegister<Astral<IDetectorService, IInputImage>>(); // Add the main class.
+        }
+
+        public void RegisterAll<T>() where T : notnull =>
+             builder.RegisterAssemblyTypes(currentAssembly)
+                .AssignableTo<T>()
+                .SingleInstance();
+
+        public void FullyRegister<T>() where T : notnull =>
+            builder.RegisterType<T>()
+                .AsImplementedInterfaces()
+                .AsSelf()
+                .SingleInstance(); // Detector class.
+
+        public void RegisterLogger()
         {
             var appConfiguration = new ConfigurationBuilder()
                         .SetBasePath(Directory.GetCurrentDirectory())
@@ -88,7 +87,7 @@ namespace Astral
                     .ReadFrom.Configuration(appConfiguration)
                     .CreateLogger();
 
-            containerBuilder.RegisterLogger();
+            builder.RegisterLogger();
         }
     }
 }
