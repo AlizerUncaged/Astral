@@ -31,6 +31,8 @@ namespace Astral.Models.Packets
 
         public Size Size => new Size(Width, Height);
 
+        public float Confidence { get; set; }
+
         public int X { get; set; }
         public int Y { get; set; }
         public int Width { get; set; }

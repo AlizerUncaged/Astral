@@ -56,14 +56,6 @@ namespace Astral.Detection
                         x.Type!, (float)x.Confidence, new Point(x.X, x.Y),
                             new Size(x.Width, x.Height), null /* FastYolo doesn't have label index. */
                     )
-                    {
-                        // Again, this is a temporary way
-                        // of adding data along with
-                        // the bitmap I swear I'll find
-                        // a more pulchritudinous way of 
-                        // doing this.
-                        Tag = screenshot.Tag
-                    }
                 )
            );
         }

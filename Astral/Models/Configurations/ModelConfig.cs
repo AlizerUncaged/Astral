@@ -8,10 +8,10 @@ namespace Astral.Models.Configurations
 {
     public class ModelConfig : IConfig
     {
-        public string? WeightsFilepath { get; set; } = "./Dependencies/YoloV4/Valorant/yolov4-tiny.weights";
+        public string? WeightsFilepath { get; set; } = "./Dependencies/YoloV4/CSGO/csgo.weights";
 
-        public string? CfgFilepath { get; set; } = "./Dependencies/YoloV4/Valorant/yolov4-tiny.cfg";
+        public string? CfgFilepath { get; set; } = "./Dependencies/YoloV4/CSGO/csgo.cfg";
 
-        public string? NamesFilepath { get; set; } = "./Dependencies/YoloV4/Valorant/coco-dataset.labels";
+        public string? NamesFilepath { get; set; } = "./Dependencies/YoloV4/CSGO/csgo.names";
     }
 }
