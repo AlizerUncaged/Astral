@@ -19,7 +19,7 @@ namespace Astral.Networking
         private readonly ILogger logger;
         private readonly SizeFormatProvider sizeFormat;
         private bool isListening = false;
-
+            
         private EventBasedNetListener listener;
         private NetManager server;
 
