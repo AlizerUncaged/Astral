@@ -10,12 +10,10 @@ namespace Astral.Utilities
     public class PositionCalculator : IUtility
     {
         private readonly ScreenConfig screenConfig;
-        private readonly MonitorInfo monitorInfo;
 
-        public PositionCalculator(ScreenConfig screenConfig, MonitorInfo monitorInfo)
+        public PositionCalculator(ScreenConfig screenConfig)
         {
             this.screenConfig = screenConfig;
-            this.monitorInfo = monitorInfo;
         }
 
 

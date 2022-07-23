@@ -20,14 +20,14 @@ namespace Astral.Detection
     {
         private readonly YoloWrapper yoloWrapper;
         private readonly System.Drawing.ImageConverter converter = new();
-        private readonly ProgramStatus status;
+        private readonly AstralStatus status;
         private readonly ILogger logger;
 
         public ModelConfig Configuration { get; }
 
         public FastYolo
             (IInputImage screenGrab,
-            Models.ModelConfig modelConfig, Models.ProgramStatus status,
+            Models.ModelConfig modelConfig, Models.AstralStatus status,
             ILogger logger)
         {
             this.Configuration = modelConfig;

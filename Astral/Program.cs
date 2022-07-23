@@ -48,6 +48,8 @@ namespace Astral
         {
             lifetimeScope?.Resolve<IAstral>().Stop();
 
+            // Required so CUDA can properly end.
+            // Another Ctrl + C is required.
             e.Cancel = true;
         }
 

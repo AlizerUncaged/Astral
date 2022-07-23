@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Astral.Utilities
 {
-    public class SizeFormat : IUtility
+    public class SizeFormatProvider : IUtility
     {
         public string FormatBytes(long bytes)
         {
@@ -14,11 +14,9 @@ namespace Astral.Utilities
             int i;
             double dblSByte = bytes;
             for (i = 0; i < Suffix.Length && bytes >= 1024; i++, bytes /= 1024)
-            {
                 dblSByte = bytes / 1024.0;
-            }
 
-            return String.Format("{0:0.##} {1}", dblSByte, Suffix[i]);
+            return string.Format("{0:0.##} {1}", dblSByte, Suffix[i]);
         }
     }
 }

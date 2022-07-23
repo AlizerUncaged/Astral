@@ -17,15 +17,15 @@ namespace Astral.Monitor
         public event EventHandler? InputStarting;
         public event EventHandler<Bitmap>? InputRendered;
 
-        private PeriodicTimer timer;
+        private PeriodicTimer? timer;
         private readonly ForegroundWindow foregroundWindow;
-        private readonly ProgramStatus programStatus;
+        private readonly AstralStatus programStatus;
         private readonly Utilities.DefaultImageCompressor imageCompressor;
         private readonly ILogger logger;
 
         public ActiveWindowGrab(ScreenConfig configuration,
             ForegroundWindow foregroundWindow,
-            Models.ProgramStatus programStatus,
+            Models.AstralStatus programStatus,
             Utilities.DefaultImageCompressor imageCompressor,
             ILogger logger)
         {
@@ -46,19 +46,18 @@ namespace Astral.Monitor
             {
                 while (!programStatus.IsClosing)
                 {
-                    if (!Configuration.IsUncapped && timer is { })
+                    if (!Configuration.IsUncapped &&
+                        timer is { })
                         await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
 
                     InputStarting?.Invoke(this, EventArgs.Empty);
 
-                    var activeWindowBounds =
-                        foregroundWindow.GetForegroundWindowBounds();
-
-                    // logger.Debug($"Active window size : {activeWindowBounds.Size}");
-
+                    var activeWindowBounds = foregroundWindow.GetForegroundWindowBounds();
                     var startingPoint = new Point(activeWindowBounds.X, activeWindowBounds.Y);
 
                     // Make sure it's a valid screenshot.
+                    // At least 2 in width and height can be read
+                    // by the detectors.
                     if (activeWindowBounds is { Width: < 2, Height: < 2 })
                         continue;
 
@@ -71,12 +70,10 @@ namespace Astral.Monitor
                         InputRendered?.Invoke(this, imageCompressor.Compress(rawScreenshot));
 
                     // Send as is if no downscale required.
-                    else
-                        InputRendered?.Invoke(this, rawScreenshot);
+                    else InputRendered?.Invoke(this, rawScreenshot);
                 }
 
                 logger.Debug($"Active window grab ended.");
-
             });
 
         public void Stop()

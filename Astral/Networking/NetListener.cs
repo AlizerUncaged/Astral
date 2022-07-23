@@ -16,7 +16,7 @@ namespace Astral.Networking
     {
         public NetworkConfig Configuration { get; }
         private readonly ILogger logger;
-        private readonly SizeFormat sizeFormat;
+        private readonly SizeFormatProvider sizeFormat;
         private bool isListening = false;
 
         private EventBasedNetListener listener;
@@ -27,7 +27,7 @@ namespace Astral.Networking
 
         private readonly NetPacketProcessor netPacketProcessor = new NetPacketProcessor();
 
-        public NetListener(NetworkConfig configuration, ILogger logger, SizeFormat sizeFormat)
+        public NetListener(NetworkConfig configuration, ILogger logger, SizeFormatProvider sizeFormat)
         {
             logger.Debug($"Network object initialized!");
             Configuration = configuration;

@@ -31,7 +31,7 @@ namespace Astral
         private readonly ILogger logger;
 
         private readonly HardwareInfo hardwareInfo;
-        private readonly ProgramStatus programStatus;
+        private readonly AstralStatus programStatus;
 
         public Astral(
             ILifetimeScope scope,
@@ -42,7 +42,7 @@ namespace Astral
             HardwareInfo hardwareInfo,
             PredictionPerformance predictionPerformance,
             PredictionEnumerizer predictionEnumerizer,
-            ProgramStatus programStatus)
+            AstralStatus programStatus)
         {
             this.scope = scope;
             this.vision = screenGrab;
@@ -55,8 +55,9 @@ namespace Astral
 
         public void Stop()
         {
-            programStatus.IsClosing = true;
             logger.Information("Exiting...");
+
+            programStatus.CloseProgram();
 
             // Dispose the disposables.
             var stoppableRegistrations = scope.ComponentRegistry.Registrations
@@ -69,14 +70,11 @@ namespace Astral
 
             foreach (var s in stoppableLimitTypes)
             {
-                var resolved = scope.Resolve(s)
-                    as IStoppable;
                 logger.Debug($"Stopping {s.FullName}");
 
+                var resolved = scope.Resolve(s) as IStoppable;
                 resolved?.Stop();
             }
-
-            logger.Debug($"Stopped all IStoppables...");
         }
 
         public async Task StartAsync()

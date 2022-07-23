@@ -11,5 +11,7 @@ namespace Astral.Utilities
         private readonly Random random = new Random();
 
         public int NextInt() => random.Next();
+
+        public long NextLong() => random.NextInt64();
     }
 }

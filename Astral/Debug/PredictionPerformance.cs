@@ -17,12 +17,12 @@ namespace Astral.Debug
         private readonly IDetectorService model;
         private readonly IInputImage screenGrab;
         private readonly ILogger logger;
-        private readonly ProgramStatus programStatus;
+        private readonly AstralStatus programStatus;
 
         public PredictionPerformance(IDetectorService model,
             IInputImage monitor,
             ILogger logger,
-            Models.ProgramStatus programStatus)
+            Models.AstralStatus programStatus)
         {
             this.model = model;
             this.screenGrab = monitor;

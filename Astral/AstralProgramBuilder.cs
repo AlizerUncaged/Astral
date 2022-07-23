@@ -40,16 +40,23 @@ namespace Astral
 
             RegisterActiveClasses();
 
+            RegisterLogger();
+
             // We should write that if at least one class has the RequiresNetwork attribute,
             // it should register this, but unfortunately, we've reached AutoFac's
             // limitations. 
+
+            // The reason we're only registering NetListener when needed is
+            // that it implements IStoppable and since we have no way of 
+            // figuring out if NetListener is ALREADY instantiated from a 
+            // constructor, later this will cause problems if we need to
+            // get all instances of IStoppable. Hence we only need to 
+            // register it if needed.
             if (new Type[] { typeof(InputFrom), typeof(PredictionConsumer) }
                     .Select(x => x.IsDefined(typeof(RequiresNetwork), true))
                     .FirstOrDefault(x => x))
                 // If the input is from the network, then add the NetListener class.
                 FullyRegister<NetListener>(); // Network handler class.
-
-            RegisterLogger();
 
             return builder.Build();
         }
