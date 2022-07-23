@@ -19,22 +19,20 @@ namespace Astral.Networking
         // Reuse the same acknowledgement packet
         // over and over again.
         private readonly NetworkAcknowledge acknowledgePacket =
-            new Models.Packets.NetworkAcknowledge();
+            new NetworkAcknowledge();
 
         public NetPeer? NetPeer { get; set; }
 
         public event EventHandler<Bitmap>? ReceivedPeerImageData;
 
-        public void SendAcknowledge()
-        {
+        public void SendAcknowledge() =>
             NetPeer?.Send(netPacketProcessor.Write(acknowledgePacket),
-                DeliveryMethod.ReliableOrdered);
-        }
+                DeliveryMethod.Unreliable);
 
-        public void Send(NetworkObjectBounds networkObjectBounds)
-        {
+
+        public void Send(NetworkObjectBounds networkObjectBounds) =>
             NetPeer?.Send(netPacketProcessor.Write(networkObjectBounds), DeliveryMethod.ReliableSequenced);
-        }
+
 
         public void ImageReceivedFromPeer(Bitmap imageBoundingData) =>
             ReceivedPeerImageData?.Invoke(this, imageBoundingData);
@@ -54,5 +52,7 @@ namespace Astral.Networking
 
         public static bool operator !=(NetClient left, NetClient right) =>
             !left.Equals(right);
+
+        public override int GetHashCode() => base.GetHashCode();
     }
 }

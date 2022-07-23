@@ -9,11 +9,16 @@ namespace Astral.Models.Configurations
     public class NetworkConfig : IConfig
     {
         public System.Net.IPAddress ServerHost { get; set; }
-            = System.Net.IPAddress.Parse("127.0.0.1");
+            = System.Net.IPAddress.Parse("0.0.0.0");
 
         public int ServerPort { get; set; } = 7220;
 
-        public string Password { get; set; } = "astral-0";
+        /// <summary>
+        /// The password asked from the client before
+        /// connecting to the server, set to empty or null
+        /// if the server has no password.
+        /// </summary>
+        public string ServerPassword { get; set; } = "astral-0";
 
         public int MaxConnections { get; set; } = 5;
     }

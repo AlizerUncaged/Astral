@@ -17,7 +17,6 @@ namespace Astral.Networking
     {
         public NetworkConfig Configuration { get; }
         private readonly ILogger logger;
-        private readonly SizeFormatProvider sizeFormat;
         private bool isListening = false;
 
         private EventBasedNetListener listener;
@@ -28,12 +27,11 @@ namespace Astral.Networking
 
         private readonly NetPacketProcessor netPacketProcessor = new NetPacketProcessor();
 
-        public NetListener(NetworkConfig configuration, ILogger logger, SizeFormatProvider sizeFormat)
+        public NetListener(NetworkConfig configuration, ILogger logger)
         {
             logger.Debug($"Network object initialized!");
             Configuration = configuration;
             this.logger = logger;
-            this.sizeFormat = sizeFormat;
 
             listener = new EventBasedNetListener();
             server = new NetManager(listener);
@@ -47,16 +45,9 @@ namespace Astral.Networking
                 .SubscribeReusable<NetworkImageData, NetPeer>(ImageDataReceived);
         }
 
-        private void ClientDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
-        {
+        private void ClientDisconnected(NetPeer peer, DisconnectInfo disconnectInfo) =>
             logger.Information($"Client disconnected at {peer.EndPoint} reason: {disconnectInfo.Reason}");
-            switch (disconnectInfo.Reason)
-            {
-                case DisconnectReason.Timeout:
-                    logger.Warning($"Client disconnected via timeout! Maybe their internet is bad?");
-                    break;
-            }
-        }
+
 
         private void MessageReceived(
             NetPeer peer,
@@ -89,12 +80,6 @@ namespace Astral.Networking
             var peer = netClients
                 .FirstOrDefault(x => x.NetPeer == netPeer);
 
-            // Until we found a better way to send
-            // the bounds data along with the bitmap
-            // we'll be putting it in the Bitmap's
-            // tag at the moment.
-            bmp.Tag = networkImageData;
-
             if (peer is { })
                 peer.ImageReceivedFromPeer(bmp);
             else
@@ -106,7 +91,15 @@ namespace Astral.Networking
             logger.Debug($"Connection attempt from: {request.RemoteEndPoint.Port}");
 
             if (server.ConnectedPeersCount < Configuration.MaxConnections)
-                request.AcceptIfKey(Configuration.Password);
+            {
+                if (!string.IsNullOrWhiteSpace(Configuration.ServerPassword))
+                    request.AcceptIfKey(Configuration.ServerPassword);
+
+                return;
+            }
+
+            logger.Warning($"Connection rejected because too many connections! " +
+                $"You can increase the maximum allowed connections on the network's configuration.");
 
             request.Reject();
         }
@@ -122,6 +115,7 @@ namespace Astral.Networking
 
             isListening = true;
 
+            // Thread for polling server events.
             _ = Task.Run(() =>
             {
                 while (isListening)

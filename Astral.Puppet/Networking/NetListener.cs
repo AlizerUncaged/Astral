@@ -113,7 +113,7 @@ namespace Astral.Puppet.Networking
             me.Start();
             server = me.Connect("192.168.254.107",
                 networkConfig.ServerPort,
-                networkConfig.Password);
+                networkConfig.ServerPassword);
 
             logger.Information($"Client listener connected at " +
                 $"{networkConfig.ServerHost}");
