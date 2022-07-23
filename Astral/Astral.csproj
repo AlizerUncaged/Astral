@@ -84,6 +84,15 @@
 	  <None Update="Dependencies\YoloV2\yolov2-tiny.weights">
 	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 	  </None>
+	  <None Update="Dependencies\YoloV4\CSGO\csgo.cfg">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV4\CSGO\csgo.names">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Dependencies\YoloV4\CSGO\csgo.weights">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Dependencies\YoloV4\Valorant\coco-dataset.labels">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
