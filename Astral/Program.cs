@@ -30,9 +30,10 @@ namespace Astral
             container = new AstralProgramBuilder<
                 Detection.FastYolo,
                 Monitor.ActiveWindowGrab,
-                Input.LocalInput>().Build(
-                    new IConfig[] { modelConfig, screenConfig, networkConfig, predictionConfig }
-                );
+                Input.LocalInput>()
+                .Build(
+                        new IConfig[] { modelConfig, screenConfig, networkConfig, predictionConfig }
+                      );
         }
 
         public async Task StartMainSequenceAsync()
