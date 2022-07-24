@@ -10,7 +10,7 @@
 ## 🏗️ Dependencies
 ### 🕵️ Installing Detector Dependencies
 #### ⚡ FastYolo
-> Full instructions for installing required dependencies at https://github.com/maalik0786/FastYolo although different CUDA versions **should** work.
+> Full instructions for installing required dependencies at https://github.com/maalik0786/FastYolo although different CUDA versions **should** work, tested with CUDA 11.0 and it worked.
 #### 🚀 YoloV5
 > The implementation of YoloV5 uses ML.NET, for GPU support follow the official instructions at https://docs.microsoft.com/en-us/dotnet/machine-learning/how-to-guides/install-gpu-model-builder the implementation also works on CPU.
 ## 🚄 Speed

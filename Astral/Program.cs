@@ -29,8 +29,8 @@ namespace Astral
 
             container = new AstralProgramBuilder<
                 Detection.FastYolo,
-                Monitor.ImageFromPeer,
-                Input.NetworkInput>()
+                Monitor.ActiveWindowGrab,
+                Input.LocalInput>()
                 .Build(
                         new IConfig[] { modelConfig, screenConfig, networkConfig, predictionConfig }
                       );
@@ -56,8 +56,6 @@ namespace Astral
         static void Main(string[] args)
         {
             new Program().StartAsync().GetAwaiter().GetResult();
-
-            Console.WriteLine("Program exited.");
         }
     }
 }
