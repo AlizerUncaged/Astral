@@ -21,10 +21,17 @@ namespace Astral.Control
         {
             var dataAccess = Assembly.GetExecutingAssembly();
 
-            /// Initialize dependency injections.
+            // Initialize dependency injections.
             var builder = new ContainerBuilder();
-
-            /// Add the pages.
+            
+            // Add the utility functions.
+            builder.RegisterAssemblyTypes(dataAccess)
+                .AssignableTo<IUtility>()
+                .AsImplementedInterfaces()
+                .AsSelf()
+                .InstancePerLifetimeScope();
+            
+            // Add the pages.
             builder.RegisterAssemblyTypes(dataAccess)
                 .AssignableTo<IPage>()
                 .AsImplementedInterfaces()

@@ -2,17 +2,45 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Astral.Control" WindowStyle="None" MouseLeftButtonDown="WindowClicked"
-        mc:Ignorable="d" Title="Astral Control" Height="450" Width="800" Icon="/Logo.ico">
+        xmlns:pages="clr-namespace:Astral.Control.Pages"  mc:Ignorable="d" 
+        xmlns:local="clr-namespace:Astral.Control" MouseLeftButtonDown="WindowClicked"
+        TextElement.Foreground="{DynamicResource Foreground}"
+        Title="Astral Control" 
+        Height="450"
+        Width="800" 
+        Icon="/Logo.ico">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" 
-                      CornerRadius="7" 
+                      CornerRadius="0"
                       CaptionHeight="0" 
                       UseAeroCaptionButtons="False"
                       ResizeBorderThickness="7"/>
     </WindowChrome.WindowChrome>
-    <Grid>
-
-    </Grid>
+    <Border Background="{DynamicResource Background}">
+        <DockPanel>
+            <Grid Height="35" DockPanel.Dock="Top">
+                <StackPanel 
+                    Margin="15,0,0,0"
+                    Orientation="Horizontal" 
+                    MaxHeight="25"
+                    HorizontalAlignment="Left">
+                    <Image VerticalAlignment="Center"  Source="/Logo.ico" Margin="0,0,15,0"></Image>
+                    <TextBlock VerticalAlignment="Center">Astral</TextBlock>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center" 
+                            Cursor="Hand"
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Right" 
+                            Margin="0,0,5,0">
+                    <materialDesign:PackIcon MouseLeftButtonDown="Minimize" Background="Transparent" Height="25" Width="25" Kind="Minus"></materialDesign:PackIcon>
+                    <materialDesign:PackIcon MouseLeftButtonDown="Close" Background="Transparent" Height="25" Width="25" Kind="Close"></materialDesign:PackIcon>
+                </StackPanel>
+            </Grid>
+            <Grid Name="MainContainer">
+                <pages:Welcome></pages:Welcome>
+            </Grid>
+        </DockPanel>
+    </Border>
 </Window>

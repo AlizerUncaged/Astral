@@ -23,4 +23,81 @@
     <ProjectReference Include="..\Astral\Astral.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Fonts\Neue Plak" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Black.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Black.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Bold.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Bold.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Condensed Black.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Condensed Black.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Condensed Bold.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Condensed Bold.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Condensed ExtraBlack.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Condensed ExtraBlack.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Condensed Light.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Condensed Light.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Condensed Regular.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Condensed Regular.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Condensed SemiBold.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Condensed SemiBold.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Condensed Thin.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Condensed Thin.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Condensed UltraLight.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Condensed UltraLight.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Extended Black.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Extended Black.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Extended Bold.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Extended Bold.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Extended ExtraBlack.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Extended ExtraBlack.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Extended Light.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Extended Light.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Extended Regular.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Extended Regular.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Extended SemiBold.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Extended SemiBold.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Extended Thin.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Extended Thin.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Extended UltraLight.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Extended UltraLight.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak ExtraBlack.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak ExtraBlack.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Light.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Light.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Regular.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Regular.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak SemiBold.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak SemiBold.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text Black.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text Black.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text Black Italic.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text Black Italic.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text Bold.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text Bold.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text Bold Italic.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text Bold Italic.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text Italic.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text Italic.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text Light.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text Light.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text Light Italic.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text Light Italic.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text SemiBold.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text SemiBold.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text SemiBold Italic.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text SemiBold Italic.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text Thin.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text Thin.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Text Thin Italic.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Text Thin Italic.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak Thin.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Thin.ttf" />
+    <None Remove="Resources\Fonts\Neue Plak\Neue Plak UltraLight.ttf" />
+    <Resource Include="Resources\Fonts\Neue Plak\Neue Plak UltraLight.ttf" />
+  </ItemGroup>
+
 </Project>

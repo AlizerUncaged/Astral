@@ -20,14 +20,23 @@ namespace Astral.Control
     /// </summary>
     public partial class MainWindow : Window, IPage
     {
-        public MainWindow()
+        public MainWindow(WindowsAPI.DecorateWindow decorateWindow)
         {
             InitializeComponent();
+            
+            // Add the sexy Windows 11 corner borders.
+            decorateWindow.AddWindows11Borders(this);
         }
 
         public event EventHandler<IPage>? Replaced;
 
         private void WindowClicked(object sender, MouseButtonEventArgs e) =>
             this.DragMove();
+
+        private void Minimize(object sender, MouseButtonEventArgs e) =>
+            this.WindowState = WindowState.Minimized;
+
+        private void Close(object sender, MouseButtonEventArgs e) =>
+            this.Close();
     }
 }

@@ -1,8 +1,21 @@
 ﻿<Application x:Class="Astral.Control.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Astral.Control">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Never change the order of dictionaries here! -->
+                <ResourceDictionary x:Name="ThemeDictionary">
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/Resources/Colors/Dark.xaml"/>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+            
+            <FontFamily x:Key="Neue Plak SemiBold">pack://application:,,,/Resources/Fonts/Neue Plak/#Neue Plak SemiBold</FontFamily>
+            
+        </ResourceDictionary>    
     </Application.Resources>
 </Application>
