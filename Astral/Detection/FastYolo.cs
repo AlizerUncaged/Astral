@@ -1,11 +1,13 @@
 ﻿using Astral.Models;
 using Astral.Models.Configurations;
 using Astral.Monitor;
+using Astral.Utilities;
 using FastYolo;
 using Serilog;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,16 +23,18 @@ namespace Astral.Detection
     {
         private readonly YoloWrapper yoloWrapper;
         private readonly System.Drawing.ImageConverter converter = new();
+        private readonly ConverterUtility converterUtility;
         private readonly AstralStatus status;
         private readonly ILogger logger;
 
         public ModelConfig Configuration { get; }
 
         public FastYolo
-            (IInputImage screenGrab,
+            (IInputImage screenGrab, Utilities.ConverterUtility converterUtility,
             ModelConfig modelConfig, Models.AstralStatus status,
             ILogger logger)
         {
+            this.converterUtility = converterUtility;
             this.Configuration = modelConfig;
             this.status = status;
             this.logger = logger;
@@ -47,9 +51,8 @@ namespace Astral.Detection
             if (status.IsClosing)
                 return;
 
-            // logger.Debug($"Received image of size {screenshot.Size}");
+            byte[] imageBytes = converterUtility.ImageToBytes(screenshot);
 
-            var imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]))!;
             PredictionReceived?.Invoke(sender,
                 yoloWrapper.Detect(imageBytes).Select(x =>
                     new Models.PredictionResult
