@@ -4,13 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:pages="clr-namespace:Astral.Control.Pages"  mc:Ignorable="d" 
-        xmlns:local="clr-namespace:Astral.Control" MouseLeftButtonDown="WindowClicked"
+        xmlns:pages="clr-namespace:Astral.Control.Pages"
+        mc:Ignorable="d" MouseLeftButtonDown="WindowClicked"
         TextElement.Foreground="{DynamicResource Foreground}"
-        Title="Astral Control" 
-        Height="450"
-        Width="800" 
-        Icon="/Logo.ico">
+        Title="Astral Control" Height="450" MinHeight="450" Width="800" MinWidth="800" Icon="/Logo.ico">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" 
                       CornerRadius="0"

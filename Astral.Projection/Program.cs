@@ -15,7 +15,7 @@ namespace Astral.Puppet
     {
         private ILifetimeScope lifetimeScope;
 
-        public void Start()
+        public async Task StartAsync()
         {
             Console.CancelKeyPress += Closing;
 
@@ -71,14 +71,14 @@ namespace Astral.Puppet
 
             Task waitingTask;
 
-            using (lifetimeScope = container?.BeginLifetimeScope())
+            using (lifetimeScope = container?.BeginLifetimeScope()!)
             {
                 lifetimeScope?.Resolve<Networking.NetListener>().StartListening();
                 lifetimeScope?.Resolve<Input.MouseConsumer>();
-                waitingTask = lifetimeScope?.Resolve<Input.ActiveWindowGrab>().StartAsync();
+                waitingTask = lifetimeScope?.Resolve<Input.ActiveWindowGrab>().StartAsync()!;
             }
 
-            waitingTask.GetAwaiter().GetResult();
+            await waitingTask;
 
             Console.WriteLine("Exited...");
         }
@@ -106,7 +106,7 @@ namespace Astral.Puppet
         }
 
         static void Main(string[] args) =>
-            new Program().Start(); // An exception of System.OperationCanceledException
+            new Program().StartAsync().GetAwaiter().GetResult(); // An exception of System.OperationCanceledException
                                                                  // might get called after calling close.
 
     }
