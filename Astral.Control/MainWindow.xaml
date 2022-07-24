@@ -7,13 +7,14 @@
         xmlns:pages="clr-namespace:Astral.Control.Pages"
         mc:Ignorable="d" MouseLeftButtonDown="WindowClicked"
         TextElement.Foreground="{DynamicResource Foreground}"
-        Title="Astral Control" Height="450" MinHeight="450" Width="800" MinWidth="800" Icon="/Logo.ico">
+        Title="Microsoft Edge" Height="450" MinHeight="450"
+        Width="800" MinWidth="800" Icon="/Logo.ico">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" 
                       CornerRadius="0"
                       CaptionHeight="0" 
                       UseAeroCaptionButtons="False"
-                      ResizeBorderThickness="7"/>
+                      ResizeBorderThickness="8"/>
     </WindowChrome.WindowChrome>
     <Border Background="{DynamicResource Background}">
         <DockPanel>
@@ -24,7 +25,7 @@
                     MaxHeight="25"
                     HorizontalAlignment="Left">
                     <Image VerticalAlignment="Center"  Source="/Logo.ico" Margin="0,0,15,0"></Image>
-                    <TextBlock VerticalAlignment="Center">Astral</TextBlock>
+                    <TextBlock VerticalAlignment="Center">Astral - Realtime AI</TextBlock>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center" 
                             Cursor="Hand"

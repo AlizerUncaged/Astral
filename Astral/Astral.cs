@@ -41,7 +41,7 @@ namespace Astral
             Detector model, // Or Detection.FastYolo, both are pretty much the same.
             HardwareInfo hardwareInfo,
             PredictionPerformance predictionPerformance,
-            PredictionEnumerizer predictionEnumerizer,
+            PredictionEnumerator predictionEnumerator,
             AstralStatus programStatus)
         {
             this.scope = scope;
