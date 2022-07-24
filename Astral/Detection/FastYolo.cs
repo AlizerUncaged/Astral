@@ -47,7 +47,8 @@ namespace Astral.Detection
             if (status.IsClosing)
                 return;
 
-            logger.Debug($"Received image of size {screenshot.Size}");
+            // logger.Debug($"Received image of size {screenshot.Size}");
+
             var imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]))!;
             PredictionReceived?.Invoke(sender,
                 yoloWrapper.Detect(imageBytes).Select(x =>

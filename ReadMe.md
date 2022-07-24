@@ -19,11 +19,33 @@
 
 🌐 If the input is through network, it is preferred that both computers be on the same lan network to avoid high latency; nevertheless, another machine on different network _(via the internet)_ may create latency and delays.
 
-🦥 The most playable delay for both input and predictions at the moment is **10 predictions per second** 🔮 or 100ms delay (both input and predictions), which is not a big issue with newer hardware and decent settings.
+🦥 The most playable delay for both input and predictions at the moment is **10 predictions per second** 🔮 or **100ms delay** (both input and predictions), which is not a big issue with newer GPUs and decent settings.
 
-⚡ Below is a list of graphics cards and prediction speed *(predictions/second).*
+⚡ Below is a list of graphics cards tested on resolutions and its prediction speed *(predictions/second)*.
 
-| GPU      | 960x540 | 1280x720| 1920x1080|
-|----------|---------|--------|--------|
-| **GTX 1050** | 10*p/sec* | 7*p/sec* | 5*p/sec* |
-| **MX 330**   |         |        | 2*p/sec* |
+<div align="center">
+<table>
+    <thead>
+        <tr>
+            <th>GPU</th>
+            <th>960x540</th>
+            <th>1280x720</th>
+            <th>1920x1080</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><b>GTX 1050</b></td>
+            <td><b>10 <i> p/sec </i></b></td>
+            <td>7 <i> p/sec </i> </td>
+            <td>5 <i> p/sec </i> </td>
+        </tr>
+        <tr>
+            <td><b>MX 330</b></td>
+            <td></td>
+            <td></td>
+            <td>2 <i> p/sec </i> </td>
+        </tr>
+    </tbody>
+</table>
+</div>

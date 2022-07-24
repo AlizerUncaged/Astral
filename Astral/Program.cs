@@ -27,6 +27,14 @@ namespace Astral
             var networkConfig = new Models.Configurations.NetworkConfig();
             var predictionConfig = new Models.Configurations.PredictionConfig();
 
+            // Coco dataset.
+            modelConfig = new Models.Configurations.ModelConfig
+            {
+                CfgFilepath = "./Dependencies/FastYolo/yolov3-tiny.cfg",
+                NamesFilepath = "./Dependencies/FastYolo/coco.names",
+                WeightsFilepath = "./Dependencies/FastYolo/yolov3-tiny.weights"
+            };
+
             container = new AstralProgramBuilder<
                 Detection.FastYolo,
                 Monitor.ActiveWindowGrab,
