@@ -18,11 +18,16 @@ namespace Astral.Control
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IPage
     {
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        public event EventHandler<IPage>? Replaced;
+
+        private void WindowClicked(object sender, MouseButtonEventArgs e) =>
+            this.DragMove();
     }
 }

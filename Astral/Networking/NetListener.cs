@@ -18,7 +18,7 @@ namespace Astral.Networking
         public NetworkConfig Configuration { get; }
         private readonly ILogger logger;
         private bool isListening = false;
-
+            
         private EventBasedNetListener listener;
         private NetManager server;
 

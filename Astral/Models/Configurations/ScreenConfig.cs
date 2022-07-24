@@ -11,6 +11,7 @@ namespace Astral.Models.Configurations
         ServerSide,
         ClientSide
     }
+
     /// <summary>
     /// Configuration for the screen grabber with default values.
     /// </summary>
