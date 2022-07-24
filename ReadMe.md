@@ -1,3 +1,4 @@
+
 <div>
   <img width="220" height="210" align="left" src="https://i.ibb.co/Yjk6WKb/Logo.png" alt="Astral"/>
   <br>
@@ -19,3 +20,10 @@
 🌐 If the input is through network, it is preferred that both computers be on the same lan network to avoid high latency; nevertheless, another machine on different network _(via the internet)_ may create latency and delays.
 
 🦥 The most playable delay for both input and predictions at the moment is **10 predictions per second** 🔮 or 100ms delay (both input and predictions), which is not a big issue with newer hardware and decent settings.
+
+⚡ Below is a list of graphics cards and prediction speed *(predictions/second).*
+
+| GPU      | 960x540 | 1280x720| 1920x1080|
+|----------|---------|--------|--------|
+| **GTX 1050** | 10*p/sec* | 7*p/sec* | 5*p/sec* |
+| **MX 330**   |         |        | 2*p/sec* |
