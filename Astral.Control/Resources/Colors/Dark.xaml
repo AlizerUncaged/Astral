@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Brush x:Key="Background">#23293D</Brush>
+    <Brush x:Key="Foreground">#99FFFFFF</Brush>
+    <Brush x:Key="ForegroundAccent">#FF00C8AA</Brush>
+    <Brush x:Key="ForegroundNegative">#1F1D2B</Brush>
+    <Brush x:Key="Green">#7AEAC4</Brush>
+    <Brush x:Key="Blue">#8DBBFF</Brush>
+    <Brush x:Key="Red">#EF7B84</Brush>
+    <Brush x:Key="Yellow">#FFE366</Brush>
+    <DropShadowEffect x:Key="Shadow" BlurRadius="50" Opacity="0.5" Direction="0" ShadowDepth="0"></DropShadowEffect>
+    <ResourceDictionary.MergedDictionaries>
+        <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="Yellow" SecondaryColor="Yellow" />
+        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
