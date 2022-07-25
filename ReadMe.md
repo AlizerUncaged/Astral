@@ -10,12 +10,13 @@
 <br/>
 
 ## 💻Requirements
-+ <img src="https://tinyurl.com/ys8hp77y" height="20px"></img> At least Windows 7, (tested on Windows 10 and 11).
++ <img src="https://tinyurl.com/59snr2c5" height="20px"></img> At least Windows 7 SP1, (tested on Windows 10 and 11).
 + 💾 2GB of available RAM.
 + 🖥️ For GPU Support:
 	+ <img src="https://cdn.worldvectorlogo.com/logos/nvidia-7.svg" height="20px"></img> A Nvidia GPU that supports CUDA
-	+ <img src="https://mehdi0xc.github.io/media/icons/logos/cuda-icon.svg" height="20px"></img> At least CUDA 11.0
-	+ <img src="https://tinyurl.com/3csdzvnp" height="20px"></img> At least cuDNN 8.4.0
+	+ <img src="https://mehdi0xc.github.io/media/icons/logos/cuda-icon.svg" height="20px"></img> At least CUDA 11.0 and cuDNN 8.4.0
+	+ <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Windows_logo_-_2012_%28dark_blue%29.svg/2048px-Windows_logo_-_2012_%28dark_blue%29.svg.png" height="20px"></img> At least Windows 10.
+> 💡 Unfortunately, none of the compatible CUDA versions work with Windows 7. For operating systems below Windows 10, they can opt in for CPU.
 
 ## 🏗️ Dependencies
 ### 🕵️ Installing Detector Dependencies
@@ -50,8 +51,8 @@
     </thead>
     <tbody>
         <tr>
-            <td><b>GTX 1050</b></td>
-            <td><b>GTX 1050</b></td>
+            <td><b><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Windows_logo_-_2012_%28dark_blue%29.svg/2048px-Windows_logo_-_2012_%28dark_blue%29.svg.png" height="20px" alt="Windows 10"></img> GTX 1050</b></td>
+            <td><b><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Windows_logo_-_2012_%28dark_blue%29.svg/2048px-Windows_logo_-_2012_%28dark_blue%29.svg.png" height="20px" alt="Windows 10"></img> GTX 1050</b></td>
             <td>CSGO</td>
             <td>🖥️ Same Machine</td>
             <td><b>10 <i> p/sec </i></b></td>
@@ -59,8 +60,8 @@
             <td><b>12 <i> p/sec </i></b></td>
         </tr>
         <tr>
-            <td><b>MX 330</b></td>
-            <td><b>MX 330</b></td>
+            <td><b><img src="https://tinyurl.com/ys8hp77y" height="20px" alt="Windows 11"></img> MX 330</b></td>
+            <td><b><img src="https://tinyurl.com/ys8hp77y" height="20px" alt="Windows 11"></img> MX 330</b></td>
             <td>CSGO</td>
             <td>🖥️ Same Machine</td>
             <td></td>
