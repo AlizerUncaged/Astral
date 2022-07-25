@@ -9,40 +9,42 @@ public class DecorateWindow : IUtility
 {
     private readonly OSCheck osCheck;
 
-    public DecorateWindow(OSCheck osCheck)
-    {
+    public DecorateWindow(OSCheck osCheck)=>
         this.osCheck = osCheck;
-    }
+    
 
     public void AddWindows11Borders(Window window)
     {
         // Requires at least Windows 11.
         if (osCheck.IsNewWindows)
         {
-            IntPtr hWnd = new WindowInteropHelper(window).EnsureHandle();
-            var attribute = DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE;
-            var preference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUND;
+            IntPtr hWnd = new WindowInteropHelper(window)
+                .EnsureHandle();
+            var attribute = Dwmwindowattribute
+                .DwmwaWindowCornerPreference;
+            var preference = DwmWindowCornerPreference
+                .DwmwcpRound;
             DwmSetWindowAttribute(hWnd, attribute, ref preference, sizeof(uint));
         }
     }
-    public enum DWMWINDOWATTRIBUTE
+
+    private enum Dwmwindowattribute
     {
-        DWMWA_WINDOW_CORNER_PREFERENCE = 33
+        DwmwaWindowCornerPreference = 33
     }
-    
-    public enum DWM_WINDOW_CORNER_PREFERENCE
+
+    private enum DwmWindowCornerPreference
     {
-        DWMWCP_DEFAULT = 1,
-        DWMWCP_DONOTROUND = 1,
-        DWMWCP_ROUND = 2,
-        DWMWCP_ROUNDSMALL = 1
+        DwmwcpDefault = 1,
+        DwmwcpDonotround = 1,
+        DwmwcpRound = 2,
+        DwmwcpRoundsmall = 1
     }
     
     [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, SetLastError = true)]
 
     private static extern long DwmSetWindowAttribute(IntPtr hwnd,
-
-        DWMWINDOWATTRIBUTE attribute,
-        ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute,
+        Dwmwindowattribute attribute,
+        ref DwmWindowCornerPreference pvAttribute,
         uint cbAttribute);
 }

@@ -53,11 +53,7 @@ namespace Astral
             e.Cancel = true;
         }
 
-        static void Main(string[] args)
-        {
-            new Program().StartAsync().GetAwaiter().GetResult();
-
-            Console.WriteLine("Program exited.");
-        }
+        static void Main(string[] args)=>
+            new Program().StartAsync().GetAwaiter().GetResult(); 
     }
 }
