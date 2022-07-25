@@ -24,6 +24,7 @@ namespace Astral
         {
             var modelConfig = new Models.Configurations.ModelConfig();
             var screenConfig = new Models.Configurations.ScreenConfig();
+            var hotkeyConfig = new Models.Configurations.HotkeyConfig();
             var networkConfig = new Models.Configurations.NetworkConfig();
             var predictionConfig = new Models.Configurations.PredictionConfig();
 
@@ -47,7 +48,11 @@ namespace Astral
                 Monitor.ActiveWindowGrab,
                 Input.LocalInput>()
                 .Build(
-                        new IConfig[] { modelConfig, screenConfig, networkConfig, predictionConfig }
+                        new IConfig[] { modelConfig, 
+                            screenConfig,
+                            networkConfig,
+                            predictionConfig,
+                            hotkeyConfig }
                       );
         }
 
@@ -68,7 +73,7 @@ namespace Astral
             e.Cancel = true;
         }
 
-        static void Main(string[] args)=>
-            new Program().StartAsync().GetAwaiter().GetResult(); 
+        static void Main(string[] args) =>
+            new Program().StartAsync().GetAwaiter().GetResult();
     }
 }

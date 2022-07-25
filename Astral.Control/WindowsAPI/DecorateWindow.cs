@@ -16,7 +16,6 @@ public class DecorateWindow : IUtility
     public void AddWindows11Borders(Window window)
     {
         // Requires at least Windows 11.
-
         IntPtr hWnd = new WindowInteropHelper(window)
             .EnsureHandle();
         var attribute = Dwmwindowattribute

@@ -6,7 +6,7 @@
     <Brush x:Key="ForegroundAccent">#F2ACAC</Brush>
     <Brush x:Key="ForegroundNegative">#252C40</Brush>
     <Brush x:Key="Green">#7AEAC4</Brush>
-    <Brush x:Key="Blue">#8DBBFF</Brush>
+    <Brush x:Key="Blue">#88B6F2</Brush>
     <Brush x:Key="Red">#EF7B84</Brush>
     <Brush x:Key="Yellow">#FFE366</Brush>
     <DropShadowEffect x:Key="Shadow" BlurRadius="50" Opacity="0.5" Direction="0" ShadowDepth="0"></DropShadowEffect>

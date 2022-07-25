@@ -16,7 +16,7 @@
                       UseAeroCaptionButtons="False"
                       ResizeBorderThickness="8"/>
     </WindowChrome.WindowChrome>
-    <Border BorderThickness="1.5" Background="{DynamicResource Background}" BorderBrush="{DynamicResource ForegroundAccent}">
+    <Border Name="ParentBorder" BorderThickness="1.5" Background="{DynamicResource Background}" BorderBrush="{DynamicResource ForegroundAccent}">
         <Grid>
             <Grid Height="40"  VerticalAlignment="Top" Panel.ZIndex="2"
                   Background="Transparent"
