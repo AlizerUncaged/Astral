@@ -49,8 +49,8 @@ namespace Astral.Models.Configurations
         public bool IsUncapped => Fps <= 0;
 
         public override string ToString() =>
-            $"Current Screen : {Screen.DeviceName}{Environment.NewLine}" +
-            $"Screenshot FPS : {Fps}{Environment.NewLine}" +
-            $"Screenshot Downscale : {Downscale * 100f}%";
+            $"Current Screen: {Screen.DeviceName}{Environment.NewLine}" +
+            $"Screenshot FPS: {Fps}{Environment.NewLine}" +
+            $"Screenshot Downscale: {Downscale * 100f}%";
     }
 }

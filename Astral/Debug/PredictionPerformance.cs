@@ -71,7 +71,7 @@ namespace Astral.Debug
         }
 
         private int currentPredictions = 0;
-        private void Prediction(object? sender, IEnumerable e)
+        private void Prediction(object? sender, IEnumerable<PredictionResult> e)
         {
             currentPredictions++;
 
@@ -81,8 +81,13 @@ namespace Astral.Debug
                     longestPrediction ? predictionCounter.ElapsedMilliseconds
                     : longestPrediction;
 
+                if (e.Any())
+                    logger.Debug($"Objects: {string.Join(", ", e.Select(x => x.ObjectId))}");
+
                 predictionCounter.Reset();
             }
+
+
         }
 
         public void Stop() =>

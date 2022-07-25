@@ -16,7 +16,7 @@ namespace Astral.Puppet.Input
     public class MouseConsumer : IService
     {
         private readonly NetListener netlistener;
-        private readonly MouseControl mouseControl;
+        private readonly LocalMouseControl mouseControl;
         private readonly PositionCalculator positionCalculator;
         private readonly ILogger logger;
         private readonly ForegroundWindow foregroundWindow;
@@ -24,7 +24,7 @@ namespace Astral.Puppet.Input
         public MouseConsumer(
             ForegroundWindow foregroundWindow,
             NetListener netlistener,
-            MouseControl mouseControl,
+            LocalMouseControl mouseControl,
             PositionCalculator positionCalculator, ILogger logger)
         {
             logger.Debug($"Mouse input initialized...");
@@ -47,7 +47,7 @@ namespace Astral.Puppet.Input
                 .GetForegroundWindowBounds().Location,
                     e.Location, e.Size);
 
-            mouseControl.MoveMouseTo(newLocation);
+            mouseControl.MouseLocation = Point.Round(newLocation);
         }
     }
 }

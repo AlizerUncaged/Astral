@@ -13,5 +13,10 @@ namespace Astral.Models.Configurations
         public string? CfgFilepath { get; set; } = "./Dependencies/YoloV4/valorant/yolov4-tiny.cfg";
 
         public string? NamesFilepath { get; set; } = "./Dependencies/YoloV4/valorant/coco-dataset.labels";
+
+        public override string ToString() =>
+            $".weights: {WeightsFilepath}{Environment.NewLine}" +
+            $".cfg: {CfgFilepath}{Environment.NewLine}" +
+            $"Names: {NamesFilepath}";
     }
 }

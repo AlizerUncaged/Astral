@@ -62,7 +62,7 @@ namespace Astral.Detection
                             null /* FastYolo doesn't have label index. */
                     )
                     {
-                        ObjectId = result.TrackId
+                        ObjectId = result.FrameId
                     }
                 )
            );

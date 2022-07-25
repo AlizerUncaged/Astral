@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Astral.Models
 {
-    public class PredictionResult
+    public class PredictionResult : BoundsBase, IBounds
     {
         public PredictionResult(string? label, float score, Point location, Size size, int? labelIndex)
         {
@@ -29,9 +29,9 @@ namespace Astral.Models
 
         public float Score { get; }
 
-        public Point Location { get; }
+        public override Point Location { get; }
 
-        public Size Size { get; }
+        public override Size Size { get; }
 
         // Additional data along with this result,
         // this is a temporary fix until we found

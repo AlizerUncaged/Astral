@@ -33,6 +33,8 @@ namespace Astral
         private readonly HardwareInfo hardwareInfo;
         private readonly MachineInformation machineInformation;
         private readonly AstralStatus programStatus;
+        private readonly Models.Configurations.ModelConfig modelConfig;
+        private readonly Models.Configurations.ScreenConfig screenConfig;
 
         public Astral(
             ILifetimeScope scope,
@@ -44,13 +46,17 @@ namespace Astral
             PredictionPerformance predictionPerformance,
             PredictionEnumerator predictionEnumerator,
             MachineInformation machineInformation,
-            AstralStatus programStatus)
+            AstralStatus programStatus,
+            Models.Configurations.ModelConfig modelConfig,
+            Models.Configurations.ScreenConfig screenConfig)
         {
             this.scope = scope;
             this.vision = screenGrab;
             this.hardwareInfo = hardwareInfo;
             this.machineInformation = machineInformation;
             this.programStatus = programStatus;
+            this.modelConfig = modelConfig;
+            this.screenConfig = screenConfig;
             this.detector = model;
             this.logger = logger;
         }
@@ -87,6 +93,8 @@ namespace Astral
             if (await machineInformation.IsAvailableRamTooLow())
                 logger.Warning($"Available ram too low, below 1GB, Astral might crash.");
 
+            logger.Information($"{modelConfig}");
+            logger.Information($"{screenConfig}");
             logger.Information($"Detector : {detector}");
             logger.Information($"Vision : {vision}");
             logger.Information($"Vision started...");
