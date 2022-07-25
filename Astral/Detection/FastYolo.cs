@@ -55,7 +55,7 @@ namespace Astral.Detection
 
             PredictionReceived?.Invoke(sender,
                 yoloWrapper.Detect(imageBytes).Select(x =>
-                    new Models.PredictionResult
+                    new PredictionResult
                     (
                         x.Type!, (float)x.Confidence, new Point(x.X, x.Y),
                             new Size(x.Width, x.Height), null /* FastYolo doesn't have label index. */

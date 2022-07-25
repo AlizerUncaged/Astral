@@ -1,4 +1,5 @@
 
+
 <div>
   <img width="220" height="210" align="left" src="https://i.ibb.co/Yjk6WKb/Logo.png" alt="Astral"/>
   <br>
@@ -23,11 +24,16 @@
 
 ⚡ Below is a list of graphics cards tested on resolutions and its prediction speed *(predictions/second)*.
 
+> ⚠️ Different factors can cause the GPU to perform better or worse; please take this table with a grain of salt and don't place too much faith in it; different hardware and environment can result in different results, such as having different video settings in a game, different drivers, or having background processes, for example.
+
 <div align="center">
 <table>
     <thead>
         <tr>
-            <th>GPU</th>
+            <th>Predictor GPU</th>
+            <th>Game GPU</th>
+            <th>Game</th>
+            <th>Setup</th>
             <th>960x540</th>
             <th>1280x720</th>
             <th>1920x1080</th>
@@ -36,15 +42,21 @@
     <tbody>
         <tr>
             <td><b>GTX 1050</b></td>
+            <td><b>GTX 1050</b></td>
+            <td>CSGO</td>
+            <td>🖥️ Same Machine</td>
             <td><b>10 <i> p/sec </i></b></td>
-            <td>7 <i> p/sec </i> </td>
-            <td>5 <i> p/sec </i> </td>
+            <td><b>11 <i> p/sec </i></b></td>
+            <td><b>12 <i> p/sec </i></b></td>
         </tr>
         <tr>
             <td><b>MX 330</b></td>
+            <td><b>MX 330</b></td>
+            <td>CSGO</td>
+            <td>🖥️ Same Machine</td>
             <td></td>
-            <td></td>
-            <td>2 <i> p/sec </i> </td>
+            <td> </td>
+            <td>5 <i> p/sec </i> </td>
         </tr>
     </tbody>
 </table>

@@ -36,6 +36,8 @@ namespace Astral.Monitor
             this.imageCompressor = imageCompressor;
             this.logger = logger;
 
+            logger.Debug(Configuration.ToString());
+
             if (!Configuration.IsUncapped)
                 timer = new PeriodicTimer(TimeSpan.FromMilliseconds(Configuration.ScreenshotWaitTime));
 

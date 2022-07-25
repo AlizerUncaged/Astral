@@ -27,12 +27,19 @@ namespace Astral
             var networkConfig = new Models.Configurations.NetworkConfig();
             var predictionConfig = new Models.Configurations.PredictionConfig();
 
-            // Coco dataset.
+            //// Coco dataset.
+            //modelConfig = new Models.Configurations.ModelConfig
+            //{
+            //    CfgFilepath = "./Dependencies/FastYolo/yolov3-tiny.cfg",
+            //    NamesFilepath = "./Dependencies/FastYolo/coco.names",
+            //    WeightsFilepath = "./Dependencies/FastYolo/yolov3-tiny.weights"
+            //};
+
             modelConfig = new Models.Configurations.ModelConfig
             {
-                CfgFilepath = "./Dependencies/FastYolo/yolov3-tiny.cfg",
-                NamesFilepath = "./Dependencies/FastYolo/coco.names",
-                WeightsFilepath = "./Dependencies/FastYolo/yolov3-tiny.weights"
+                CfgFilepath = "./Dependencies/YoloV4/CSGO/csgo.cfg",
+                NamesFilepath = "./Dependencies/YoloV4/CSGO/csgo.names",
+                WeightsFilepath = "./Dependencies/YoloV4/CSGO/csgo.weights"
             };
 
             container = new AstralProgramBuilder<
