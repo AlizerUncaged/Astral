@@ -17,6 +17,12 @@ namespace Astral.Models
             LabelIndex = labelIndex;
         }
 
+        /// <summary>
+        /// The object's identity id which should be
+        /// the same of every frame.
+        /// </summary>
+        public int? ObjectId { get; set; }
+
         public int? LabelIndex { get; }
 
         public string? Label { get; }

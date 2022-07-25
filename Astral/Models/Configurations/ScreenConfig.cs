@@ -28,7 +28,7 @@ namespace Astral.Models.Configurations
         /// or equals to 0, unlimited predictions per second.
         /// </summary>
         // It's best to set this to prevent GPU overheat.
-        public int Fps { get; set; } = 24;
+        public int Fps { get; set; } = 30;
 
         /// <summary>
         /// If input is sent over network, this option dictates
@@ -42,7 +42,7 @@ namespace Astral.Models.Configurations
         /// The lower the image resolution the faster the prediction
         /// but also inaccurate.
         /// </summary>
-        public float Downscale { get; set; } = 0.6667f;
+        public float Downscale { get; set; } = 1f;
 
         public int ScreenshotWaitTime => 1000 / this.Fps;
 

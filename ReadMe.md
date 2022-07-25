@@ -13,11 +13,12 @@
 + <img src="https://tinyurl.com/59snr2c5" height="20px"></img> At least Windows 7 SP1, (tested on Windows 10 and 11).
 + 💾 2GB of available RAM.
 + 🖥️ For GPU Support:
-	+ <img src="https://cdn.worldvectorlogo.com/logos/nvidia-7.svg" height="20px"></img> A Nvidia GPU that supports CUDA
-	+ <img src="https://mehdi0xc.github.io/media/icons/logos/cuda-icon.svg" height="20px"></img> At least CUDA 11.0 and cuDNN 8.4.0
+	+ <img src="https://cdn.worldvectorlogo.com/logos/nvidia-7.svg" height="20px"></img> At least CUDA 11.0 and cuDNN 8.4.0
 	+ <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Windows_logo_-_2012_%28dark_blue%29.svg/2048px-Windows_logo_-_2012_%28dark_blue%29.svg.png" height="20px"></img> At least Windows 10.
-> 💡 Unfortunately, none of the compatible CUDA versions work with Windows 7. For operating systems below Windows 10, they can opt in for CPU.
+> 💡 Unfortunately, none of the compatible CUDA versions work with Windows 7. For operating systems below Windows 10, they can opt in for CPU.'
 
+> 💡 Unfortunately, AMD GPUs are not supported; for GPU support, an Nvidia GPU with CUDA is required.
+>
 ## 🏗️ Dependencies
 ### 🕵️ Installing Detector Dependencies
 #### ⚡ FastYolo
@@ -64,8 +65,8 @@
             <td><b><img src="https://tinyurl.com/ys8hp77y" height="20px" alt="Windows 11"></img> MX 330</b></td>
             <td>CSGO</td>
             <td>🖥️ Same Machine</td>
-            <td></td>
-            <td> </td>
+            <td>?</td>
+            <td>?</td>
             <td>5 <i> p/sec </i> </td>
         </tr>
     </tbody>
@@ -73,6 +74,10 @@
 </div>
 
 > 💡 As you can see, a mid-level gaming desktop GPU from 2016 may get decent results; but, newer GPUs can produce better and quicker predictions.
+
+> 💡 Picture resizing can take some time; if the configurations demand additional image altering, this can slow down the prediction.
+
+
 
 ## 🛠 Custom Models 
 🖼️ Astral uses **Yolo** for object detection, more information on creating models here: https://github.com/AlexeyAB/darknet#how-to-train-tiny-yolo-to-detect-your-custom-objects

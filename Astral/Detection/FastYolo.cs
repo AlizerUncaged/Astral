@@ -54,12 +54,16 @@ namespace Astral.Detection
             byte[] imageBytes = converterUtility.ImageToBytes(screenshot);
 
             PredictionReceived?.Invoke(sender,
-                yoloWrapper.Detect(imageBytes).Select(x =>
+                yoloWrapper.Detect(imageBytes).Select(result =>
                     new PredictionResult
                     (
-                        x.Type!, (float)x.Confidence, new Point(x.X, x.Y),
-                            new Size(x.Width, x.Height), null /* FastYolo doesn't have label index. */
+                        result.Type!, (float)result.Confidence, new Point(result.X, result.Y),
+                            new Size(result.Width, result.Height),
+                            null /* FastYolo doesn't have label index. */
                     )
+                    {
+                        ObjectId = result.TrackId
+                    }
                 )
            );
         }

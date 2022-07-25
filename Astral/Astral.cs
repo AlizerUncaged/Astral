@@ -31,6 +31,7 @@ namespace Astral
         private readonly ILogger logger;
 
         private readonly HardwareInfo hardwareInfo;
+        private readonly MachineInformation machineInformation;
         private readonly AstralStatus programStatus;
 
         public Astral(
@@ -42,11 +43,13 @@ namespace Astral
             HardwareInfo hardwareInfo,
             PredictionPerformance predictionPerformance,
             PredictionEnumerator predictionEnumerator,
+            MachineInformation machineInformation,
             AstralStatus programStatus)
         {
             this.scope = scope;
             this.vision = screenGrab;
             this.hardwareInfo = hardwareInfo;
+            this.machineInformation = machineInformation;
             this.programStatus = programStatus;
             this.detector = model;
             this.logger = logger;
@@ -81,7 +84,7 @@ namespace Astral
         {
             Console.Title = "Astral";
 
-            if (hardwareInfo.GetMemoryLeftInBytes() < 1073741824)
+            if (await machineInformation.IsAvailableRamTooLow())
                 logger.Warning($"Available ram too low, below 1GB, Astral might crash.");
 
             logger.Information($"Detector : {detector}");
