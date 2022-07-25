@@ -3,8 +3,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Brush x:Key="Background">#23293D</Brush>
     <Brush x:Key="Foreground">#99FFFFFF</Brush>
-    <Brush x:Key="ForegroundAccent">#FF00C8AA</Brush>
-    <Brush x:Key="ForegroundNegative">#1F1D2B</Brush>
+    <Brush x:Key="ForegroundAccent">#F2ACAC</Brush>
+    <Brush x:Key="ForegroundNegative">#252C40</Brush>
     <Brush x:Key="Green">#7AEAC4</Brush>
     <Brush x:Key="Blue">#8DBBFF</Brush>
     <Brush x:Key="Red">#EF7B84</Brush>

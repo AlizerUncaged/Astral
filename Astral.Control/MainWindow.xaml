@@ -16,9 +16,9 @@
                       UseAeroCaptionButtons="False"
                       ResizeBorderThickness="8"/>
     </WindowChrome.WindowChrome>
-    <Border Background="{DynamicResource Background}">
-        <DockPanel>
-            <Grid Height="40" 
+    <Border BorderThickness="1.5" Background="{DynamicResource Background}" BorderBrush="{DynamicResource ForegroundAccent}">
+        <Grid>
+            <Grid Height="40"  VerticalAlignment="Top" Panel.ZIndex="2"
                   Background="Transparent"
                   MouseLeftButtonDown="TopBorderClicked"
                   DockPanel.Dock="Top">
@@ -28,21 +28,21 @@
                     MaxHeight="25"
                     HorizontalAlignment="Left">
                     <Image VerticalAlignment="Center"  Source="/Logo.ico" Margin="0,0,15,0"></Image>
-                    <TextBlock VerticalAlignment="Center">Astral - Realtime AI</TextBlock>
+                    <TextBlock VerticalAlignment="Center" FontSize="14">Astral - Realtime AI</TextBlock>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Center" 
                             Cursor="Hand"
                             Orientation="Horizontal" 
                             HorizontalAlignment="Right" 
                             Margin="0,5,5,0">
-                    <materialDesign:PackIcon Padding="0,0,5,0" MouseLeftButtonDown="Maximize" Background="Transparent" Height="25" Width="25" Kind="ArrowExpandAll"></materialDesign:PackIcon>
-                    <materialDesign:PackIcon Padding="0,0,5,0" MouseLeftButtonDown="Minimize" Background="Transparent" Height="25" Width="25" Kind="Minus"></materialDesign:PackIcon>
-                    <materialDesign:PackIcon Padding="0,0,5,0" MouseLeftButtonDown="Close" Background="Transparent" Height="25" Width="25" Kind="Close"></materialDesign:PackIcon>
+                    <materialDesign:PackIcon Margin="0,0,5,0" MouseLeftButtonDown="Maximize" Background="Transparent" Height="25" Width="25" Kind="ArrowExpandAll"></materialDesign:PackIcon>
+                    <materialDesign:PackIcon Margin="0,0,5,0" MouseLeftButtonDown="Minimize" Background="Transparent" Height="25" Width="25" Kind="Minus"></materialDesign:PackIcon>
+                    <materialDesign:PackIcon Margin="0,0,5,0" MouseLeftButtonDown="Close" Background="Transparent" MinHeight="25" MinWidth="25" Kind="Close"></materialDesign:PackIcon>
                 </StackPanel>
             </Grid>
-            <Grid Name="MainContainer">
+            <Grid Name="MainContainer" Panel.ZIndex="1">
                 <pages:Welcome></pages:Welcome>
             </Grid>
-        </DockPanel>
+        </Grid>
     </Border>
 </Window>
