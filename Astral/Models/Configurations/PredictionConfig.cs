@@ -8,6 +8,10 @@ namespace Astral.Models.Configurations
 {
     public class PredictionConfig : IConfig
     {
-        public float MinimumScore { get; set; } = 0.25f;
+        /// <summary>
+        /// The minimum level of confidence of the AI's
+        /// output to be used.
+        /// </summary>
+        public float MinimumScore { get; set; } = 0.5f;
     }
 }

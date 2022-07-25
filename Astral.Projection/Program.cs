@@ -54,7 +54,7 @@ namespace Astral.Puppet
                 .AsSelf()
                 .SingleInstance();
 
-            builder.RegisterType<Curses.MouseControl>()
+            builder.RegisterType<Curses.LocalMouseControl>()
                 .AsImplementedInterfaces()
                 .AsSelf()
                 .SingleInstance();

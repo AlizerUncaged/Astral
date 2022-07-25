@@ -47,7 +47,7 @@ namespace Astral.Input
                     logger.Debug($"Sending inputs bounds to {netClient.NetPeer.EndPoint}");
 
                     netClient.Send(new Models.Packets.NetworkObjectBounds(
-                            result.Location, result.Size)
+                            result.Location, result.Size, result.ObjectId)
                     {
                         Confidence = result.Score
                     });

@@ -17,18 +17,21 @@ namespace Astral.Input
         private readonly ILogger logger;
         private readonly PositionCalculator positionCalculator;
         private readonly ForegroundWindow foregroundWindow;
-        private readonly MouseControl mouseControl;
+        private readonly EntityPicker entityPicker;
+        private readonly LocalMouseControl mouseControl;
 
         public LocalInput(IDetectorService detectorService,
             ILogger logger,
             PredictionConfig predictionConfig,
             Utilities.PositionCalculator positionCalculator,
             ForegroundWindow foregroundWindow,
-            Curses.MouseControl mouseControl)
+            Utilities.EntityPicker entityPicker,
+            LocalMouseControl mouseControl)
         {
             this.Configuration = predictionConfig;
             this.positionCalculator = positionCalculator;
             this.foregroundWindow = foregroundWindow;
+            this.entityPicker = entityPicker;
             this.mouseControl = mouseControl;
             this.detectorService = detectorService;
             this.logger = logger;
@@ -48,18 +51,19 @@ namespace Astral.Input
 
             if (persons.Any())
             {
-                var firstPerson = persons.First();
+                var nearestEntity = entityPicker.GetCurrentEntityFocus(e)!;
+
                 var currentActiveWindowLocation = foregroundWindow
                     .GetForegroundWindowBounds().Location;
 
                 var objectLocation = positionCalculator
                     .RecalculateObjectPosition(currentActiveWindowLocation,
-                        Point.Round(firstPerson.Location),
-                        Size.Round(firstPerson.Size));
+                        Point.Round(nearestEntity.Location),
+                        Size.Round(nearestEntity.Size));
 
-                mouseControl.MoveMouseTo(objectLocation);
+                mouseControl.MouseLocation = Point.Round(objectLocation);
 
-                logger.Debug($"One object found at " +
+                logger.Debug($"Nearest entity found at " +
                     $"{objectLocation} " +
                     $"located on desktop.");
             }

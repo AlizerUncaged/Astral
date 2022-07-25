@@ -46,11 +46,11 @@ namespace Astral.Puppet.Input
             logger.Debug($"Screenshot started...");
             while (keepTicking)
             {
-                if (keepTicking && !screenConfig.IsUncapped && timer is { })
-                    await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
+                //if (keepTicking && !screenConfig.IsUncapped && timer is { })
+                //    await timer.WaitForNextTickAsync(screenshotWaitCancellationTokenSource.Token);
 
 
-                await networkLock.Lock.WaitAsync(networkLock.MaxWaitTimeout, screenshotWaitCancellationTokenSource.Token);
+                await networkLock.Lock.WaitAsync(screenshotWaitCancellationTokenSource.Token);
 
 
                 var activeWindowBounds =

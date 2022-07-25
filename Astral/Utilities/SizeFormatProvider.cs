@@ -18,5 +18,11 @@ namespace Astral.Utilities
 
             return string.Format("{0:0.##} {1}", dblSByte, Suffix[i]);
         }
+
+        /// <summary>
+        /// Gigabyte => Byte.
+        /// </summary>
+        public ulong GigabytesToBytes(ulong gigabytes) =>
+            gigabytes * 1073741824;
     }
 }

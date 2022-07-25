@@ -42,8 +42,6 @@ namespace Astral.Monitor
 
             if (!Configuration.IsUncapped)
                 timer = new PeriodicTimer(TimeSpan.FromMilliseconds(Configuration.ScreenshotWaitTime));
-
-            logger.Debug($"Screen monitor configuration =>{Environment.NewLine}{configuration}");
         }
 
         public event EventHandler<Bitmap>? InputRendered;

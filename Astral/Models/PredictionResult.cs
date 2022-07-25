@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Astral.Models
 {
-    public class PredictionResult
+    public class PredictionResult : BoundsBase, IBounds
     {
         public PredictionResult(string? label, float score, Point location, Size size, int? labelIndex)
         {
@@ -17,15 +17,21 @@ namespace Astral.Models
             LabelIndex = labelIndex;
         }
 
+        /// <summary>
+        /// The object's identity id which should be
+        /// the same of every frame.
+        /// </summary>
+        public int? ObjectId { get; set; }
+
         public int? LabelIndex { get; }
 
         public string? Label { get; }
 
         public float Score { get; }
 
-        public Point Location { get; }
+        public override Point Location { get; }
 
-        public Size Size { get; }
+        public override Size Size { get; }
 
         // Additional data along with this result,
         // this is a temporary fix until we found

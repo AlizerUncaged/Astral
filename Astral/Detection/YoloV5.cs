@@ -43,6 +43,7 @@ namespace Astral.Detection
         private void ScreenshotReceived(object? sender, Bitmap screenshot)
         {
             var prediction = scorer.Predict(screenshot);
+
             PredictionReceived?.Invoke(this,
                     prediction.Select(x => new Models.PredictionResult(
                             x.Label.Name,
