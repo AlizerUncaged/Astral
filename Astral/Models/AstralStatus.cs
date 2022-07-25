@@ -18,6 +18,12 @@ namespace Astral.Models
 
         private bool isClosing = false;
 
+        public bool IsPredictionPaused => isPaused;
+        private bool isPaused = false;
+
+        public void PausePredictions() => isPaused = true;
+        public void ResumePredictions() => isPaused = false;
+
         public void CloseProgram() => isClosing = true;
     }
 }

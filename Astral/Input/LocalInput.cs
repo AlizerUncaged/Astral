@@ -11,30 +11,33 @@ using System.Threading.Tasks;
 
 namespace Astral.Input
 {
-    public class LocalInput : IService, IPredictionConsumer, IConfiguredService<PredictionConfig>
+    public class LocalInput : IService, IPredictionConsumer,
+        IConfiguredService<PredictionConfig>
     {
-        private readonly IDetectorService detectorService;
         private readonly ILogger logger;
         private readonly PositionCalculator positionCalculator;
         private readonly ForegroundWindow foregroundWindow;
         private readonly EntityPicker entityPicker;
+        private readonly Hotkeys hotkeys;
         private readonly LocalMouseControl mouseControl;
 
         public LocalInput(IDetectorService detectorService,
             ILogger logger,
             PredictionConfig predictionConfig,
-            Utilities.PositionCalculator positionCalculator,
+            PositionCalculator positionCalculator,
             ForegroundWindow foregroundWindow,
-            Utilities.EntityPicker entityPicker,
+            EntityPicker entityPicker,
+            Hotkeys hotkeys,
             LocalMouseControl mouseControl)
         {
             this.Configuration = predictionConfig;
             this.positionCalculator = positionCalculator;
             this.foregroundWindow = foregroundWindow;
             this.entityPicker = entityPicker;
+            this.hotkeys = hotkeys;
             this.mouseControl = mouseControl;
-            this.detectorService = detectorService;
             this.logger = logger;
+
             detectorService.PredictionReceived += PredictionReceived;
         }
 
@@ -43,6 +46,7 @@ namespace Astral.Input
         private void PredictionReceived(object? sender, IEnumerable<PredictionResult> e)
         {
             var highConfidenceObjects = e.Where(x => x.Score > Configuration.MinimumScore);
+
             // Find via label index.
             var persons = highConfidenceObjects.Where(x => x.LabelIndex is 1); // 1 = Person
 

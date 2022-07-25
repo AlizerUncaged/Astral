@@ -25,18 +25,20 @@ namespace Astral.Detection
         private readonly System.Drawing.ImageConverter converter = new();
         private readonly ConverterUtility converterUtility;
         private readonly AstralStatus status;
+        private readonly HotkeyConfig hotkeyConfig;
         private readonly ILogger logger;
 
         public ModelConfig Configuration { get; }
 
         public FastYolo
             (IInputImage screenGrab, Utilities.ConverterUtility converterUtility,
-            ModelConfig modelConfig, Models.AstralStatus status,
+            ModelConfig modelConfig, Models.AstralStatus status, Models.Configurations.HotkeyConfig hotkeyConfig,
             ILogger logger)
         {
             this.converterUtility = converterUtility;
             this.Configuration = modelConfig;
             this.status = status;
+            this.hotkeyConfig = hotkeyConfig;
             this.logger = logger;
 
             yoloWrapper = new YoloWrapper(Configuration.CfgFilepath!,
@@ -48,7 +50,8 @@ namespace Astral.Detection
 
         private void ScreenshotReceived(object? sender, Bitmap screenshot)
         {
-            if (status.IsClosing)
+            if (status.IsClosing ||
+                status.IsPredictionPaused)
                 return;
 
             byte[] imageBytes = converterUtility.ImageToBytes(screenshot);

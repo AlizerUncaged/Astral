@@ -19,8 +19,9 @@ namespace Astral.Detection
     {
         private readonly YoloScorer<YoloCocoP5Model> scorer;
         private readonly ILogger ilogger;
+        private readonly AstralStatus status;
 
-        public YoloV5(IInputImage monitorService, ILogger ilogger)
+        public YoloV5(IInputImage monitorService, ILogger ilogger, Models.AstralStatus astralStatus)
         {
             monitorService.InputRendered += ScreenshotReceived;
 
@@ -28,6 +29,7 @@ namespace Astral.Detection
             scorer = new YoloScorer<YoloCocoP5Model>("./Dependencies/YoloV5/yolov5s.onnx",
                 SessionOptions.MakeSessionOptionWithCudaProvider());
             this.ilogger = ilogger;
+            this.status = astralStatus;
         }
 
         /// <summary>ss
@@ -42,6 +44,10 @@ namespace Astral.Detection
 
         private void ScreenshotReceived(object? sender, Bitmap screenshot)
         {
+            if (status.IsClosing ||
+                status.IsPredictionPaused)
+                return;
+
             var prediction = scorer.Predict(screenshot);
 
             PredictionReceived?.Invoke(this,

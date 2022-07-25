@@ -41,6 +41,7 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0">
 		  <TreatAsUsed>true</TreatAsUsed>
 		</PackageReference>
+		<PackageReference Include="SharpHook" Version="3.0.2" />
 		<PackageReference Include="Yolov5Net" Version="1.0.9" />
 	</ItemGroup>
 
