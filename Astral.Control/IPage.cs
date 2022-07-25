@@ -8,6 +8,10 @@ namespace Astral.Control
 {
     public interface IPage
     {
+        /// <summary>
+        /// Event whenever the current page is to be replaced
+        /// by another page.
+        /// </summary>
         event EventHandler<IPage> Replaced;
     }
 }

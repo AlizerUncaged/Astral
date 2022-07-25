@@ -38,5 +38,15 @@ namespace Astral.Control
 
         private void Close(object sender, MouseButtonEventArgs e) =>
             this.Close();
+
+        private void Maximize(object sender, MouseButtonEventArgs e) =>
+            this.WindowState = this.WindowState == WindowState.Maximized ?
+                WindowState.Normal : WindowState.Maximized;
+
+        private void TopBorderClicked(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+                Maximize(sender, e);
+        }
     }
 }
