@@ -14,33 +14,31 @@
         </Border>
         <Grid>
             <Image x:Name="ConfigBackground" Stretch="UniformToFill"></Image>
-            <StackPanel Margin="15,15,15,0">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
-                    <materialDesign:PackIcon Kind="ImageAreaClose" Width="25" Height="25" Foreground="{DynamicResource Foreground}" Margin="0,0,15,0"></materialDesign:PackIcon>
-                    <TextBlock x:Name="ConfigurationName" 
-                               VerticalAlignment="Center"
-                               Foreground="{DynamicResource Foreground}" 
-                               FontWeight="Bold"
-                               Text="{Binding Path=ConfigurationTypeName}"
-                               FontFamily="{DynamicResource Neue Plak SemiBold}"
-                               FontSize="14"></TextBlock>
-                </StackPanel>
+            <ScrollViewer Margin="15,15,15,0" VerticalScrollBarVisibility="Hidden">
                 <StackPanel>
-                    <ItemsControl ItemsSource="{Binding Path=ConfigurationValues, Mode=OneWay}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock TextWrapping="Wrap" 
-                                           Foreground="{DynamicResource Foreground}" 
-                                           Margin="0,0,0,15">
-                                    <Run Text="{Binding Key, Mode=OneWay}" FontWeight="Bold"></Run>
-                                    <Run Text=": " FontWeight="Bold"></Run>
-                                    <Run Text="{Binding Value, Mode=OneWay}"></Run>
-                                </TextBlock>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                        <materialDesign:PackIcon Kind="ImageAreaClose" Width="25" Height="25" Foreground="{DynamicResource Foreground}" Margin="0,0,15,0"/>
+                        <TextBlock x:Name="ConfigurationName" 
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Foreground}" 
+                            FontWeight="Bold"
+                            Text="{Binding ConfigurationTypeName}"
+                            FontFamily="{DynamicResource Neue Plak SemiBold}"
+                            FontSize="14"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <ItemsControl ItemsSource="{Binding ConfigurationValues, Mode=OneWay}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock TextWrapping="Wrap"  FontSize="14"
+                                        Foreground="{DynamicResource Foreground}" 
+                                        Margin="0,0,0,15"><Run Text="{Binding Key, Mode=OneWay}" FontWeight="Bold"/><Run Text=" "/><Run Text=": " FontWeight="Bold"/><Run Text=" "/><Run Text="{Binding Value, Mode=OneWay}"/></TextBlock>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
                 </StackPanel>
-            </StackPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

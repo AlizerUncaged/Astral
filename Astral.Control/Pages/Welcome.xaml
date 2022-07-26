@@ -19,12 +19,12 @@
             </Image.OpacityMask>
         </Image>
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <DockPanel Grid.Row="1">
-                <StackPanel DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock
                         FontSize="32"
                         HorizontalAlignment="Center"
@@ -55,31 +55,16 @@
                         </Button>
                     </StackPanel>
                 </StackPanel>
+            </Grid>
+            <DockPanel Grid.Column="1">
                 <ScrollViewer Effect="{DynamicResource Shadow}" 
                               HorizontalScrollBarVisibility="Hidden"
                               VerticalScrollBarVisibility="Disabled"
-                              VerticalAlignment="Top" 
+                              VerticalAlignment="Center" 
                               HorizontalAlignment="Stretch">
-                    <ScrollViewer.OpacityMask>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <LinearGradientBrush.RelativeTransform>
-                                <TransformGroup>
-                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                                    <SkewTransform CenterX="0.5" CenterY="0.5"/>
-                                    <RotateTransform Angle="-90" CenterX="0.5" CenterY="0.5"/>
-                                    <TranslateTransform/>
-                                </TransformGroup>
-                            </LinearGradientBrush.RelativeTransform>
-                            <GradientStop Color="Black" Offset="0.10"/>
-                            <GradientStop Color="White" Offset="0.80"/>
-                            <GradientStop Color="Transparent" Offset="1"/>
-                            <GradientStop Color="#00000000" Offset="0"/>
-                        </LinearGradientBrush>
-                    </ScrollViewer.OpacityMask>
+                   
                     <StackPanel Orientation="Horizontal" 
-                                x:Name="ConfigurationsList" VerticalAlignment="Stretch" HorizontalAlignment="Center">
-                        
-                    </StackPanel>
+                                x:Name="ConfigurationsList" VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
                 </ScrollViewer>
             </DockPanel>
         </Grid>
