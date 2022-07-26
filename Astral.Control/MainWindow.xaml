@@ -16,7 +16,10 @@
                       UseAeroCaptionButtons="False"
                       ResizeBorderThickness="8"/>
     </WindowChrome.WindowChrome>
-    <Border Name="ParentBorder" BorderThickness="1.5" Background="{DynamicResource Background}" BorderBrush="{DynamicResource ForegroundAccent}">
+    <Border Name="ParentBorder" 
+            BorderThickness="1.5"
+            Background="{DynamicResource Background}" 
+            BorderBrush="{DynamicResource Blue}">
         <Grid>
             <Grid Height="40"  VerticalAlignment="Top" Panel.ZIndex="2"
                   Background="Transparent"
@@ -41,7 +44,6 @@
                 </StackPanel>
             </Grid>
             <Grid Name="MainContainer" Panel.ZIndex="1">
-                <pages:Welcome></pages:Welcome>
             </Grid>
         </Grid>
     </Border>

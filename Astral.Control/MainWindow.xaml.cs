@@ -18,25 +18,35 @@ namespace Astral.Control
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IPage
+    public partial class MainWindow : Window
     {
         public MainWindow(
             WindowsAPI.DecorateWindow decorateWindow,
-            WindowsAPI.OSCheck osCheck)
+            WindowsAPI.OSCheck osCheck,
+            IEnumerable<IPage> pages)
         {
             InitializeComponent();
-            
+
             // Add the sexy Windows 11 corner borders.
             decorateWindow.AddWindows11Borders(this);
+
             if (osCheck.IsNewWindows)
             {
                 ParentBorder.BorderBrush = null;
-                ParentBorder.BorderThickness =new Thickness(0);
+                ParentBorder.BorderThickness = new Thickness(0);
             }
 
+            SetPage(pages.FirstOrDefault(x => x is Pages.Welcome));
         }
 
-        public event EventHandler<IPage>? Replaced;
+        private void SetPage(IPage e)
+        {
+            while (MainContainer.Children.Count > 0)
+                MainContainer.Children.RemoveAt(0);
+
+            if (e is UserControl page)
+                MainContainer.Children.Add(page);
+        }
 
         private void WindowClicked(object sender, MouseButtonEventArgs e) =>
             this.DragMove();

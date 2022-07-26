@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="Astral.Control.Pages.Configuration"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Astral.Control.Pages"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" >
+    <Grid Width="200" Height="300">
+        <Grid.OpacityMask>
+            <VisualBrush Visual="{Binding ElementName=ParentBorder}" />
+        </Grid.OpacityMask>
+        <Border x:Name="ParentBorder" CornerRadius="10" Background="{DynamicResource Background}">
+        </Border>
+        <Grid>
+            <Image x:Name="ConfigBackground" Stretch="UniformToFill"></Image>
+            <StackPanel Margin="15,15,15,0">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                    <materialDesign:PackIcon Kind="ImageAreaClose" Width="25" Height="25" Foreground="{DynamicResource Foreground}" Margin="0,0,15,0"></materialDesign:PackIcon>
+                    <TextBlock x:Name="ConfigurationName" 
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource Foreground}" 
+                               FontWeight="Bold"
+                               Text="{Binding Path=ConfigurationTypeName}"
+                               FontFamily="{DynamicResource Neue Plak SemiBold}"
+                               FontSize="14"></TextBlock>
+                </StackPanel>
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding Path=ConfigurationValues, Mode=OneWay}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock TextWrapping="Wrap" 
+                                           Foreground="{DynamicResource Foreground}" 
+                                           Margin="0,0,0,15">
+                                    <Run Text="{Binding Key, Mode=OneWay}" FontWeight="Bold"></Run>
+                                    <Run Text=": " FontWeight="Bold"></Run>
+                                    <Run Text="{Binding Value, Mode=OneWay}"></Run>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

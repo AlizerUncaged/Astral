@@ -25,11 +25,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\Backgrounds\" />
     <Folder Include="Resources\Fonts\Neue Plak" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\Fonts\Neue Plak\Neue Plak Black.ttf" />
+    <None Remove="Resources\small_background_1.png" />
+    <None Remove="Resources\small_background_2.png" />
+    <None Remove="Resources\small_background_3.png" />
+    <None Remove="Resources\small_background_5.png" />
     <None Remove="Resources\star pattern.png" />
     <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Black.ttf" />
     <None Remove="Resources\Fonts\Neue Plak\Neue Plak Bold.ttf" />
@@ -100,9 +105,36 @@
     <Resource Include="Resources\Fonts\Neue Plak\Neue Plak Thin.ttf" />
     <None Remove="Resources\Fonts\Neue Plak\Neue Plak UltraLight.ttf" />
     <Resource Include="Resources\Fonts\Neue Plak\Neue Plak UltraLight.ttf" />
+    <Resource Include="Resources\small_background_1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\small_background_2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\small_background_3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\small_background_5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\star pattern.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

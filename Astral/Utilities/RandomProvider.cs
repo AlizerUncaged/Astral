@@ -12,6 +12,8 @@ namespace Astral.Utilities
 
         public int NextInt() => random.Next();
 
+        public int NextInt(int max) => random.Next(max);
+
         public long NextLong() => random.NextInt64();
     }
 }

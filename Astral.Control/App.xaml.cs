@@ -19,22 +19,32 @@ namespace Astral.Control
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var dataAccess = Assembly.GetExecutingAssembly();
+            var dataAccess = AppDomain.CurrentDomain.GetAssemblies();
 
             // Initialize dependency injections.
             var builder = new ContainerBuilder();
-            
+
             // Add the utility functions.
             builder.RegisterAssemblyTypes(dataAccess)
                 .AssignableTo<IUtility>()
-                .AsImplementedInterfaces()
-                .AsSelf()
+                .AsImplementedInterfaces().AsSelf()
                 .InstancePerLifetimeScope();
-            
+
             // Add the pages.
             builder.RegisterAssemblyTypes(dataAccess)
                 .AssignableTo<IPage>()
                 .AsImplementedInterfaces()
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            // Add the configurations.
+            builder.RegisterAssemblyTypes(dataAccess)
+                .AssignableTo<Models.IConfig>()
+                .AsImplementedInterfaces()
+                .AsSelf()
+                .SingleInstance();
+
+            builder.RegisterType<MainWindow>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
