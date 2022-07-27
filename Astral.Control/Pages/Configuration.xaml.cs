@@ -44,7 +44,7 @@ namespace Astral.Control.Pages
 
             // I'm not good at UI code.
             // ConfigBackground.Source = ImageBackgrounds.RandomBackground;
-            ConfigurationValues.ToList();
+            // ConfigurationValues.ToList();
         }
 
         public OSCheck OsCheck { get; }

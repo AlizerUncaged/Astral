@@ -18,10 +18,7 @@ public partial class Welcome : UserControl, IPage
 
         foreach (var config in configurations)
             ConfigurationsList.Children.Add(
-                new Configuration(osCheck, imageBackgrounds, config)
-                {
-                    Margin = new System.Windows.Thickness(0, 0, 25, 0)
-                });
+                new Configuration(osCheck, imageBackgrounds, config));
     }
 
     public event EventHandler<IPage> Replaced;

@@ -20,6 +20,10 @@ namespace Astral.Models.Configurations
         /// </summary>
         public string ServerPassword { get; set; } = "astral-0";
 
+        /// <summary>
+        /// The maximum number of clients that can connect
+        /// to the server.
+        /// </summary>
         public int MaxConnections { get; set; } = 5;
     }
 }
